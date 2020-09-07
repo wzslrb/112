@@ -52,7 +52,7 @@ jobs:
     - name: 载入设置 Settings.ini
       run: |
         /bin/bash ./init.sh
-        exit 2
+        echo "读取 Settings.ini"
         source "${GITHUB_WORKSPACE}/user/${{matrix.target}}/settings.ini"
         echo "::set-env name=REPO_URL::${REPO_URL}"
         echo "::set-env name=REPO_BRANCH::${REPO_BRANCH}"
