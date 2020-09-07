@@ -49,16 +49,10 @@ jobs:
         sudo -E apt-get -qq clean
         echo "创建固件目录"
         mkdir -p ./Firmware/
-        echo "112" > test112.txt
-        echo "112" > ./Firmware/test.txt
-        mv ./Firmware/test.txt .
-        mv test.txt ..
-        cd ..
-        pwd
-        ls -a ..
     - name: 载入设置 Settings.ini
       run: |
-        ls -a
+        /bin/bash ./init.sh
+        exit 2
         source "${GITHUB_WORKSPACE}/user/${{matrix.target}}/settings.ini"
         echo "::set-env name=REPO_URL::${REPO_URL}"
         echo "::set-env name=REPO_BRANCH::${REPO_BRANCH}"
