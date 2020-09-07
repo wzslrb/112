@@ -19,5 +19,6 @@ echo "查看当前目录"
 ls -al
 echo "查看补丁目录"
 ls -al ./user/lean-mt7621/files/
+rm -rf Action-Openwrt xf_b70
 
 exit 0
