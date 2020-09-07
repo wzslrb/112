@@ -16,7 +16,7 @@ mv version ..
 echo "拷贝自定义文件"
 cd ../xf_b70/
 ls
-mv -f files ../user/lean-mt7621/
+cp -rfp files ../user/lean-mt7621/
 echo "删除临时文件"
 cd ..
 rm -rf Action-Openwrt xf_b70
@@ -44,5 +44,5 @@ sed -i  's/UPLOAD_TO_REALEASE.*/UPLOAD_TO_REALEASE="true"/g' settings.ini
 sed -i  's/UPLOAD_TO_COWTRANSFER.*/UPLOAD_TO_COWTRANSFER="true"/g' settings.ini
 # 微信通知
 sed -i  's/WECHAT_NOTIFICATION.*/WECHAT_NOTIFICATION="false"/g' settings.ini
-cat settings.ini
+#cat settings.ini
 exit 0
