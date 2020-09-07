@@ -109,7 +109,7 @@ jobs:
          echo "查看基础文件目录"
          ls openwrt/package/base-files/files/
          
-         echo "Apply custom.sh"
+         echo "Apply ${{matrix.target}}custom.sh"
          if [ -f "user/common/custom.sh" ]; then
          (
            cd openwrt
@@ -118,7 +118,7 @@ jobs:
          fi       
          if [ -f "user/${{matrix.target}}/custom.sh" ]; then
          (
-           
+           cd openwrt
            /bin/bash "../user/${{matrix.target}}/custom.sh"
          )
          fi
