@@ -45,4 +45,7 @@ sed -i "/.*luci-theme-netgear.*=m/s/=m/=y/g" .config
 echo "其他的全部不打包"
 sed -i "/^CONFIG.*=m/s/\(.*\)=.*/# \1 is not set/g" .config
 sed -i "/^CONFIG.*_INCLUDE_.*=.*/s/\(.*\)=.*/# \1 is not set/g" .config
+#方法二
+#sed -i "/^CONFIG.*=m/{s/^/# &/g;s/=.*/ is not set/g;q}" .config
+#sed -i "/^CONFIG.*_INCLUDE_.*=.*/{s/^/# &/g;s/=.*/ is not set/g;q}" .config 
 #COMMENT
