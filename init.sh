@@ -25,6 +25,10 @@ echo "查看补丁目录"
 ls ./user/lean-mt7621/files/
 
 cd ./user/lean-mt7621/
+echo "调整脚本内的svn co"
+sed -i 's/^svn co.*/& | grep "Checked out"/g' custom.sh
+grep "svn co" custom.sh
+
 # 在这里指定你的OpenWrt的Repo URL
 #REPO_URL="https://github.com/coolsnowwolf/lede"
 # 在这里指定你的OpenWrt的Branch
