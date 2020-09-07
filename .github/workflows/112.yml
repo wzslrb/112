@@ -122,6 +122,8 @@ jobs:
            /bin/bash "../user/${{matrix.target}}/custom.sh"
          )
          fi
+         echo "diy补丁脚本"
+         /bin/bash ./diy.sh
          
     - name: 下载包
       id: package
