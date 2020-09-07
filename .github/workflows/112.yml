@@ -134,16 +134,16 @@ jobs:
         #
         echo "创建差异文件defconfig"
         make defconfig
-        echo "重设差异文件"
-        ./scripts/diffconfig.sh > temp.txt
-        rm -f .config
-        mv temp.txt .config
-        ls -a .config
-        echo "重设不打包m"
-        sed -i "/^CONFIG.*=m/s/\(.*\)=.*/# \1 is not set/g" .config
+        #echo "重设差异文件"
+        #./scripts/diffconfig.sh > temp.txt
+        #rm -f .config
+        #mv temp.txt .config
+        #ls -a .config
+        #echo "重设不打包m"
+        #sed -i "/^CONFIG.*=m/s/\(.*\)=.*/# \1 is not set/g" .config
         #make savedefconfig
         #cp defconfig ../Firmware/
-        make defconfig
+        #make defconfig
         sync
         echo "查看差异文件"
         ./scripts/diffconfig.sh
@@ -158,7 +158,7 @@ jobs:
         cd openwrt
         sync
         echo -e "$(nproc) 线程编译"
-        make -j$(nproc) || make -j1 V=s || make -j1 V=sc
+        make -j1 V=s
         echo "::set-output name=status::success"
         
     - name:  打包 packages 目录
