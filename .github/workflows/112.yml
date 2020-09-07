@@ -147,8 +147,8 @@ jobs:
         sync
         echo "查看差异文件"
         ./scripts/diffconfig.sh
-        make download -j8
-        find dl -size -1024c -exec ls -l {} \; | grep "-" && find dl -size -1024c -exec rm -f {} \; && make download -j8 V=s
+        make download -j8 V=s
+        #find dl -size -1024c -exec ls -l {} \; | grep "-" && find dl -size -1024c -exec rm -f {} \; && make download -j8 V=s
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
 
