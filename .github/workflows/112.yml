@@ -1,0 +1,276 @@
+name: Openwrt-AutoBuild
+
+on:
+  release:
+    types: [published]
+  push:
+    branches:
+      - master
+    paths:
+      - 'start'
+#  schedule:
+#    - cron: 0 20 */28 * *
+  watch:
+    types: [started]
+
+env:
+  RUN_VALIDATION: true
+
+jobs:
+  build:
+    runs-on:  ubuntu-18.04
+    if: github.event.repository.owner.id == github.event.sender.id
+
+    name: Build ${{matrix.target}}
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [lean-mt7621] #lean-x64,lean-ipq40xx,lean-mt7621,lean-rockchip,lienol-x64
+    
+    steps:
+    - name: 结帐
+      uses: actions/checkout@v2
+
+    - name: 设置日期
+      run: |
+         date=$(date +%Y-%m-%d)
+         echo "::set-env name=DATE::$date"
+         pwd
+         ls -al
+                 
+    - name: 初始化编译环境
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        sudo rm -rf /swapfile /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
+        sudo -E apt-get -qq update
+        sudo -E apt-get -qq install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch python3 unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs git-core gcc-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler g++-multilib antlr3 gperf tree
+        sudo -E apt-get -qq autoremove --purge
+        sudo -E apt-get -qq clean
+        echo "创建固件目录"
+        mkdir -p ./Firmware/
+        echo "112" > test112.txt
+        echo "112" > ./Firmware/test.txt
+        mv ./Firmware/test.txt .
+        mv test.txt ..
+        cd ..
+        pwd
+        ls -a ..
+    - name: 载入设置 Settings.ini
+      run: |
+        ls -a
+        source "${GITHUB_WORKSPACE}/user/${{matrix.target}}/settings.ini"
+        echo "::set-env name=REPO_URL::${REPO_URL}"
+        echo "::set-env name=REPO_BRANCH::${REPO_BRANCH}"
+        echo "::set-env name=UPLOAD_PACKAGES_DIR::${UPLOAD_PACKAGES_DIR}"
+        echo "::set-env name=UPLOAD_TARGETS_DIR::${UPLOAD_TARGETS_DIR}"        
+        echo "::set-env name=UPLOAD_FIRMWARE::${UPLOAD_FIRMWARE}"        
+        echo "::set-env name=UPLOAD_TO_ARTIFACTS::${UPLOAD_TO_ARTIFACTS}"
+        echo "::set-env name=UPLOAD_TO_REALEASE::${UPLOAD_TO_REALEASE}"
+        echo "::set-env name=UPLOAD_TO_COWTRANSFER::${UPLOAD_TO_COWTRANSFER}"       
+        echo "::set-env name=WECHAT_NOTIFICATION::${WECHAT_NOTIFICATION}"
+        
+    - name: 拷贝lede源代码
+      run: |
+        pwd
+        ls -al
+        git clone ${{ env.REPO_URL }} -b ${{ env.REPO_BRANCH }} openwrt
+        
+    - name: 应用补丁
+      run: | 
+        echo "Apply patches"
+        if [ -n "$(ls -A "user/common/patches" 2>/dev/null)" ]; then
+        (
+          find "user/common/patches" -type f -name '*.patch' -print0 | sort -z | xargs -I % -t -0 -n 1 sh -c "cat '%'  | patch -d 'openwrt' -p0 --forward"
+        )
+        fi
+
+        if [ -n "$(ls -A "user/${{matrix.target}}/patches" 2>/dev/null)" ]; then
+        (
+          find "user/${{matrix.target}}/patches" -type f -name '*.patch' -print0 | sort -z | xargs -I % -t -0 -n 1 sh -c "cat '%'  | patch -d 'openwrt' -p0 --forward"
+        )
+        fi         
+
+    - name: 更新 feeds
+      run: |
+        cd openwrt
+        ./scripts/feeds update -a
+        
+    - name: 安装 feeds
+      run: |
+        cd openwrt
+        ./scripts/feeds install -a
+
+    - name: 自定义设置
+      run: |
+         cd openwrt && mv ../user/${{matrix.target}}/config.diff .config && cd .. 
+         echo "Apply files..."
+         if [ -n "$(ls -A "user/common/files" 2>/dev/null)" ]; then
+         cp -r -f user/common/files/* openwrt/package/base-files/files/
+         fi
+         if [ -n "$(ls -A "user/${{matrix.target}}/files" 2>/dev/null)" ]; then
+         cp -r -f user/${{matrix.target}}/files/* openwrt/package/base-files/files/
+         fi
+         
+         echo "查看基础文件目录"
+         ls openwrt/package/base-files/files/
+         
+         echo "Apply custom.sh"
+         if [ -f "user/common/custom.sh" ]; then
+         (
+           cd openwrt
+           /bin/bash "../user/common/custom.sh"
+         )
+         fi       
+         if [ -f "user/${{matrix.target}}/custom.sh" ]; then
+         (
+           cd openwrt
+           /bin/bash "../user/${{matrix.target}}/custom.sh"
+         )
+         fi
+         
+    - name: 下载包
+      id: package
+      run: |
+        cd openwrt
+        sync
+        #echo "删除原差异文件"
+        #
+        echo "创建差异文件defconfig"
+        make defconfig
+        echo "重设差异文件"
+        ./scripts/diffconfig.sh > temp.txt
+        rm -f .config
+        mv temp.txt .config
+        ls -a .config
+        echo "重设不打包m"
+        sed -i "/^CONFIG.*=m/s/\(.*\)=.*/# \1 is not set/g" .config
+        #make savedefconfig
+        #cp defconfig ../Firmware/
+        make defconfig
+        sync
+        echo "查看差异文件"
+        ./scripts/diffconfig.sh
+        make download -j8
+        find dl -size -1024c -exec ls -l {} \; | grep "-" && find dl -size -1024c -exec rm -f {} \; && make download -j8 V=s
+        find dl -size -1024c -exec ls -l {} \;
+        find dl -size -1024c -exec rm -f {} \;
+
+    - name: 编译固件
+      id: compile
+      run: |
+        cd openwrt
+        sync
+        echo -e "$(nproc) 线程编译"
+        make -j$(nproc) || make -j1 V=s || make -j1 V=sc
+        echo "::set-output name=status::success"
+        
+    - name:  打包 packages 目录
+      if: steps.compile.outputs.status == 'success'
+      run: |
+        cd openwrt/bin/packages/
+#        tar --warning=no-file-changed -zcvf  ${{matrix.target}}_packages.tar.gz ./
+#        mv *.tar.gz ..
+        
+    - name:  打包 targets 目录
+      if: steps.compile.outputs.status == 'success'
+      run: |
+        cd openwrt/bin/targets/
+#        tar --warning=no-file-changed -czvf  ${{matrix.target}}_targets.tar.gz ./
+#        mv *.tar.gz ..
+        
+    - name: 封装固件
+      run: |
+          rm -rf ./Firmware/
+          mkdir -p ./Firmware/
+          ls -al openwrt/bin/targets/
+          echo "准备……"
+          find openwrt/bin/targets/ -name "*squashfs*bin*" | xargs -i cp {} ./Firmware/
+          find openwrt/bin/targets/ -name "*config.buildinfo*" | xargs -i cp {} ./Firmware/
+          find openwrt/bin/targets/ -name "*feeds.buildinfo*" | xargs -i cp -f {} ./Firmware/
+          find openwrt/bin/targets/ -name "*sha256sums*" | xargs -i cp -f {} ./Firmware/
+          find openwrt/bin/targets/ -name "*version.buildinfo*" | xargs -i cp -f {} ./Firmware/
+          cd openwrt
+          echo "打包差异文件及目录树"
+          ./scripts/diffconfig.sh > ../Firmware/差异文件.txt
+          #echo "备份目录树"
+          #tree -a > ../Firmware/openwrt_a.txt
+          #tree -a -i -f > ../Firmware/openwrt_aif.txt
+          echo "备份.config"
+          mv .config ../Firmware/config.txt
+          cd ../Firmware/
+          sync
+          echo "输出默认配置"
+          grep \^CONFIG_DEFAULT_ config.txt > ./CONFIG_DEFAULT.txt
+          pwd
+          ls -a
+          echo "::set-env name=FIRMWARE::$PWD"
+    
+    - name: 上传 Packages 到 release
+      if: env.UPLOAD_PACKAGES_DIR == 'true' && env.UPLOAD_TO_REALEASE == 'true' && !cancelled() &&  steps.compile.outputs.status == 'success'
+      uses: svenstaro/upload-release-action@v1-release
+      with:
+        repo_token: ${{ secrets.SUPER_TOKEN }}
+        file: openwrt/bin/${{matrix.target}}_packages.tar.gz
+        asset_name: ${{matrix.target}}_packages.tar.gz
+        tag: ${{ env.DATE }}
+        overwrite: true
+        file_glob: true
+
+    - name: 上传 Targets 到 release
+      if: env.UPLOAD_TARGETS_DIR == 'true' && env.UPLOAD_TO_REALEASE == 'true' && !cancelled() &&  steps.compile.outputs.status == 'success'
+      uses: svenstaro/upload-release-action@v1-release
+      with:
+        repo_token: ${{ secrets.SUPER_TOKEN }}
+        file: openwrt/bin/${{matrix.target}}_targets.tar.gz
+        asset_name: ${{matrix.target}}_targets.tar.gz
+        tag: ${{ env.DATE }}
+        overwrite: true
+        file_glob: true
+
+        
+    - name: 上传 Packages 到奶牛
+      if: env.UPLOAD_PACKAGES_DIR == 'true' && env.UPLOAD_TO_COWTRANSFER == 'true' && !cancelled() &&  steps.compile.outputs.status == 'success'
+      run: |
+        curl -fsSL git.io/file-transfer | sh
+         ./transfer cow --block 2621440 -s -p 64 --no-progress openwrt/bin/${{matrix.target}}_packages.tar.gz
+        
+    - name: 上传 Targetss 到奶牛
+      if: env.UPLOAD_TARGETS_DIR == 'true' && env.UPLOAD_TO_COWTRANSFER == 'true' && !cancelled() &&　 steps.compile.outputs.status == 'success'
+      run: |
+        curl -fsSL git.io/file-transfer | sh
+         ./transfer cow --block 2621440 -s -p 64 --no-progress openwrt/bin/${{matrix.target}}_targets.tar.gz
+        
+    - name: 上传 Firmware 到奶牛
+      if: env.UPLOAD_FIRMWARE == 'true' && env.UPLOAD_TO_COWTRANSFER == 'true' && !cancelled() &&　 steps.compile.outputs.status == 'success'
+      run: |
+        echo "准备上传……"
+        ls -a Firmware
+        curl -fsSL git.io/file-transfer | sh
+        ./transfer cow --block 2621440 -s -p 64 --no-progress ${FIRMWARE} 2>&1 | tee cowtransfer.log
+        echo "::warning file=cowtransfer.com::$(cat cowtransfer.log | grep https)"
+
+    - name: 上传 packages 目录
+      if: env.UPLOAD_PACKAGES_DIR == 'true' && env.UPLOAD_TO_ARTIFACTS == 'true' && !cancelled()　&& steps.compile.outputs.status == 'success'
+      uses: actions/upload-artifact@main
+      with:
+        name: OpenWrt_packages_${{matrix.target}}
+        path: openwrt/bin/packages
+        
+    - name: 上传 targets 目录
+      if: env.UPLOAD_TARGETS_DIR == 'true' && env.UPLOAD_TO_ARTIFACTS == 'true' && !cancelled() && steps.compile.outputs.status == 'success'
+      uses: actions/upload-artifact@main
+      with:
+        name: OpenWrt_targets_${{matrix.target}}
+        path: openwrt/bin/targets
+        
+    - name: 上传 Firmware 目录
+      if: env.UPLOAD_FIRMWARE == 'true' && env.UPLOAD_TO_ARTIFACTS == 'true' && !cancelled() && steps.compile.outputs.status == 'success'
+      uses: actions/upload-artifact@main
+      with:
+        name: OpenWrt_firmware_${{matrix.target}}
+        path: ./Firmware/
+               
+    - name: 微信通知
+      if: env.WECHAT_NOTIFICATION == 'true' && !cancelled() && steps.compile.outputs.status == 'success'
+      run: curl https://sc.ftqq.com/${{ secrets.SCKEY }}.send?text=${{matrix.target}}编译完成
