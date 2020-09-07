@@ -158,7 +158,7 @@ jobs:
         cd openwrt
         sync
         echo -e "$(nproc) 线程编译"
-        make -j1 V=s
+        make -j3 || make -j1 V=s
         echo "::set-output name=status::success"
         
     - name:  打包 packages 目录
