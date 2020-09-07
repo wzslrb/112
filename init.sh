@@ -9,11 +9,15 @@ git clone https://github.com/wzslrb/xf_b70.git
 echo "初始化hyird……"
 git clone https://github.com/hyird/Action-Openwrt.git
 ls -al
+echo "拷贝Action-Openwrt文件"
 cd Action-Openwrt
 mv user ..
 mv version ..
-cd ../xf_b70
+echo "拷贝自定义文件"
+cd ../xf_b70/
+ls
 mv -f files ../user/lean-mt7621/
+echo "删除临时文件"
 cd ..
 rm -rf Action-Openwrt xf_b70
 echo "查看当前目录"
