@@ -8,22 +8,21 @@ echo "初始化xf_b70……"
 git clone https://github.com/wzslrb/xf_b70.git 
 echo "初始化hyird……"
 git clone https://github.com/hyird/Action-Openwrt.git
-ls -al
+#ls -al
 echo "拷贝Action-Openwrt文件"
 cd Action-Openwrt
 mv user ..
 mv version ..
 echo "拷贝自定义文件"
 cd ../xf_b70/
-ls
 cp -rfp files ../user/lean-mt7621/
 echo "删除临时文件"
 cd ..
 rm -rf Action-Openwrt xf_b70
 echo "查看当前目录"
-ls -al
+ls
 echo "查看补丁目录"
-ls -al ./user/lean-mt7621/files/
+ls ./user/lean-mt7621/files/
 
 cd ./user/lean-mt7621/
 # 在这里指定你的OpenWrt的Repo URL
@@ -44,5 +43,6 @@ sed -i  's/UPLOAD_TO_REALEASE.*/UPLOAD_TO_REALEASE="true"/g' settings.ini
 sed -i  's/UPLOAD_TO_COWTRANSFER.*/UPLOAD_TO_COWTRANSFER="true"/g' settings.ini
 # 微信通知
 sed -i  's/WECHAT_NOTIFICATION.*/WECHAT_NOTIFICATION="false"/g' settings.ini
-#cat settings.ini
+[ -f "settings.ini" ] && echo "重设settings.ini文件完毕"
+
 exit 0
