@@ -29,8 +29,8 @@ sed -i "/.*nlbwmon.*=m/s/=m/=y/g" .config
 sed -i "/.*wrtbwmon.*=m/s/=m/=y/g" .config
 
 sed -i "/.*-sfe.*=m/s/=m/=y/g" .config
-
-sed -i "/.*luci-app-adguardhome.*=m/s/=m/=y/g" .config
+#ADG广告过滤
+#sed -i "/.*luci-app-adguardhome.*=m/s/=m/=y/g" .config
 
 # 命令行工具
 sed -i "/.*curl.*=m/s/=m/=y/g" .config
