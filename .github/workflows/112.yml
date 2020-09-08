@@ -72,7 +72,7 @@ jobs:
         
     - name: 应用补丁
       run: | 
-        echo "Apply patches"
+        echo "应用补丁……"
         if [ -n "$(ls -A "user/common/patches" 2>/dev/null)" ]; then
         (
           find "user/common/patches" -type f -name '*.patch' -print0 | sort -z | xargs -I % -t -0 -n 1 sh -c "cat '%'  | patch -d 'openwrt' -p0 --forward"
@@ -83,7 +83,13 @@ jobs:
         (
           find "user/${{matrix.target}}/patches" -type f -name '*.patch' -print0 | sort -z | xargs -I % -t -0 -n 1 sh -c "cat '%'  | patch -d 'openwrt' -p0 --forward"
         )
-        fi         
+        fi
+        cd openwrt
+        echo "修改固件大小 TRX_MAX_LEN"
+        ls -l tools/firmware-utils/src/trx.c
+        grep "#define TRX_MAX_LEN" tools/firmware-utils/src/trx.c
+        sed -i '/^#define TRX_MAX_LEN.*/s/0x.*/0xfc0000/g' tools/firmware-utils/src/trx.c
+        sed -n '/^#define TRX_MAX_LEN.*/p' tools/firmware-utils/src/trx.c
 
     - name: 更新 feeds
       run: |
