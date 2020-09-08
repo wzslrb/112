@@ -49,10 +49,10 @@ sed -i  's/UPLOAD_TO_COWTRANSFER.*/UPLOAD_TO_COWTRANSFER="true"/g' settings.ini
 sed -i  's/WECHAT_NOTIFICATION.*/WECHAT_NOTIFICATION="false"/g' settings.ini
 [ -f "settings.ini" ] && echo "重设settings.ini文件完毕"
 
-echo "删除部分补丁"
-cd patches && ls
-rm -f 002-fix* 003-fix*
-echo "删除完成"
-ls
+#echo "删除部分补丁"
+#cd patches && ls
+#rm -f 002-fix* 003-fix*
+#echo "删除完成"
+#ls
 
 exit 0
