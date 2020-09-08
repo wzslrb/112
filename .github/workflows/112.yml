@@ -84,12 +84,6 @@ jobs:
           find "user/${{matrix.target}}/patches" -type f -name '*.patch' -print0 | sort -z | xargs -I % -t -0 -n 1 sh -c "cat '%'  | patch -d 'openwrt' -p0 --forward"
         )
         fi
-        cd openwrt
-        echo "修改固件大小 TRX_MAX_LEN"
-        ls -l tools/firmware-utils/src/trx.c
-        grep "#define TRX_MAX_LEN" tools/firmware-utils/src/trx.c
-        sed -i '/^#define TRX_MAX_LEN.*/s/0x.*/0xfc0000/g' tools/firmware-utils/src/trx.c
-        sed -n '/^#define TRX_MAX_LEN.*/p' tools/firmware-utils/src/trx.c
 
     - name: 更新 feeds
       run: |
@@ -112,10 +106,10 @@ jobs:
          cp -r -f user/${{matrix.target}}/files/* openwrt/package/base-files/files/
          fi
          
-         echo "查看基础文件目录"
-         ls openwrt/package/base-files/files/
+         #echo "查看基础文件目录"
+         #ls openwrt/package/base-files/files/
          
-         echo "Apply ${{matrix.target}}custom.sh"
+         echo "执行 ${{matrix.target}}custom.sh"
          if [ -f "user/common/custom.sh" ]; then
          (
            cd openwrt
@@ -128,7 +122,7 @@ jobs:
            /bin/bash "../user/${{matrix.target}}/custom.sh"
          )
          fi
-         echo "diy补丁脚本"
+         echo "执行 diy补丁脚本"
          cd openwrt && /bin/bash ../diy.sh
          
     - name: 下载包
