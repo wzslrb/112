@@ -62,6 +62,7 @@ cd ../../common
 pwd && ls -l
 sed -i 's/.*serverchan.*/# &/g' custom.sh
 sed -i 's/.*OpenClash.*/# &/g' custom.sh
+cat custom.sh
 echo "删除完成"
 
 
