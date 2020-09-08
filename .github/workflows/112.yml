@@ -162,7 +162,11 @@ jobs:
         echo -e "$(nproc) 线程编译"
         make -j3 || make -j1 V=s
         echo "::set-output name=status::success"
-        
+
+    - name: 检查磁盘空间
+      if: (!cancelled())
+      run: df -hT
+      
     - name:  打包 packages 目录
       if: steps.compile.outputs.status == 'success'
       run: |
@@ -226,7 +230,6 @@ jobs:
         overwrite: true
         file_glob: true
 
-        
     - name: 上传 Packages 到奶牛
       if: env.UPLOAD_PACKAGES_DIR == 'true' && env.UPLOAD_TO_COWTRANSFER == 'true' && !cancelled() &&  steps.compile.outputs.status == 'success'
       run: |
@@ -268,7 +271,14 @@ jobs:
       with:
         name: OpenWrt_firmware_${{matrix.target}}
         path: ./Firmware/
-               
+
+    - name: 上传 Firmware 到 cowtransfer
+      if: steps.organize.outputs.status == 'success' && env.UPLOAD_FIRMWARE == 'true' && !cancelled()
+      run: |
+        curl -fsSL git.io/file-transfer | sh
+        ./transfer cow --block 2621440 -s -p 64 --no-progress ${FIRMWARE} 2>&1 | tee cowtransfer.log
+        echo "::warning file=cowtransfer.com::$(cat cowtransfer.log | grep https)"
+        
     - name: 微信通知
       if: env.WECHAT_NOTIFICATION == 'true' && !cancelled() && steps.compile.outputs.status == 'success'
       run: curl https://sc.ftqq.com/${{ secrets.SCKEY }}.send?text=${{matrix.target}}编译完成
