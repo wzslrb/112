@@ -48,7 +48,6 @@ sed -i  's/WECHAT_NOTIFICATION.*/WECHAT_NOTIFICATION="false"/g' settings.ini
 
 echo "调整脚本内的svn co"
 sed -i 's/^svn co.*/& | grep "Checked out"/g' custom.sh
-grep "svn co" custom.sh
 
 #echo "删除部分补丁"
 sed -i 's/^git clone.*/# &/g' custom.sh
@@ -59,10 +58,9 @@ echo "删除完成"
 ls
 #user\common\
 cd ../../common
-pwd && ls -l
 sed -i 's/.*serverchan.*/# &/g' custom.sh
 sed -i 's/.*OpenClash.*/# &/g' custom.sh
-cat custom.sh
+
 echo "删除完成"
 
 
