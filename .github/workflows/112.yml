@@ -130,8 +130,8 @@ jobs:
       run: |
         cd openwrt
         sync
-        #echo "删除原差异文件"
-        #
+        echo "cat feeds.conf.default"
+        cat feeds.conf.default
         echo "创建差异文件defconfig"
         make defconfig
         #echo "重设差异文件"
@@ -157,8 +157,8 @@ jobs:
       run: |
         cd openwrt
         sync
-        echo "先编译这个……"
-        make package/feeds/luci/luci-base/compile V=99
+        #echo "先编译这个……"
+        #make package/feeds/luci/luci-base/compile V=99
         echo -e "$(nproc) 线程编译"
         make -j3 || make -j1 V=s
         echo "::set-output name=status::success"
