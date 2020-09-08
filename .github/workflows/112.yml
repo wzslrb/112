@@ -173,9 +173,9 @@ jobs:
       run: df -hT
 
     - name: 封装固件
-      if: (!cancelled())
+      id: organize
+      if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
-          rm -rf ./Firmware/
           mkdir -p ./Firmware/
           ls -al openwrt/bin/targets/
           echo "测试命令"
