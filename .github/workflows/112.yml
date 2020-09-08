@@ -161,7 +161,6 @@ jobs:
         #make package/feeds/luci/luci-base/compile V=99
         echo -e "$(nproc) 线程编译"
         make -j3 || make -j1 V=s
-        echo "::set-output name=status::success"
 
     - name: 检查磁盘空间
       if: (!cancelled())
@@ -196,6 +195,7 @@ jobs:
           grep \^CONFIG_DEFAULT_ config.txt > ./CONFIG_DEFAULT.txt
           pwd
           ls -a
+          echo "::set-output name=status::success"
           echo "分别安置factory\sysupgrade\log"
           mkdir -p ../factory/
           cp -f *factory.bin ../factory/
@@ -204,15 +204,6 @@ jobs:
           mkdir -p ../other/
           find . -maxdepth 1 -type f -not -name "*.bin" -exec cp {} ../other/ \;
           echo "::set-env name=FIRMWARE::$PWD"
-
-    - name: 上传 Firmware 到奶牛
-      if: env.UPLOAD_FIRMWARE == 'true' && env.UPLOAD_TO_COWTRANSFER == 'true' && !cancelled() &&　 steps.compile.outputs.status == 'success'
-      run: |
-        echo "准备上传……"
-        ls -a Firmware
-        curl -fsSL git.io/file-transfer | sh
-        ./transfer cow --block 2621440 -s -p 64 --no-progress ${FIRMWARE} 2>&1 | tee cowtransfer.log
-        echo "::warning file=cowtransfer.com::$(cat cowtransfer.log | grep https)"
 
     - name: 上传工厂固件
       if: env.UPLOAD_FIRMWARE == 'true' && env.UPLOAD_TO_ARTIFACTS == 'true' && !cancelled() && steps.compile.outputs.status == 'success'
@@ -235,9 +226,16 @@ jobs:
         name: 其他文件_${{matrix.target}}
         path: ./other/
 
-    - name: 上传 Firmware 到 cowtransfer
-      if: steps.organize.outputs.status == 'success' && env.UPLOAD_FIRMWARE == 'true' && !cancelled()
+    - name: 上传固件到奶牛
+      if: env.UPLOAD_FIRMWARE == 'true' && env.UPLOAD_TO_COWTRANSFER == 'true' && !cancelled() && steps.compile.outputs.status == 'success'
       run: |
         curl -fsSL git.io/file-transfer | sh
         ./transfer cow --block 2621440 -s -p 64 --no-progress ${FIRMWARE} 2>&1 | tee cowtransfer.log
         echo "::warning file=cowtransfer.com::$(cat cowtransfer.log | grep https)"
+
+    - name: 上传固件到WeTransfer
+      if: env.UPLOAD_FIRMWARE == 'true' && env.UPLOAD_TO_COWTRANSFER == 'true' && !cancelled() &&　steps.compile.outputs.status == 'success'
+      run: |
+        curl -fsSL git.io/file-transfer | sh
+        ./transfer wet -s -p 16 --no-progress ${FIRMWARE} 2>&1 | tee wetransfer.log
+        echo "::warning file=wetransfer.com::$(cat wetransfer.log | grep https)"
