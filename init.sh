@@ -39,7 +39,7 @@ sed -i  's/UPLOAD_FIRMWARE.*/UPLOAD_FIRMWARE="true"/g' settings.ini
 # 上传到 Artifacts
 sed -i  's/UPLOAD_TO_ARTIFACTS.*/UPLOAD_TO_ARTIFACTS="true"/g' settings.ini
 # 发布 Realease
-sed -i  's/UPLOAD_TO_REALEASE.*/UPLOAD_TO_REALEASE="true"/g' settings.ini
+sed -i  's/UPLOAD_TO_REALEASE.*/UPLOAD_TO_REALEASE="false"/g' settings.ini
 # 上传到 奶牛快传
 sed -i  's/UPLOAD_TO_COWTRANSFER.*/UPLOAD_TO_COWTRANSFER="true"/g' settings.ini
 # 微信通知
