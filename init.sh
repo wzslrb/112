@@ -25,9 +25,6 @@ echo "查看补丁目录"
 ls ./user/lean-mt7621/files/
 
 cd ./user/lean-mt7621/
-echo "调整脚本内的svn co"
-sed -i 's/^svn co.*/& | grep "Checked out"/g' custom.sh
-grep "svn co" custom.sh
 
 # 在这里指定你的OpenWrt的Repo URL
 #REPO_URL="https://github.com/coolsnowwolf/lede"
@@ -49,10 +46,23 @@ sed -i  's/UPLOAD_TO_COWTRANSFER.*/UPLOAD_TO_COWTRANSFER="true"/g' settings.ini
 sed -i  's/WECHAT_NOTIFICATION.*/WECHAT_NOTIFICATION="false"/g' settings.ini
 [ -f "settings.ini" ] && echo "重设settings.ini文件完毕"
 
+echo "调整脚本内的svn co"
+sed -i 's/^svn co.*/& | grep "Checked out"/g' custom.sh
+grep "svn co" custom.sh
+
 #echo "删除部分补丁"
-#cd patches && ls
-#rm -f 002-fix* 003-fix*
-#echo "删除完成"
-#ls
+sed -i 's/^git clone.*/# &/g' custom.sh
+sed -i 's/^svn co.*/# &/g' custom.sh
+cd patches && ls
+rm -f 001* 002-fix* 003-fix*
+echo "删除完成"
+ls
+#user\common\
+cd ../../common
+pwd && ls -l
+sed -i 's/.*serverchan.*/# &/g' custom.sh
+sed -i 's/.*OpenClash.*/# &/g' custom.sh
+echo "删除完成"
+
 
 exit 0
