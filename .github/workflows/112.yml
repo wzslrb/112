@@ -201,14 +201,12 @@ jobs:
           ls -a
           echo "设置成功标志"
           echo "::set-output name=status::success"
+          echo "::set-env name=FIRMWARE::$PWD"
           echo "分别安置factory\sysupgrade\log"
           mkdir -p ../factory/
           cp -f *factory.bin ../factory/
           mkdir -p ../sysupgrade/
           cp -f *sysupgrade.bin ../sysupgrade/
-          echo "::set-env name=FIRMWARE::$PWD"
-          echo "下载个文件git.io/file-transfer"
-          curl -fsSL git.io/file-transfer
           mkdir -p ../other/
           find . -maxdepth 1 -type f -not -name "*.bin" -exec cp {} ../other/ \;
 
