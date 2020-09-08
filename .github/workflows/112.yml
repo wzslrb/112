@@ -15,6 +15,8 @@ on:
 
 env:
   RUN_VALIDATION: true
+  UPLOAD_WETRANSFER: true
+  TZ: Asia/Shanghai
 
 jobs:
   build:
@@ -47,6 +49,7 @@ jobs:
         sudo -E apt-get -qq install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch python3 unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs git-core gcc-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler g++-multilib antlr3 gperf tree
         sudo -E apt-get -qq autoremove --purge
         sudo -E apt-get -qq clean
+        sudo timedatectl set-timezone "$TZ"
         echo "创建固件目录"
         mkdir -p ./Firmware/
     - name: 载入设置 Settings.ini
@@ -235,7 +238,7 @@ jobs:
         echo "::warning file=cowtransfer.com::$(cat cowtransfer.log | grep https)"
 
     - name: 上传固件到WeTransfer
-      if: env.UPLOAD_FIRMWARE == 'true' && env.UPLOAD_TO_COWTRANSFER == 'true' && !cancelled() &&　steps.compile.outputs.status == 'success'
+      if: env.UPLOAD_FIRMWARE == 'true' && env.UPLOAD_WETRANSFER == 'true' && !cancelled() && steps.compile.outputs.status == 'success'
       run: |
         curl -fsSL git.io/file-transfer | sh
         ./transfer wet -s -p 16 --no-progress ${FIRMWARE} 2>&1 | tee wetransfer.log
