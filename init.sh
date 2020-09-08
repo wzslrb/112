@@ -19,10 +19,10 @@ cp -rfp files ../user/lean-mt7621/
 echo "删除临时文件"
 cd ..
 rm -rf Action-Openwrt xf_b70
-echo "查看当前目录"
-ls
-echo "查看补丁目录"
-ls ./user/lean-mt7621/files/
+#echo "查看当前目录"
+#ls
+#echo "查看补丁目录"
+#ls ./user/lean-mt7621/files/
 
 cd ./user/lean-mt7621/
 
@@ -49,7 +49,7 @@ sed -i  's/WECHAT_NOTIFICATION.*/WECHAT_NOTIFICATION="false"/g' settings.ini
 echo "调整脚本内的svn co"
 sed -i 's/^svn co.*/& | grep "Checked out"/g' custom.sh
 
-echo "删除部分补丁"
+echo "删除custom.sh内部分补丁"
 sed -i 's/^git clone.*/# &/g' custom.sh
 sed -i 's/^svn co.*/# &/g' custom.sh
 cd patches
@@ -57,6 +57,7 @@ rm -f 001* 000*
 echo "删除完成"
 ls -l
 #user\common\
+echo "删除common/custom.sh不相关app"
 cd ../../common
 sed -i 's/.*serverchan.*/# &/g' custom.sh
 sed -i 's/.*OpenClash.*/# &/g' custom.sh
