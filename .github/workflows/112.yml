@@ -188,6 +188,8 @@ jobs:
           ls -al openwrt/bin/targets/
           echo "测试命令"
           find openwrt/bin/targets/ -name "*" | grep "/"  | grep -v "/packages/"
+          echo "测试命令"
+          find openwrt/bin/targets/ -maxdepth 3 -type f -name "*"
           echo "准备……"
           find openwrt/bin/targets/ -name "*squashfs*bin*" | xargs -i cp {} ./Firmware/
           find openwrt/bin/targets/ -name "*config.buildinfo*" | xargs -i cp {} ./Firmware/
