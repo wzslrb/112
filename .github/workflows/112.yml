@@ -173,6 +173,7 @@ jobs:
       run: df -hT
 
     - name: 封装固件
+      if: (!cancelled())
       run: |
           rm -rf ./Firmware/
           mkdir -p ./Firmware/
