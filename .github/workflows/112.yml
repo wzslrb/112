@@ -166,21 +166,7 @@ jobs:
     - name: 检查磁盘空间
       if: (!cancelled())
       run: df -hT
-      
-    - name:  打包 packages 目录
-      if: steps.compile.outputs.status == 'success'
-      run: |
-        cd openwrt/bin/packages/
-#        tar --warning=no-file-changed -zcvf  ${{matrix.target}}_packages.tar.gz ./
-#        mv *.tar.gz ..
-        
-    - name:  打包 targets 目录
-      if: steps.compile.outputs.status == 'success'
-      run: |
-        cd openwrt/bin/targets/
-#        tar --warning=no-file-changed -czvf  ${{matrix.target}}_targets.tar.gz ./
-#        mv *.tar.gz ..
-        
+
     - name: 封装固件
       run: |
           rm -rf ./Firmware/
@@ -210,6 +196,7 @@ jobs:
           grep \^CONFIG_DEFAULT_ config.txt > ./CONFIG_DEFAULT.txt
           pwd
           ls -a
+          echo "分别安置factory\sysupgrade\log"
           mkdir -p ../factory/
           cp -f *factory.bin ../factory/
           mkdir -p ../sysupgrade/
