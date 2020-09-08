@@ -186,6 +186,8 @@ jobs:
           rm -rf ./Firmware/
           mkdir -p ./Firmware/
           ls -al openwrt/bin/targets/
+          echo "测试命令"
+          find openwrt/bin/targets/ -name "*" | grep "/"  | grep -v "/packages/"
           echo "准备……"
           find openwrt/bin/targets/ -name "*squashfs*bin*" | xargs -i cp {} ./Firmware/
           find openwrt/bin/targets/ -name "*config.buildinfo*" | xargs -i cp {} ./Firmware/
