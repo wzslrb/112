@@ -157,6 +157,8 @@ jobs:
       run: |
         cd openwrt
         sync
+        echo "先编译这个……"
+        make package/feeds/luci/luci-base/compile V=99
         echo -e "$(nproc) 线程编译"
         make -j3 || make -j1 V=s
         echo "::set-output name=status::success"
