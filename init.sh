@@ -49,13 +49,13 @@ sed -i  's/WECHAT_NOTIFICATION.*/WECHAT_NOTIFICATION="false"/g' settings.ini
 echo "调整脚本内的svn co"
 sed -i 's/^svn co.*/& | grep "Checked out"/g' custom.sh
 
-#echo "删除部分补丁"
+echo "删除部分补丁"
 sed -i 's/^git clone.*/# &/g' custom.sh
 sed -i 's/^svn co.*/# &/g' custom.sh
-cd patches && ls
-rm -f 001* 002-fix* 003-fix*
+cd patches
+rm -f 001* 000*
 echo "删除完成"
-ls
+ls -l
 #user\common\
 cd ../../common
 sed -i 's/.*serverchan.*/# &/g' custom.sh
