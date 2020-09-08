@@ -1,5 +1,12 @@
 #!/bin/bash
 
+pwd
+echo "修改固件大小 TRX_MAX_LEN"
+ls -l tools/firmware-utils/src/trx.c
+grep "#define TRX_MAX_LEN" tools/firmware-utils/src/trx.c
+sed -i '/^#define TRX_MAX_LEN.*/s/0x.*/0xfc0000/g' tools/firmware-utils/src/trx.c
+sed -n '/^#define TRX_MAX_LEN.*/p' tools/firmware-utils/src/trx.c
+
 echo "修改.config"
 ls -al .config
 #<<'COMMENT'
@@ -10,7 +17,6 @@ grep -q "^[^#].*_git-http.*=" || sed -i '$a CONFIG_PACKAGE_git-http=y' .config
 grep -q "^[^#].*_curl.*=" || sed -i '$a CONFIG_PACKAGE_curl=y' .config
 grep -q "^[^#].*_wget-nossl.*=" || sed -i '$a CONFIG_PACKAGE_wget-nossl=y' .config
 grep -q "^[^#].*openssh-client.*=" || sed -i '$a CONFIG_PACKAGE_openssh-client=y' .config
-
 
 sed -i "/.*automount.*=m/s/=m/=y/g" .config
 sed -i "/.*autosamba.*=m/s/=m/=y/g" .config
