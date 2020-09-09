@@ -125,7 +125,7 @@ jobs:
            /bin/bash "../user/${{matrix.target}}/custom.sh"
          )
          fi
-         echo "执行 diy补丁脚本"
+         echo "yml准备 运行 diy补丁脚本"
          cd openwrt && /bin/bash ../diy.sh
          
     - name: 下载包
@@ -137,8 +137,8 @@ jobs:
         cat feeds.conf.default
         echo "创建差异文件defconfig"
         make defconfig
-        echo "查看没有安装的包"
-        make prereq
+        #echo "查看没有安装的包"
+        #make prereq
         sync
         echo "查看差异文件"
         ./scripts/diffconfig.sh
@@ -165,12 +165,11 @@ jobs:
       if: (!cancelled())
       run: |
           mkdir -p ./Firmware/
-          ls -al openwrt/bin/targets/
           find openwrt/bin/targets/ -maxdepth 3 -type f -not -name "*kernel*" -exec cp -f {} ./Firmware/ \;
-          echo "测试命令"
-          find openwrt/bin/targets/ -type f -not -name "*kernel*" | grep -v "/package"
-          echo "测试命令"
-          find openwrt/bin/targets/ -maxdepth 3 -type f -not -name "*kernel*"
+          #echo "测试命令"
+          #find openwrt/bin/targets/ -type f -not -name "*kernel*" | grep -v "/package"
+          #echo "测试命令"
+          #find openwrt/bin/targets/ -maxdepth 3 -type f -not -name "*kernel*"
           echo "准备……"
           #find openwrt/bin/targets/ -name "*squashfs*bin*" | xargs -i cp {} ./Firmware/
           #find openwrt/bin/targets/ -name "*config.buildinfo*" | xargs -i cp {} ./Firmware/
@@ -178,17 +177,20 @@ jobs:
           #find openwrt/bin/targets/ -name "*sha256sums*" | xargs -i cp -f {} ./Firmware/
           #find openwrt/bin/targets/ -name "*version.buildinfo*" | xargs -i cp -f {} ./Firmware/
           cd openwrt
-          echo "打包差异文件及目录树"
-          ./scripts/diffconfig.sh > ../Firmware/差异文件.txt
+          #echo "打包差异文件及目录树"
+          #./scripts/diffconfig.sh > ../Firmware/差异文件.txt
           #echo "备份目录树"
           #tree -a > ../Firmware/openwrt_a.txt
           #tree -a -i -f > ../Firmware/openwrt_aif.txt
           echo "备份.config"
           mv .config ../Firmware/config.txt
           cd ../Firmware/
+          mv config.buildinfo 差异文件.txt
+          mv *.buildinfo *.txt
+          mv openwrt*manifest 已安装ipk.txt
           sync
           echo "输出默认配置"
-          grep \^CONFIG_DEFAULT_ config.txt > ./CONFIG_DEFAULT.txt
+          grep \^CONFIG_DEFAULT_ config.txt > ./默认安装.txt
           pwd
           ls -al
           echo "设置成功标志"
@@ -235,7 +237,7 @@ jobs:
         curl -fsSL git.io/file-transfer | sh
         ./transfer cow --block 2621440 -s -p 64 --no-progress ${FIRMWARE} 2>&1 | tee cowtransfer.log
         echo "::warning file=cowtransfer.com::$(cat cowtransfer.log | grep https)"
-        cat cowtransfer.log
+        #cat cowtransfer.log
       
     - name: 上传固件到WeTransfer
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
@@ -243,7 +245,7 @@ jobs:
         curl -fsSL git.io/file-transfer | sh
         ./transfer wet -s -p 16 --no-progress ${FIRMWARE} 2>&1 | tee wetransfer.log
         echo "::warning file=wetransfer.com::$(cat wetransfer.log | grep https)"
-        cat wetransfer.log
+        #cat wetransfer.log
         
     - name: 测试通知
       if: (!cancelled())
