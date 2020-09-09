@@ -155,15 +155,14 @@ jobs:
         #echo "先编译这个……"
         #make package/feeds/luci/luci-base/compile V=99
         echo -e "$(nproc) 线程编译"
-        make -j3 || make -j1 V=s
+        make -j(nproc) || make -j1 V=s
 
     - name: 检查磁盘空间
       if: (!cancelled())
       run: df -hT
 
     - name: 封装固件
-      id: organize
-      if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
+      if: (!cancelled())
       run: |
           mkdir -p ./Firmware/
           ls -al openwrt/bin/targets/
@@ -224,7 +223,7 @@ jobs:
         path: ./sysupgrade/
 
     - name: 上传其他文件
-      if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
+      if: (!cancelled())
       uses: actions/upload-artifact@main
       with:
         name: other_${{matrix.target}}
@@ -247,7 +246,7 @@ jobs:
         cat wetransfer.log
         
     - name: 测试通知
-      if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
+      if: (!cancelled())
       run: |
         echo "::warning file=测试通知112::测试通知221"
  
