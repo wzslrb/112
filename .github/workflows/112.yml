@@ -175,16 +175,17 @@ jobs:
       run: |
           mkdir -p ./Firmware/
           ls -al openwrt/bin/targets/
+          find openwrt/bin/targets/ -maxdepth 3 -type f -not -name "*kernel*" -exec cp -f {} ./Firmware/ \;
           echo "测试命令"
-          find openwrt/bin/targets/ -name "*" | grep "/"  | grep -v "/packages/"
+          find openwrt/bin/targets/ -type f -not -name "*kernel*" | grep -v "/package"
           echo "测试命令"
-          find openwrt/bin/targets/ -maxdepth 3 -type f -name "*"
+          find openwrt/bin/targets/ -maxdepth 3 -type f -not -name "*kernel*"
           echo "准备……"
-          find openwrt/bin/targets/ -name "*squashfs*bin*" | xargs -i cp {} ./Firmware/
-          find openwrt/bin/targets/ -name "*config.buildinfo*" | xargs -i cp {} ./Firmware/
-          find openwrt/bin/targets/ -name "*feeds.buildinfo*" | xargs -i cp -f {} ./Firmware/
-          find openwrt/bin/targets/ -name "*sha256sums*" | xargs -i cp -f {} ./Firmware/
-          find openwrt/bin/targets/ -name "*version.buildinfo*" | xargs -i cp -f {} ./Firmware/
+          #find openwrt/bin/targets/ -name "*squashfs*bin*" | xargs -i cp {} ./Firmware/
+          #find openwrt/bin/targets/ -name "*config.buildinfo*" | xargs -i cp {} ./Firmware/
+          #find openwrt/bin/targets/ -name "*feeds.buildinfo*" | xargs -i cp -f {} ./Firmware/
+          #find openwrt/bin/targets/ -name "*sha256sums*" | xargs -i cp -f {} ./Firmware/
+          #find openwrt/bin/targets/ -name "*version.buildinfo*" | xargs -i cp -f {} ./Firmware/
           cd openwrt
           echo "打包差异文件及目录树"
           ./scripts/diffconfig.sh > ../Firmware/差异文件.txt
@@ -211,35 +212,35 @@ jobs:
           find . -maxdepth 1 -type f -not -name "*.bin" -exec cp {} ../other/ \;
 
     - name: 上传工厂固件
-      if: env.UPLOAD_FIRMWARE == 'true' && env.UPLOAD_TO_ARTIFACTS == 'true' && !cancelled() && steps.compile.outputs.status == 'success'
+      if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       uses: actions/upload-artifact@main
       with:
         name: 工厂固件_${{matrix.target}}
         path: ./factory/
 
     - name: 上传升级固件
-      if: env.UPLOAD_FIRMWARE == 'true' && env.UPLOAD_TO_ARTIFACTS == 'true' && !cancelled() && steps.compile.outputs.status == 'success'
+      if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       uses: actions/upload-artifact@main
       with:
         name: 升级固件_${{matrix.target}}
         path: ./sysupgrade/
 
     - name: 上传其他文件
-      if: env.UPLOAD_FIRMWARE == 'true' && env.UPLOAD_TO_ARTIFACTS == 'true' && !cancelled() && steps.compile.outputs.status == 'success'
+      if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       uses: actions/upload-artifact@main
       with:
         name: 其他文件_${{matrix.target}}
         path: ./other/
 
     - name: 上传固件到奶牛
-      if: env.UPLOAD_FIRMWARE == 'true' && env.UPLOAD_TO_COWTRANSFER == 'true' && !cancelled() && steps.compile.outputs.status == 'success'
+      if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
         curl -fsSL git.io/file-transfer | sh
         ./transfer cow --block 2621440 -s -p 64 --no-progress ${FIRMWARE} 2>&1 | tee cowtransfer.log
         echo "::warning file=cowtransfer.com::$(cat cowtransfer.log | grep https)"
 
     - name: 上传固件到WeTransfer
-      if: env.UPLOAD_FIRMWARE == 'true' && env.UPLOAD_WETRANSFER == 'true' && !cancelled() && steps.compile.outputs.status == 'success'
+      if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
         curl -fsSL git.io/file-transfer | sh
         ./transfer wet -s -p 16 --no-progress ${FIRMWARE} 2>&1 | tee wetransfer.log
