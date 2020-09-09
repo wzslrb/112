@@ -12,6 +12,8 @@ echo "下载完毕？ ls -al"
 ls -al
 echo "拷贝Action-Openwrt文件"
 cd Action-Openwrt
+echo "Action-Openwrt目录"
+ls -al
 find user -maxdepth 1 -type d -not -name "." -not -name "*common*" -not -name "*mt7621*" -exec rm -rf {} \;
 ls -l user
 mv user ..
