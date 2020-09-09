@@ -8,19 +8,12 @@ echo "初始化xf_b70……"
 git clone https://github.com/wzslrb/xf_b70.git 
 echo "初始化hyird……"
 git clone https://github.com/hyird/Action-Openwrt.git
-echo "下载完毕？ ls -al"
-ls -al
 echo "拷贝Action-Openwrt文件"
-cd Action-Openwrt
-echo "Action-Openwrt目录"
+cd Action-Openwrt/user
+echo "Action-Openwrt/user目录 删除多于目录"
+find . -maxdepth 1 -type d -not -name "." -not -name "*common*" -not -name "*mt7621*" -exec rm -rf {} \;
 ls -al
-echo find "user"
-find "user" -maxdepth 1 -type d -not -name "." -not -name "*common*" -not -name "*mt7621*"
-echo find "./user/"
-find "./user/" -maxdepth 1 -type d -not -name "." -not -name "*common*" -not -name "*mt7621*"
-#find user -maxdepth 1 -type d -not -name "." -not -name "*common*" -not -name "*mt7621*" -exec rm -rf {} \;
-echo ls -al user
-ls -al user
+cd ..
 mv user ..
 mv version ..
 echo "拷贝自定义文件"
