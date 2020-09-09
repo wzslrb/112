@@ -140,8 +140,8 @@ jobs:
         echo "查看没有安装的包"
         make prereq
         sync
-        #echo "查看差异文件"
-        #./scripts/diffconfig.sh
+        echo "查看差异文件"
+        ./scripts/diffconfig.sh
         make download -j8 V=s
         #find dl -size -1024c -exec ls -l {} \; | grep "-" && find dl -size -1024c -exec rm -f {} \; && make download -j8 V=s
         find dl -size -1024c -exec ls -l {} \;
@@ -213,21 +213,21 @@ jobs:
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       uses: actions/upload-artifact@main
       with:
-        name: 工厂固件_${{matrix.target}}
+        name: factory_${{matrix.target}}
         path: ./factory/
 
     - name: 上传升级固件
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       uses: actions/upload-artifact@main
       with:
-        name: 升级固件_${{matrix.target}}
+        name: sysupgrade_${{matrix.target}}
         path: ./sysupgrade/
 
     - name: 上传其他文件
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       uses: actions/upload-artifact@main
       with:
-        name: 其他文件_${{matrix.target}}
+        name: other_${{matrix.target}}
         path: ./other/
 
     - name: 上传固件到奶牛
