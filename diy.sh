@@ -58,3 +58,5 @@ sed -i "/^CONFIG.*_INCLUDE_.*=.*/s/\(.*\)=.*/# \1 is not set/g" .config
 #sed -i "/^CONFIG.*=m/{s/^/# &/g;s/=.*/ is not set/g;q}" .config
 #sed -i "/^CONFIG.*_INCLUDE_.*=.*/{s/^/# &/g;s/=.*/ is not set/g;q}" .config 
 #COMMENT
+echo "查看成果……cat .config"
+cat .config
