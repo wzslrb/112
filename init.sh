@@ -8,7 +8,8 @@ echo "初始化xf_b70……"
 git clone https://github.com/wzslrb/xf_b70.git 
 echo "初始化hyird……"
 git clone https://github.com/hyird/Action-Openwrt.git
-#ls -al
+echo "下载完毕？ ls -al"
+ls -al
 echo "拷贝Action-Openwrt文件"
 cd Action-Openwrt
 find user -maxdepth 1 -type d -not -name "." -not -name "*common*" -not -name "*mt7621*" -exec rm -rf {} \;
