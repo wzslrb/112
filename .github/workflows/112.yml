@@ -37,8 +37,6 @@ jobs:
       run: |
          date=$(date +%Y-%m-%d)
          echo "::set-env name=DATE::$date"
-         pwd
-         ls -al
                  
     - name: 初始化编译环境
       env:
@@ -69,8 +67,6 @@ jobs:
         
     - name: 拷贝lede源代码
       run: |
-        pwd
-        ls -al
         git clone ${{ env.REPO_URL }} -b ${{ env.REPO_BRANCH }} openwrt
         
     - name: 应用补丁
@@ -188,7 +184,6 @@ jobs:
           mv config.buildinfo 差异文件.txt
           mv *.buildinfo *.txt
           mv openwrt*manifest 已安装ipk.txt
-          sync
           echo "输出默认配置"
           grep \^CONFIG_DEFAULT_ config.txt > ./默认安装.txt
           pwd
@@ -209,6 +204,7 @@ jobs:
           find . -maxdepth 1 -type f -not -name "*.bin" -exec cp {} ../other/ \;
           echo "ls -l ../other/"
           ls -l ../other/
+          sync
 
     - name: 上传工厂固件
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
