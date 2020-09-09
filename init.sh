@@ -53,7 +53,7 @@ echo "删除custom.sh内部分补丁"
 sed -i 's/^git clone.*/# &/g' custom.sh
 sed -i 's/^svn co.*/# &/g' custom.sh
 cd patches
-rm -f 001* 000*
+rm -f *
 echo "删除完成"
 ls -l
 #user\common\
