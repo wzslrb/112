@@ -10,7 +10,7 @@ sed -n '/^#define TRX_MAX_LEN.*/p' tools/firmware-utils/src/trx.c
 echo "修改.config"
 ls -al .config
 sed -i "/.*PER_DEVICE_ROOTFS.*/a CONFIG_TARGET_KERNEL_PARTSIZE=64\nCONFIG_TARGET_ROOTFS_PARTSIZE=108" .config
-sed -i -e '/CONFIG_TARGET_DEVICE/ { /5962/b' -e 'N; d; }' .config
+#sed -i -e '/CONFIG_TARGET_DEVICE/ { /5962/b' -e 'N; d; }' .config
 
 #<<'COMMENT'
 grep -q "^[^#].*apfree-wifidog.*=" || sed -i '$a CONFIG_PACKAGE_apfree-wifidog=y' .config
@@ -64,4 +64,4 @@ sed -i "/^CONFIG.*_INCLUDE_.*=.*/s/\(.*\)=.*/# \1 is not set/g" .config
 #sed -i "/^CONFIG.*_INCLUDE_.*=.*/{s/^/# &/g;s/=.*/ is not set/g;q}" .config 
 #COMMENT
 #echo "查看成果……cat .config"
-#cat .config
+cat .config > ../Firmware/diy的config.txt
