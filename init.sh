@@ -53,9 +53,11 @@ sed -i 's/^svn co.*/& | grep "Checked out"/g' custom.sh
 
 echo "删除custom.sh内部分补丁"
 sed -i 's/^git clone.*/# &/g' custom.sh
-sed -i 's/^svn co.*/# &/g' custom.sh
+#sed -i 's/^svn co.*/# &/g' custom.sh
+sed -i 's/^svn co.*smartdns.*/# &/g' custom.sh
+echo "删除patches部分补丁"
 cd patches
-rm -f *
+rm -f 000* 002* 003*
 echo "删除完成"
 ls -l
 #user\common\
