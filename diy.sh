@@ -9,7 +9,7 @@ sed -n '/^#define TRX_MAX_LEN.*/p' tools/firmware-utils/src/trx.c
 
 echo "修改.config"
 ls -al .config
-sed -i "/.*PER_DEVICE_ROOTFS.*/a CONFIG_TARGET_KERNEL_PARTSIZE=200\nCONFIG_TARGET_ROOTFS_PARTSIZE=500/" .config
+sed -i "/.*PER_DEVICE_ROOTFS.*/a CONFIG_TARGET_KERNEL_PARTSIZE=64\nCONFIG_TARGET_ROOTFS_PARTSIZE=108/" .config
 sed -i -e '/CONFIG_TARGET_DEVICE/ { /5962/b' -e 'N; d; }' .config
 
 #<<'COMMENT'
@@ -41,13 +41,16 @@ sed -i "/.*wrtbwmon.*=m/s/=m/=y/g" .config
 
 sed -i "/.*-sfe.*=m/s/=m/=y/g" .config
 #ADG广告过滤
-#sed -i "/.*luci-app-adguardhome.*=m/s/=m/=y/g" .config
+sed -i "/.*luci-app-adguardhome.*=m/s/=m/=y/g" .config
 
 # 命令行工具
 sed -i "/.*curl.*=m/s/=m/=y/g" .config
 sed -i "/.*wget.*=m/s/=m/=y/g" .config
 sed -i "/.*wget-nossl.*=m/s/=m/=y/g" .config
 sed -i "/.*tree.*=m/s/=m/=y/g" .config
+sed -i "/.*lscpu.*=m/s/=m/=y/g" .config
+sed -i "/.*lsof.*=m/s/=m/=y/g" .config
+sed -i "/.*bash.*=m/s/=m/=y/g" .config
 
 # 主题
 sed -i "/.*luci-theme-freifunk-generic.*=m/s/=m/=y/g" .config
