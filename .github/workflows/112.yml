@@ -137,9 +137,11 @@ jobs:
         cat feeds.conf.default
         echo "创建差异文件defconfig"
         make defconfig
+        echo "查看没有安装的包"
+        make prereq
         sync
-        echo "查看差异文件"
-        ./scripts/diffconfig.sh
+        #echo "查看差异文件"
+        #./scripts/diffconfig.sh
         make download -j8 V=s
         #find dl -size -1024c -exec ls -l {} \; | grep "-" && find dl -size -1024c -exec rm -f {} \; && make download -j8 V=s
         find dl -size -1024c -exec ls -l {} \;
