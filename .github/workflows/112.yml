@@ -137,16 +137,6 @@ jobs:
         cat feeds.conf.default
         echo "创建差异文件defconfig"
         make defconfig
-        #echo "重设差异文件"
-        #./scripts/diffconfig.sh > temp.txt
-        #rm -f .config
-        #mv temp.txt .config
-        #ls -a .config
-        #echo "重设不打包m"
-        #sed -i "/^CONFIG.*=m/s/\(.*\)=.*/# \1 is not set/g" .config
-        #make savedefconfig
-        #cp defconfig ../Firmware/
-        #make defconfig
         sync
         echo "查看差异文件"
         ./scripts/diffconfig.sh
@@ -199,17 +189,23 @@ jobs:
           echo "输出默认配置"
           grep \^CONFIG_DEFAULT_ config.txt > ./CONFIG_DEFAULT.txt
           pwd
-          ls -a
+          ls -al
           echo "设置成功标志"
           echo "::set-output name=status::success"
           echo "::set-env name=FIRMWARE::$PWD"
           echo "分别安置factory\sysupgrade\log"
           mkdir -p ../factory/
           cp -f *factory.bin ../factory/
+          echo "ls -l ../factory/"
+          ls -l ../factory/
           mkdir -p ../sysupgrade/
           cp -f *sysupgrade.bin ../sysupgrade/
+          echo "ls -l ../sysupgrade/"
+          ls -l ../sysupgrade/
           mkdir -p ../other/
           find . -maxdepth 1 -type f -not -name "*.bin" -exec cp {} ../other/ \;
+          echo "ls -l ../other/"
+          ls -l ../other/
 
     - name: 上传工厂固件
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
