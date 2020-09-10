@@ -136,9 +136,9 @@ jobs:
         #echo "查看没有安装的包"
         #make prereq
         sync
-        echo "查看差异文件"
-        ./scripts/diffconfig.sh
-        make download -j8 V=s
+        #echo "查看差异文件 V=s"
+        #./scripts/diffconfig.sh
+        make download -j8
         #find dl -size -1024c -exec ls -l {} \; | grep "-" && find dl -size -1024c -exec rm -f {} \; && make download -j8 V=s
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
@@ -148,9 +148,9 @@ jobs:
       run: |
         cd openwrt
         echo ls /home/runner/work/
-        ls -al /home/runner/work/
+        ls -al /home/runner/work/ || exit 0
         echo ls /home/runner/work/_temp/
-        ls -al /home/runner/work/_temp/
+        ls -al /home/runner/work/_temp/ || exit 0
         sync
         #echo "先编译这个……"
         #make package/feeds/luci/luci-base/compile V=99
