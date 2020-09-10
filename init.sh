@@ -59,18 +59,18 @@ echo "删除custom.sh内部分补丁"
 sed -i 's/^git clone.*/# &/g' custom.sh
 #sed -i 's/^svn co.*/# &/g' custom.sh
 sed -i 's/^svn co.*smartdns.*/# &/g' custom.sh
+cd patches
 #echo "删除patches部分补丁"
-#cd patches
 #rm -f 000* 002* 003*
 #echo "删除完成"
 #ls -l
 #user\common\
 echo "删除common/custom.sh不相关app"
-cd ../../common
+cd ${GITHUB_WORKSPACE}/user/common
 sed -i 's/.*serverchan.*/# &/g' custom.sh
 sed -i 's/.*OpenClash.*/# &/g' custom.sh
 
 echo "删除完成"
-
+env
 
 exit 0
