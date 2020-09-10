@@ -154,7 +154,7 @@ jobs:
         #echo "先编译这个……"
         #make package/feeds/luci/luci-base/compile V=99
         echo -e "$(nproc) 线程编译"
-        make -j(nproc) || make -j1 V=s
+        make -j$(nproc) || make -j1 V=s
 
     - name: 检查磁盘空间
       if: (!cancelled())
