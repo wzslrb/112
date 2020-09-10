@@ -164,6 +164,9 @@ jobs:
       if: (!cancelled())
       run: |
           mkdir -p ./Firmware/
+          echo "设置成功标志"
+          echo "::set-env name=FIRMWARE::$PWD"
+          ls -al openwrt/bin/targets/ && echo "::set-output name=status::success" || echo "ls targets目录失败"
           find openwrt/bin/targets/ -maxdepth 3 -type f -not -name "*kernel*" -exec cp -f {} ./Firmware/ \; || echo "好像编译失败了……"
           #echo "测试命令"
           #find openwrt/bin/targets/ -type f -not -name "*kernel*" | grep -v "/package"
@@ -191,9 +194,6 @@ jobs:
           grep \^CONFIG_DEFAULT_ config.txt > ./默认安装.txt
           pwd
           ls -al
-          echo "设置成功标志"
-          echo "::set-output name=status::success"
-          echo "::set-env name=FIRMWARE::$PWD"
           echo "分别安置factory\sysupgrade\log"
           mkdir -p ../factory/
           cp -f *factory.bin ../factory/
@@ -210,14 +210,14 @@ jobs:
           sync
 
     - name: 上传工厂固件
-      if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
+      if: env.UPLOAD_FIRMWARE == 'true' && !cancelled() && steps.compile.outputs.status == 'success'
       uses: actions/upload-artifact@main
       with:
         name: factory_${{matrix.target}}
         path: ./factory/
 
     - name: 上传升级固件
-      if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
+      if: env.UPLOAD_FIRMWARE == 'true' && !cancelled() && steps.compile.outputs.status == 'success'
       uses: actions/upload-artifact@main
       with:
         name: sysupgrade_${{matrix.target}}
@@ -231,7 +231,7 @@ jobs:
         path: ./other/
 
     - name: 上传固件到奶牛
-      if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
+      if: env.UPLOAD_FIRMWARE == 'true' && !cancelled() && steps.compile.outputs.status == 'success'
       run: |
         curl -fsSL git.io/file-transfer | sh
         ./transfer cow --block 2621440 -s -p 64 --no-progress ${FIRMWARE} 2>&1 | tee cowtransfer.log
@@ -239,7 +239,7 @@ jobs:
         #cat cowtransfer.log
       
     - name: 上传固件到WeTransfer
-      if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
+      if: env.UPLOAD_FIRMWARE == 'true' && !cancelled() && steps.compile.outputs.status == 'success'
       run: |
         curl -fsSL git.io/file-transfer | sh
         ./transfer wet -s -p 16 --no-progress ${FIRMWARE} 2>&1 | tee wetransfer.log
