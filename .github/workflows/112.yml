@@ -217,7 +217,7 @@ jobs:
         path: ./factory/
 
     - name: 上传升级固件
-      if: (!cancelled()) && steps.compile.outputs.status == 'success'
+      if: (!cancelled()) && env.UPLOAD_FIRMWARE == 'true'
       uses: actions/upload-artifact@main
       with:
         name: sysupgrade_${{matrix.target}}
@@ -231,7 +231,7 @@ jobs:
         path: ./other/
 
     - name: 上传固件到奶牛
-      if: (!cancelled()) && steps.compile.outputs.status == 'success'
+      if: (!cancelled()) && env.UPLOAD_FIRMWARE == 'true'
       run: |
         curl -fsSL git.io/file-transfer | sh
         ./transfer cow --block 2621440 -s -p 64 --no-progress ${FIRMWARE} 2>&1 | tee cowtransfer.log
