@@ -9,8 +9,8 @@ sed -n '/^#define TRX_MAX_LEN.*/p' tools/firmware-utils/src/trx.c
 
 echo "修改.config"
 ls -al .config
-sed -i "/.*PER_DEVICE_ROOTFS.*/a CONFIG_TARGET_KERNEL_PARTSIZE=200\nCONFIG_TARGET_ROOTFS_PARTSIZE=550" .config
-#sed -i -e '/CONFIG_TARGET_DEVICE/ { /5962/b' -e 'N; d; }' .config
+sed -i "/.*PER_DEVICE_ROOTFS.*/a CONFIG_TARGET_KERNEL_PARTSIZE=200\nCONFIG_TARGET_ROOTFS_PARTSIZE=600" .config
+sed -i -e '/CONFIG_TARGET_DEVICE/ { /5962/b' -e 'N; d; }' .config
 
 #<<'COMMENT'
 grep -q "^[^#].*apfree-wifidog.*=" .config || sed -i '$a CONFIG_PACKAGE_apfree-wifidog=y' .config
