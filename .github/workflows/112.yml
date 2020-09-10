@@ -53,8 +53,7 @@ jobs:
         mkdir -p ./other/
     - name: 载入设置 Settings.ini
       run: |
-        man rename
-        rename -h
+        rename -n 's/\./666/' .github || echo "???????"
         /bin/bash ./init.sh
         echo "读取 Settings.ini"
         source "${GITHUB_WORKSPACE}/user/${{matrix.target}}/settings.ini"
