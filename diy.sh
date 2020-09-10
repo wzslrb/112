@@ -13,13 +13,13 @@ sed -i "/.*PER_DEVICE_ROOTFS.*/a CONFIG_TARGET_KERNEL_PARTSIZE=200\nCONFIG_TARGE
 #sed -i -e '/CONFIG_TARGET_DEVICE/ { /5962/b' -e 'N; d; }' .config
 
 #<<'COMMENT'
-grep -q "^[^#].*apfree-wifidog.*=" || sed -i '$a CONFIG_PACKAGE_apfree-wifidog=y' .config
-grep -q "^[^#].*luci-app-frpc.*=" || sed -i '$a CONFIG_PACKAGE_luci-app-frpc=y' .config
-grep -q "^[^#].*_tree.*=" || sed -i '$a CONFIG_PACKAGE_tree=y' .config
-grep -q "^[^#].*_git-http.*=" || sed -i '$a CONFIG_PACKAGE_git-http=y' .config
-grep -q "^[^#].*_curl.*=" || sed -i '$a CONFIG_PACKAGE_curl=y' .config
-grep -q "^[^#].*_wget-nossl.*=" || sed -i '$a CONFIG_PACKAGE_wget-nossl=y' .config
-grep -q "^[^#].*openssh-client.*=" || sed -i '$a CONFIG_PACKAGE_openssh-client=y' .config
+grep -q "^[^#].*apfree-wifidog.*=" .config || sed -i '$a CONFIG_PACKAGE_apfree-wifidog=y' .config
+grep -q "^[^#].*luci-app-frpc.*=" .config || sed -i '$a CONFIG_PACKAGE_luci-app-frpc=y' .config
+grep -q "^[^#].*_tree.*=" .config || sed -i '$a CONFIG_PACKAGE_tree=y' .config
+grep -q "^[^#].*_git-http.*=" .config || sed -i '$a CONFIG_PACKAGE_git-http=y' .config
+grep -q "^[^#].*_curl.*=" .config || sed -i '$a CONFIG_PACKAGE_curl=y' .config
+grep -q "^[^#].*_wget-nossl.*=" .config || sed -i '$a CONFIG_PACKAGE_wget-nossl=y' .config
+grep -q "^[^#].*openssh-client.*=" .config || sed -i '$a CONFIG_PACKAGE_openssh-client=y' .config
 
 sed -i "/.*automount.*=m/s/=m/=y/g" .config
 sed -i "/.*autosamba.*=m/s/=m/=y/g" .config
@@ -32,7 +32,7 @@ sed -i "/.*frpc.*=m/s/=m/=y/g" .config
 sed -i "/.*aria2.*=m/s/=m/=y/g" .config
 sed -i "/.*ariang.*=m/s/=m/=y/g" .config
 sed -i "/.*webui-aria2.*=m/s/=m/=y/g" .config
-grep -q "^[^#].*webui-aria2.*=" || sed -i '$a CONFIG_PACKAGE_webui-aria2=y' .config
+grep -q "^[^#].*webui-aria2.*=" .config || sed -i '$a CONFIG_PACKAGE_webui-aria2=y' .config
 sed -i "/.*vsftpd.*=m/s/=m/=y/g" .config
 
 #实时流量监测
@@ -51,6 +51,7 @@ sed -i "/.*tree.*=m/s/=m/=y/g" .config
 sed -i "/.*lscpu.*=m/s/=m/=y/g" .config
 sed -i "/.*lsof.*=m/s/=m/=y/g" .config
 sed -i "/.*bash.*=m/s/=m/=y/g" .config
+grep -q "^[^#].*_rename=" .config || sed -i '$a CONFIG_PACKAGE_rename=y' .config
 
 # 主题
 sed -i "/.*luci-theme-freifunk-generic.*=m/s/=m/=y/g" .config
