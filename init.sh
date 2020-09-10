@@ -10,13 +10,13 @@ echo "初始化hyird……"
 git clone https://github.com/hyird/Action-Openwrt.git
 echo "拷贝Action-Openwrt文件"
 cd Action-Openwrt
-echo "测试个命令"
-find user -maxdepth 1 -type d -not -name "." -not -name "*common*" -not -name "*mt7621*" -not -name "user"
-cd user
 echo "Action-Openwrt/user目录 删除多于目录"
-find . -maxdepth 1 -type d -not -name "." -not -name "*common*" -not -name "*mt7621*" -exec rm -rf {} \;
-ls -al
-cd ..
+find user -maxdepth 1 -type d -not -name "." -not -name "*common*" -not -name "*mt7621*" -not -name "user" -exec rm -rf {} \;
+#cd user
+#echo "测试个命令"
+#find . -maxdepth 1 -type d -not -name "." -not -name "*common*" -not -name "*mt7621*" -exec rm -rf {} \;
+#ls -al
+#cd ..
 mv user ..
 mv version ..
 echo "拷贝自定义文件"
