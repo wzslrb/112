@@ -65,3 +65,4 @@ sed -i "/^CONFIG.*_INCLUDE_.*=.*/s/\(.*\)=.*/# \1 is not set/g" .config
 #COMMENT
 #echo "查看成果……cat .config"
 cat .config > ../Firmware/diy的config.txt
+ls -al ../Firmware/
