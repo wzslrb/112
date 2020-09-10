@@ -60,10 +60,10 @@ sed -i 's/^git clone.*/# &/g' custom.sh
 #sed -i 's/^svn co.*/# &/g' custom.sh
 sed -i 's/^svn co.*smartdns.*/# &/g' custom.sh
 cd patches
-#echo "删除patches部分补丁"
-#rm -f 000* 002* 003*
-#echo "删除完成"
-#ls -l
+echo "删除patches部分补丁"
+rm -f 002*
+echo "删除完成"
+ls -l
 #user\common\
 echo "删除common/custom.sh不相关app"
 cd ${GITHUB_WORKSPACE}/user/common
