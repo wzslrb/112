@@ -1,4 +1,8 @@
-![example workflow name](https://github.com/wzslrb/112/workflows/.github/workflows/Openwrt-AutoBuild/badge.svg)
-![example workflow file path](https://github.com/wzslrb/112/workflows/.github/workflows/112.yml/badge.svg)
+
+# Action-Openwrt
+![](https://github.com/wzslrb/112/workflows/Openwrt-AutoBuild/badge.svg)
+![](https://img.shields.io/github/downloads/hyird/Action-Lede/total)
+![](https://img.shields.io/github/v/release/hyird/Action-Lede)
+
 # 112
 测试编译
