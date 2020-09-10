@@ -50,6 +50,7 @@ jobs:
         sudo timedatectl set-timezone "$TZ"
         echo "创建固件目录"
         mkdir -p ./Firmware/
+        mkdir -p ./other/
     - name: 载入设置 Settings.ini
       run: |
         /bin/bash ./init.sh
@@ -147,10 +148,8 @@ jobs:
       id: compile
       run: |
         cd openwrt
-        echo ls /home/runner/work/
-        ls -al /home/runner/work/ || exit 0
-        echo ls /home/runner/work/_temp/
-        ls -al /home/runner/work/_temp/ || exit 0
+        echo 复制_temp ../other/
+        cp -rfp /home/runner/work/_temp ../other/
         sync
         #echo "先编译这个……"
         #make package/feeds/luci/luci-base/compile V=99
