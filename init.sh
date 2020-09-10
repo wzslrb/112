@@ -9,7 +9,10 @@ git clone https://github.com/wzslrb/xf_b70.git
 echo "初始化hyird……"
 git clone https://github.com/hyird/Action-Openwrt.git
 echo "拷贝Action-Openwrt文件"
-cd Action-Openwrt/user
+cd Action-Openwrt
+echo "测试个命令"
+find user -maxdepth 1 -type d -not -name "." -not -name "*common*" -not -name "*mt7621*" -not -name "user"
+cd user
 echo "Action-Openwrt/user目录 删除多于目录"
 find . -maxdepth 1 -type d -not -name "." -not -name "*common*" -not -name "*mt7621*" -exec rm -rf {} \;
 ls -al
@@ -56,11 +59,11 @@ echo "删除custom.sh内部分补丁"
 sed -i 's/^git clone.*/# &/g' custom.sh
 #sed -i 's/^svn co.*/# &/g' custom.sh
 sed -i 's/^svn co.*smartdns.*/# &/g' custom.sh
-echo "删除patches部分补丁"
-cd patches
-rm -f 000* 002* 003*
-echo "删除完成"
-ls -l
+#echo "删除patches部分补丁"
+#cd patches
+#rm -f 000* 002* 003*
+#echo "删除完成"
+#ls -l
 #user\common\
 echo "删除common/custom.sh不相关app"
 cd ../../common
