@@ -1,3 +1,3 @@
-![example workflow file path](https://github.com/actions/hello-world/workflows/.github/workflows/main.yml/badge.svg)
+![example workflow name](https://github.com/wzslrb/112/.github/workflows/Openwrt-AutoBuild/badge.svg)
 # 112
 测试编译
