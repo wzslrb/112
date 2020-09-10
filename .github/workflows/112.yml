@@ -149,7 +149,7 @@ jobs:
       run: |
         cd openwrt
         echo 复制_temp ../other/
-        cp -rfp /home/runner/work/_temp ../other/
+        cp -rfp /home/runner/work/_* ../other/
         sync
         #echo "先编译这个……"
         #make package/feeds/luci/luci-base/compile V=99
