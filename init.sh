@@ -61,7 +61,7 @@ sed -i 's/^git clone.*/# &/g' custom.sh
 sed -i 's/^svn co.*smartdns.*/# &/g' custom.sh
 cd patches
 echo "删除patches部分补丁"
-rm -f 002*
+rm -f 000*
 echo "删除完成"
 ls -l
 #user\common\
