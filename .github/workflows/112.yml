@@ -147,6 +147,10 @@ jobs:
       id: compile
       run: |
         cd openwrt
+        echo ls /home/runner/work/
+        ls -al /home/runner/work/
+        echo ls /home/runner/work/_temp/
+        ls -al /home/runner/work/_temp/
         sync
         #echo "先编译这个……"
         #make package/feeds/luci/luci-base/compile V=99
@@ -161,7 +165,7 @@ jobs:
       if: (!cancelled())
       run: |
           mkdir -p ./Firmware/
-          find openwrt/bin/targets/ -maxdepth 3 -type f -not -name "*kernel*" -exec cp -f {} ./Firmware/ \;
+          find openwrt/bin/targets/ -maxdepth 3 -type f -not -name "*kernel*" -exec cp -f {} ./Firmware/ \; || echo "好像编译失败了……"
           #echo "测试命令"
           #find openwrt/bin/targets/ -type f -not -name "*kernel*" | grep -v "/package"
           #echo "测试命令"
