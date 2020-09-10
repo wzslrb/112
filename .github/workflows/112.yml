@@ -190,7 +190,7 @@ jobs:
           mv .config ../Firmware/config.txt
           cd ../Firmware/
           mv config.buildinfo 差异文件.txt || echo "好像编译失败了……"
-          rename *.buildinfo *.txt || echo "好像编译失败了……"
+          rename -n 's/.buildinfo/.txt/' *.buildinfo || echo "rename失败了……"
           mv openwrt*manifest 已安装ipk.txt || echo "好像编译失败了……"
           echo "输出默认配置"
           grep \^CONFIG_DEFAULT_ config.txt > ./默认安装.txt
