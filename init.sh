@@ -31,7 +31,7 @@ rm -rf Action-Openwrt xf_b70
 #ls ./user/lean-mt7621/files/
 
 cd ./user/lean-mt7621/
-
+cp -rfp config.diff ${OLDPWD}/other/h大的config.txt || true
 # 在这里指定你的OpenWrt的Repo URL
 #REPO_URL="https://github.com/coolsnowwolf/lede"
 # 在这里指定你的OpenWrt的Branch
