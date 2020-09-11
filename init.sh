@@ -69,7 +69,9 @@ echo "删除common/custom.sh不相关app"
 cd ${GITHUB_WORKSPACE}/user/common
 sed -i 's/.*serverchan.*/# &/g' custom.sh
 sed -i 's/.*OpenClash.*/# &/g' custom.sh
-
+#强迫症 删除无用文件
+rm -f ${OLDPWD}/user/common/files/common || true
+rm -f ${OLDPWD}/user/lean-mt7621/files/ipq40xx || true
 echo "删除完成,备份关键文件"
 cp -rfp ${OLDPWD}/*.sh ${OLDPWD}/other/
 cp -rfp ${OLDPWD}/.github/workflows/*.yml ${OLDPWD}/other/
