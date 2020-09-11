@@ -70,7 +70,7 @@ cd ${GITHUB_WORKSPACE}/user/common
 sed -i 's/.*serverchan.*/# &/g' custom.sh
 sed -i 's/.*OpenClash.*/# &/g' custom.sh
 
-echo "删除完成"
-env
-
+echo "删除完成,备份关键文件"
+cp -rfp ${OLDPWD}/*.sh ${OLDPWD}/other/
+cp -rfp ${OLDPWD}/.github/workflows/*.yml ${OLDPWD}/other/
 exit 0
