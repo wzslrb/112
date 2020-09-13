@@ -59,6 +59,13 @@ echo "删除custom.sh内部分补丁"
 sed -i 's/^git clone.*/# &/g' custom.sh
 #sed -i 's/^svn co.*/# &/g' custom.sh
 sed -i 's/^svn co.*smartdns.*/# &/g' custom.sh
+
+echo "调整custom.sh内opkg"
+sed -i 's/^sed.*http.*zzz-default.*/# &/g' custom.sh
+sed -i 's/^sed.*\/R20.*zzz-default.*/# &/g' custom.sh
+sed -i 's/openwrt.download/mirrors.bfsu.edu.cn/g' custom.sh
+echo "检查修改结果"
+cat custom.sh
 cd patches
 echo "删除patches部分补丁"
 rm -f 000*
