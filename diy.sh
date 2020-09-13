@@ -9,7 +9,9 @@ sed -n '/^#define TRX_MAX_LEN.*/p' tools/firmware-utils/src/trx.c
 
 echo "修改.config"
 ls -al .config
+#修改固件大小
 sed -i "/.*PER_DEVICE_ROOTFS.*/a CONFIG_TARGET_KERNEL_PARTSIZE=200\nCONFIG_TARGET_ROOTFS_PARTSIZE=600" .config
+#删除除b70之外的设备
 sed -i -e '/CONFIG_TARGET_DEVICE/ { /5962/b' -e 'N; d; }' .config
 
 #<<'COMMENT'
@@ -42,7 +44,9 @@ sed -i "/.*wrtbwmon.*=m/s/=m/=y/g" .config
 sed -i "/.*-sfe.*=m/s/=m/=y/g" .config
 #ADG广告过滤
 sed -i "/.*luci-app-adguardhome.*=m/s/=m/=y/g" .config
-
+#luci-app-ssr-plus
+sed -i "/.*luci-app-ssr-plus.*=m/s/=m/=y/g" .config
+sed -i "/luci-app-ssr-plus=y/a CONFIG_luci-i18n-ssr-plus-zh-cn=y" .config
 # 命令行工具
 sed -i "/.*curl.*=m/s/=m/=y/g" .config
 sed -i "/.*wget.*=m/s/=m/=y/g" .config
@@ -50,8 +54,8 @@ sed -i "/.*wget-nossl.*=m/s/=m/=y/g" .config
 sed -i "/.*tree.*=m/s/=m/=y/g" .config
 sed -i "/.*lscpu.*=m/s/=m/=y/g" .config
 sed -i "/.*lsof.*=m/s/=m/=y/g" .config
-sed -i "/.*bash.*=m/s/=m/=y/g" .config
-grep -q "^[^#].*_rename=" .config || sed -i '$a CONFIG_PACKAGE_rename=y' .config
+#sed -i "/.*bash.*=m/s/=m/=y/g" .config
+#grep -q "^[^#].*_rename=" .config || sed -i '$a CONFIG_PACKAGE_rename=y' .config
 
 # 主题
 sed -i "/.*luci-theme-freifunk-generic.*=m/s/=m/=y/g" .config
