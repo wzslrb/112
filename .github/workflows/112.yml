@@ -23,7 +23,8 @@ jobs:
     runs-on:  ubuntu-18.04
     if: github.event.repository.owner.id == github.event.sender.id
 
-    name: Build ${{matrix.target}}
+    #${{matrix.target}}
+    name: 编译极路由B70
     strategy:
       fail-fast: false
       matrix:
