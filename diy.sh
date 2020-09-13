@@ -61,6 +61,9 @@ sed -i "/.*lsof.*=m/s/=m/=y/g" .config
 sed -i "/.*luci-theme-freifunk-generic.*=m/s/=m/=y/g" .config
 sed -i "/.*luci-theme-material.*=m/s/=m/=y/g" .config
 sed -i "/.*luci-theme-netgear.*=m/s/=m/=y/g" .config
+#新近更新=y 去除https-dns-proxy默认安装
+sed -i "/^CONFIG.*https-dns-proxy.*/{s/^/# &/g; s/=.*/ is not set/g;q}" .config
+
 echo "其他的全部不打包"
 sed -i "/^CONFIG.*=m/s/\(.*\)=.*/# \1 is not set/g" .config
 sed -i "/^CONFIG.*_INCLUDE_.*=.*/s/\(.*\)=.*/# \1 is not set/g" .config
