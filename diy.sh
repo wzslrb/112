@@ -46,7 +46,7 @@ sed -i "/.*-sfe.*=m/s/=m/=y/g" .config
 sed -i "/.*luci-app-adguardhome.*=m/s/=m/=y/g" .config
 #luci-app-ssr-plus
 #sed -i "/.*luci-app-ssr-plus.*=m/s/=m/=y/g" .config
-#sed -i "/luci-app-ssr-plus=y/a CONFIG_luci-i18n-ssr-plus-zh-cn=y" .config
+#sed -i "/luci-app-ssr-plus=y/a CONFIG_PACKAGE_luci-i18n-ssr-plus-zh-cn=y" .config
 # 命令行工具
 sed -i "/.*curl.*=m/s/=m/=y/g" .config
 sed -i "/.*wget.*=m/s/=m/=y/g" .config
