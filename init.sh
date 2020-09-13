@@ -5,7 +5,7 @@
 #git clone https://github.com/vernesong/OpenClash.git                                package/molun/luci-app-openclash
 pwd
 echo "初始化xf_b70……"
-git clone https://github.com/wzslrb/xf_b70.git 
+git clone https://wzslrb:364dda580a06d10ecb90a5f35576fc8617f27c47@github.com/wzslrb/xf_b70.git 
 echo "初始化hyird……"
 git clone https://github.com/hyird/Action-Openwrt.git
 echo "拷贝Action-Openwrt文件"
