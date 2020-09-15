@@ -54,8 +54,11 @@ sed -i "/.*wget-nossl.*=m/s/=m/=y/g" .config
 sed -i "/.*tree.*=m/s/=m/=y/g" .config
 sed -i "/.*lscpu.*=m/s/=m/=y/g" .config
 sed -i "/.*lsof.*=m/s/=m/=y/g" .config
+sed -i "/.*lsof.*=m/s/=m/=y/g" .config
 #sed -i "/.*bash.*=m/s/=m/=y/g" .config
-#grep -q "^[^#].*_rename=" .config || sed -i '$a CONFIG_PACKAGE_rename=y' .config
+grep -q "^[^#].*_rename=" .config || sed -i '$a CONFIG_PACKAGE_rename=y' .config
+sed -i '$a CONFIG_BUSYBOX_DEFAULT_DIFF=y' .config
+sed -i '$a CONFIG_BUSYBOX_DEFAULT_PATCH=y' .config
 
 # 主题
 sed -i "/.*luci-theme-freifunk-generic.*=m/s/=m/=y/g" .config
