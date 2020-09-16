@@ -65,7 +65,7 @@ sed -i "/.*luci-theme-freifunk-generic.*=m/s/=m/=y/g" .config
 sed -i "/.*luci-theme-material.*=m/s/=m/=y/g" .config
 sed -i "/.*luci-theme-netgear.*=m/s/=m/=y/g" .config
 #新近更新=y 去除https-dns-proxy默认安装
-sed -i "/^CONFIG.*dns-proxy.*/{s/^/# &/g; s/=.*/ is not set/g;q}" .config && echo "去除https-dns-proxy默认安装"
+sed -i "/^CONFIG.*dns-proxy.*/{s/^/# &/g; s/=.*/ is not set/g}" .config && echo "去除https-dns-proxy默认安装"
 #防火墙upnpd
 sed -i "/CONFIG_MINIUPNPD_IGDv2/s/\(.*\)=.*/# \1 is not set/g" .config && echo "防火墙upnpd"
 
@@ -73,10 +73,11 @@ echo "其他的全部不打包"
 sed -i "/^CONFIG.*=m/s/\(.*\)=.*/# \1 is not set/g" .config
 sed -i "/^CONFIG.*_INCLUDE_.*=.*/s/\(.*\)=.*/# \1 is not set/g" .config
 #方法二
-#sed -i "/^CONFIG.*=m/{s/^/# &/g;s/=.*/ is not set/g;q}" .config
+#sed -i "/^CONFIG.*=m/{s/^/# &/g;s/=.*/ is not set/g;}" .config
 #sed -i "/^CONFIG.*_INCLUDE_.*=.*/{s/^/# &/g;s/=.*/ is not set/g;q}" .config 
 #COMMENT
-#echo "查看成果……cat .config"
+echo "查看成果……cat .config"
+cat .config
 cat .config > ../Firmware/diy的config.txt
 env | tee ../Firmware/env环境变量.txt >/dev/null
 
