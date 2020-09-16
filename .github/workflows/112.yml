@@ -55,6 +55,7 @@ jobs:
     - name: 载入设置 Settings.ini
       run: |
         rename -n 's/\./666/' .github || echo "???????"
+        echo "测试 $(TZ=CST-8 date +'%m.%d')"
         /bin/bash ./init.sh
         echo "读取 Settings.ini"
         source "${GITHUB_WORKSPACE}/user/${{matrix.target}}/settings.ini"
@@ -191,7 +192,9 @@ jobs:
           cd ../Firmware/
           rename -v  's/config/差异文件/' *.buildinfo || echo "好像config失败了……"
           rename -v 's/\.buildinfo/\.txt/' *.buildinfo || echo "rename失败了……"
-          rename -v 's/.*manifest$/已安装ipk.txt/' openwrt*manifest | echo "rename manifest失败了……"
+          rename -v 's/.*manifest$/已安装ipk.txt/' openwrt*manifest || echo "rename manifest失败了……"
+          rename -v "s/.*/$(TZ=CST-8 date +'%m.%d')_sysupgrade.bin/" *sysupgrade.bin || echo "rename sysupgrade失败了……"
+          rename -v "s/.*/$(TZ=CST-8 date +'%m.%d')_factory.bin/" *factory.bin || echo "rename factory失败了……"
           echo "输出默认配置"
           grep \^CONFIG_DEFAULT_ config.txt > ./默认安装.txt
           pwd
