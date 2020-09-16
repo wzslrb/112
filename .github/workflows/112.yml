@@ -230,22 +230,30 @@ jobs:
         name: sysupgrade_${{matrix.target}}
         path: ./sysupgrade/
 
-    - name: 上传固件到奶牛
+    - name: 上传固件transfer网盘
       if: (!cancelled()) && env.UPLOAD_FIRMWARE == 'true'
       run: |
-        curl -fsSL git.io/file-transfer | sh
-        ./transfer cow --block 2621440 -s -p 64 --no-progress ${FIRMWARE} 2>&1 | tee cowtransfer.log
-        echo "::warning file=cowtransfer.com::$(cat cowtransfer.log | grep https)"
+        echo "上传路径：${FIRMWARE}"
+        curl -fsSL https://git.io/file-transfer | sh
+        ./transfer cow --block 3600000 -s -p 4 --no-progress ${FIRMWARE} 2>&1 | tee cowtransfer.log
+        echo "::warning file=下载路径::$(cat cowtransfer.log | grep https)"
         mv cowtransfer.log ./other/
-      
-    - name: 上传固件到WeTransfer
-      if: env.UPLOAD_FIRMWARE == 'true' && (!cancelled())
-      run: |
-        curl -fsSL git.io/file-transfer | sh
-        ./transfer wet -s -p 16 --no-progress ${FIRMWARE} 2>&1 | tee wetransfer.log
-        echo "::warning file=wetransfer.com::$(cat wetransfer.log | grep https)"
+        ./transfer wet -s -p 4 --no-progress ${FIRMWARE} 2>&1 | tee wetransfer.log
+        echo "::warning file=下载路径::$(cat wetransfer.log | grep https)"
         mv wetransfer.log ./other/
-
+        ./transfer tmp -s -p 4 --no-progress ${FIRMWARE} 2>&1 | tee tmp.log
+        echo "::warning file=下载路径::$(cat tmp.log | grep https)"
+        mv tmp.log ./other/
+        ./transfer cat -s -p 4 --no-progress ${FIRMWARE} 2>&1 | tee CatBox.log
+        echo "::warning file=下载路径::$(cat CatBox.log | grep https)"
+        mv CatBox.log ./other/
+        ./transfer arp -s -p 4 --no-progress ${FIRMWARE} 2>&1 | tee arp.log
+        echo "::warning file=下载路径::$(cat arp.log | grep https)"
+        mv arp.log ./other/
+        ./transfer vim -s -p 4 --no-progress ${FIRMWARE} 2>&1 | tee vim.log
+        echo "::warning file=下载路径::$(cat vim.log | grep https)"
+        mv vim.log ./other/
+       
     - name: 上传其他文件
       if: (!cancelled())
       uses: actions/upload-artifact@main
