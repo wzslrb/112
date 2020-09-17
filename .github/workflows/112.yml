@@ -56,14 +56,6 @@ jobs:
       run: |
         rename -n 's/\./666/' .github || echo "???????"
         echo "测试 $(TZ=CST-8 date +'%m.%d')"
-        curl -fsSL https://git.io/file-transfer | sh
-        ./transfer cow --help
-        ./transfer wet --help
-        ./transfer tmp --help
-        ./transfer cat --help
-        ./transfer arp --help
-        ./transfer vim --help
-        exit 2
         /bin/bash ./init.sh
         echo "读取 Settings.ini"
         source "${GITHUB_WORKSPACE}/user/${{matrix.target}}/settings.ini"
@@ -243,15 +235,13 @@ jobs:
       run: |
         echo "上传路径：${FIRMWARE}"
         curl -fsSL https://git.io/file-transfer | sh
-        ./transfer cow --help
-        ./transfer wet --help
+        ./transfer cow -s --no-progress ${FIRMWARE}/ 2>&1 | tee cow.log
+        echo "::warning file=下载路径::$(cat cow.log | grep https)"
+        mv cow.log ./other/
+        ./transfer wet -s --no-progress ${FIRMWARE}/ 2>&1 | tee wet.log
+        echo "::warning file=下载路径::$(cat wet.log | grep https)"
+        mv wet.log ./other/
 
-        ./transfer tmp --help
-        ./transfer cat --help
-        ./transfer arp --help
-        ./transfer vim --help
-
-       
     - name: 上传其他文件
       if: (!cancelled())
       uses: actions/upload-artifact@main
