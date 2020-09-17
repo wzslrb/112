@@ -151,8 +151,8 @@ jobs:
       id: compile
       run: |
         cd openwrt
-        echo 复制_temp ../other/
-        cp -rfp /home/runner/work/_* ../other/
+        #echo 复制_temp ../other/
+        #cp -rfp /home/runner/work/_* ../other/
         sync
         #echo "先编译这个……"
         #make package/feeds/luci/luci-base/compile V=99
@@ -209,7 +209,7 @@ jobs:
           echo "ls -l ../sysupgrade/"
           ls -l ../sysupgrade/
           mkdir -p ../other/
-          find . -maxdepth 1 -type f -not -name "*.bin" -exec cp {} ../other/ \;
+          find . -maxdepth 1 -type f -not -name "*.bin" -exec mv -f {} ../other/ \;
           echo 复制uci-defaults ../other/
           cp -rfp ../openwrt/staging_dir/target-mipsel_24kc_musl/root-ramips/etc/uci-defaults ../other/ || echo "出错了"
           echo "ls -l ../other/"
