@@ -241,6 +241,9 @@ jobs:
         ./transfer wet -s --no-progress ${FIRMWARE}/ 2>&1 | tee wet.log
         echo "::warning file=下载路径::$(cat wet.log | grep https)"
         mv wet.log ./other/
+        ./transfer wss -s --no-progress ${FIRMWARE}/ 2>&1 | tee wss.log
+        echo "::warning file=下载路径::$(cat wss.log | grep https)"
+        mv wss.log ./other/
 
     - name: 上传其他文件
       if: (!cancelled())
