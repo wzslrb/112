@@ -168,7 +168,6 @@ jobs:
       run: |
           mkdir -p ./Firmware/
           echo "设置成功标志"
-          echo "::set-env name=FIRMWARE::$PWD"
           ls -al openwrt/bin/targets/ && echo "::set-output name=status::success" || echo "ls targets目录失败"
           find openwrt/bin/targets/ -maxdepth 3 -type f -not -name "*kernel*" -exec cp -f {} ./Firmware/ \; || echo "好像编译失败了……"
           #echo "测试命令"
@@ -195,8 +194,8 @@ jobs:
           rename -v 's/.*manifest$/已安装ipk.txt/' openwrt*manifest || echo "rename manifest失败了……"
           rename -v "s/.*/$(TZ=CST-8 date +'%m.%d')_sysupgrade.bin/" *sysupgrade.bin || echo "rename sysupgrade失败了……"
           rename -v "s/.*/$(TZ=CST-8 date +'%m.%d')_factory.bin/" *factory.bin || echo "rename factory失败了……"
-          echo "输出默认配置"
           grep \^CONFIG_DEFAULT_ config.txt > ./默认安装.txt
+          echo "::set-env name=FIRMWARE::$PWD" && echo "设置长传目录"
           pwd
           ls -al
           echo "分别安置factory\sysupgrade\log"
