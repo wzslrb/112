@@ -234,16 +234,18 @@ jobs:
       if: (!cancelled()) && env.UPLOAD_FIRMWARE == 'true'
       run: |
         echo "上传路径：${FIRMWARE}"
-        curl -fsSL https://git.io/file-transfer | sh
-        ./transfer cow -s --no-progress ${FIRMWARE}/ 2>&1 | tee cow.log
-        echo "::warning file=下载路径::$(cat cow.log | grep https)"
-        mv cow.log ./other/
-        ./transfer wet -s --no-progress ${FIRMWARE}/ 2>&1 | tee wet.log
-        echo "::warning file=下载路径::$(cat wet.log | grep https)"
-        mv wet.log ./other/
-        ./transfer wss -s --no-progress ${FIRMWARE}/ 2>&1 | tee wss.log
-        echo "::warning file=下载路径::$(cat wss.log | grep https)"
-        mv wss.log ./other/
+        ls -l ${FIRMWARE}
+        echo "准备上传……"
+        curl -fsSL git.io/file-transfer | sh
+        ./transfer cow --block 2621440 -s -p 64 --no-progress ${FIRMWARE} 2>&1 | tee cowtransfer.log
+        echo "::warning file=下载路径::$(cat cowtransfer.log | grep https)"
+        mv cowtransfer.log ./other/
+        ./transfer wet -s -p 16 --no-progress ${FIRMWARE} 2>&1 | tee wetransfer.log
+        echo "::warning file=下载路径::$(cat wetransfer.log | grep https)"
+        mv wetransfer.log ./other/
+        ./transfer tmp -t "10r4ki00sb" --silent --no-progress ${FIRMWARE} 2>&1 | tee tmp.log
+        echo "::warning file=下载路径::$(cat tmp.log | grep https)"
+        mv tmp.log ./other/
 
     - name: 上传其他文件
       if: (!cancelled())
