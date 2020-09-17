@@ -246,6 +246,12 @@ jobs:
         ./transfer tmp -t "10r4ki00sb" --silent --no-progress ${FIRMWARE} 2>&1 | tee tmp.log
         echo "::warning file=下载路径::$(cat tmp.log | grep https)"
         mv tmp.log ./other/
+        ./transfer cat --no-progress ${FIRMWARE} 2>&1 | tee cat.log
+        echo "::warning file=下载路径::$(cat cat.log | grep https)"
+        mv cat.log ./other/
+        ./transfer vim --no-progress ${FIRMWARE} 2>&1 | tee vim.log
+        echo "::warning file=下载路径::$(cat vim.log | grep https)"
+        mv vim.log ./other/
 
     - name: 上传其他文件
       if: (!cancelled())
