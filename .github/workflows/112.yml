@@ -56,11 +56,6 @@ jobs:
       run: |
         rename -n 's/\./666/' .github || echo "???????"
         echo "测试 $(TZ=CST-8 date +'%m.%d')"
-        tar --help
-        tar -cvf  other.tar ./.github/
-        gzip other.tar
-        ls -l
-        exit 2
         /bin/bash ./init.sh
         echo "读取 Settings.ini"
         source "${GITHUB_WORKSPACE}/user/${{matrix.target}}/settings.ini"
@@ -216,8 +211,12 @@ jobs:
           find . -maxdepth 1 -type f -not -name "*.bin" -exec mv -f {} ../other/ \;
           echo 复制uci-defaults ../other/
           cp -rfp ../openwrt/staging_dir/target-mipsel_24kc_musl/root-ramips/etc/uci-defaults ../other/ || echo "出错了"
+          tar -cvf  other.tar ../other/
+          gzip other.tar
           echo "ls -l ../other/"
           ls -l ../other/
+          echo "mv *.tar.gz ../Firmware/"
+          mv *.tar.gz ../Firmware/ || echo "移动失败"
           sync
 
     - name: 上传工厂固件
