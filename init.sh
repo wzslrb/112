@@ -77,9 +77,10 @@ cd ${GITHUB_WORKSPACE}/user/common
 sed -i 's/.*serverchan.*/# &/g' custom.sh
 sed -i 's/.*OpenClash.*/# &/g' custom.sh
 #强迫症 删除无用文件
-rm -f ${OLDPWD}/user/common/files/common
-rm -f ${OLDPWD}/user/lean-mt7621/files/ipq40xx
+rm -f ${GITHUB_WORKSPACE}/user/common/files/common
+rm -f ${GITHUB_WORKSPACE}/user/lean-mt7621/files/ipq40xx
 echo "删除完成,备份关键文件"
-cp -rfp ${OLDPWD}/*.sh ${OLDPWD}/other/
-cp -rfp ${OLDPWD}/.github/workflows/*.yml ${OLDPWD}/other/
+cp -rfp ${GITHUB_WORKSPACE}/*.sh ${GITHUB_WORKSPACE}/other/
+cp -rfp ${GITHUB_WORKSPACE}/.github/workflows/*.yml ${GITHUB_WORKSPACE}/other/
+ls -l ${GITHUB_WORKSPACE}/other/
 exit 0
