@@ -199,14 +199,6 @@ jobs:
           pwd
           ls -al
           echo "分别安置factory\sysupgrade\log"
-          mkdir -p ../factory/
-          cp -f *factory.bin ../factory/ || echo "没有*factory.bin"
-          echo "ls -l ../factory/"
-          ls -l ../factory/
-          mkdir -p ../sysupgrade/
-          cp -f *sysupgrade.bin ../sysupgrade/ || echo "没有*sysupgrade.bin"
-          echo "ls -l ../sysupgrade/"
-          ls -l ../sysupgrade/
           mkdir -p ../other/
           find . -maxdepth 1 -type f -not -name "*.bin" -exec mv -f {} ../other/ \;
           echo 复制uci-defaults ../other/
@@ -218,6 +210,16 @@ jobs:
           echo "ls -l"
           pwd
           ls -l
+          
+          mkdir -p ../factory/
+          cp -f *factory.bin ../factory/ || echo "没有*factory.bin"
+          echo "ls -l ../factory/"
+          ls -l ../factory/
+          
+          mkdir -p ../sysupgrade/
+          cp -f *sysupgrade.bin ../sysupgrade/ || echo "没有*sysupgrade.bin"
+          echo "ls -l ../sysupgrade/"
+          ls -l ../sysupgrade/
           sync
 
     - name: 上传工厂固件
