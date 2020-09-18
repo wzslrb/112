@@ -168,7 +168,7 @@ jobs:
       run: |
           mkdir -p ./Firmware/
           echo "设置成功标志"
-          ls -al openwrt/bin/targets/ && echo "::set-output name=status::success" || echo "ls targets目录失败"
+          ls openwrt/bin/targets/ && echo "::set-output name=status::success" || echo "ls targets目录失败"
           find openwrt/bin/targets/ -maxdepth 3 -type f -not -name "*kernel*" -exec cp -f {} ./Firmware/ \; || echo "好像编译失败了……"
           #echo "测试命令"
           #find openwrt/bin/targets/ -type f -not -name "*kernel*" | grep -v "/package"
@@ -200,11 +200,11 @@ jobs:
           ls -al
           echo "分别安置factory\sysupgrade\log"
           mkdir -p ../factory/
-          cp -f *factory.bin ../factory/
+          cp -f *factory.bin ../factory/ || echo "没有*factory.bin"
           echo "ls -l ../factory/"
           ls -l ../factory/
           mkdir -p ../sysupgrade/
-          cp -f *sysupgrade.bin ../sysupgrade/
+          cp -f *sysupgrade.bin ../sysupgrade/ || echo "没有*sysupgrade.bin"
           echo "ls -l ../sysupgrade/"
           ls -l ../sysupgrade/
           mkdir -p ../other/
