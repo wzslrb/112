@@ -56,7 +56,7 @@ jobs:
       run: |
         rename -n 's/\./666/' .github || echo "???????"
         echo "测试 $(TZ=CST-8 date +'%m.%d')"
-        tar
+        tar --help
         tar -cvf  other.tar ./.github/
         gzip other.tar
         ls -l
