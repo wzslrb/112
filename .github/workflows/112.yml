@@ -215,8 +215,8 @@ jobs:
           gzip other.tar
           echo "ls -l ../other/"
           ls -l ../other/
-          echo "mv *.tar.gz ../Firmware/"
-          mv *.tar.gz ../Firmware/ || echo "移动失败"
+          echo "ls -l"
+          ls -l
           sync
 
     - name: 上传工厂固件
