@@ -54,8 +54,8 @@ sed -i "/.*wget-nossl.*=m/s/=m/=y/g" .config
 sed -i "/.*tree.*=m/s/=m/=y/g" .config
 sed -i "/.*lscpu.*=m/s/=m/=y/g" .config
 sed -i "/.*lsof.*=m/s/=m/=y/g" .config
-sed -i "/.*lsof.*=m/s/=m/=y/g" .config
-#sed -i "/.*bash.*=m/s/=m/=y/g" .config
+sed -i "/.*lrzsz.*=m/s/=m/=y/g" .config
+sed -i "/.*bash.*=m/s/=m/=y/g" .config
 grep -q "^[^#].*_rename=" .config || sed -i '$a CONFIG_PACKAGE_rename=y' .config
 sed -i '$a CONFIG_PACKAGE_diffutils=y' .config
 sed -i '$a CONFIG_PACKAGE_patch=y' .config
