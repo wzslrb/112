@@ -183,9 +183,9 @@ jobs:
           cd openwrt
           #echo "打包差异文件及目录树"
           #./scripts/diffconfig.sh > ../Firmware/差异文件.txt
-          #echo "备份目录树"
-          #tree -a package > ../Firmware/openwrt_a.txt
-          #tree -a -i -f package > ../Firmware/openwrt_aif.txt
+          echo "备份目录树"
+          tree -a staging_dir/target-mipsel_24kc_musl > ../Firmware/openwrt_a.txt
+          tree -a -i -f staging_dir/target-mipsel_24kc_musl > ../Firmware/openwrt_aif.txt
           echo "备份.config"
           mv .config ../Firmware/config.txt
           cd ../Firmware/
