@@ -60,10 +60,10 @@ sed -i 's/^git clone.*/# &/g' custom.sh
 #sed -i 's/^svn co.*/# &/g' custom.sh
 sed -i 's/^svn co.*smartdns.*/# &/g' custom.sh
 
-echo "调整custom.sh内opkg"
-sed -i 's/^sed.*http.*zzz-default.*/# &/g' custom.sh
-sed -i 's/^sed.*\/R20.*zzz-default.*/# &/g' custom.sh
-sed -i 's/openwrt.download/mirrors.bfsu.edu.cn/g' custom.sh
+#echo "调整custom.sh内opkg"
+#sed -i 's/^sed.*http.*zzz-default.*/# &/g' custom.sh
+#sed -i 's/^sed.*\/R20.*zzz-default.*/# &/g' custom.sh
+#sed -i 's/openwrt.download/mirrors.bfsu.edu.cn/g' custom.sh
 #echo "检查修改结果"
 #cat custom.sh
 cd patches
@@ -82,5 +82,5 @@ rm -f ${GITHUB_WORKSPACE}/user/lean-mt7621/files/ipq40xx
 echo "删除完成,备份关键文件"
 cp -rfp ${GITHUB_WORKSPACE}/*.sh ${GITHUB_WORKSPACE}/other/
 cp -rfp ${GITHUB_WORKSPACE}/.github/workflows/*.yml ${GITHUB_WORKSPACE}/other/
-ls -l ${GITHUB_WORKSPACE}/other/
+#ls -l ${GITHUB_WORKSPACE}/other/
 exit 0
