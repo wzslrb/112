@@ -156,8 +156,8 @@ jobs:
         sync
         #echo "先编译这个……"
         #make package/feeds/luci/luci-base/compile V=99
-        echo -e "$(nproc) 线程编译"
-        make -j3 V=99 2>&1 | tee ../other/build.log | grep -i error || make -j1 V=s 2>&1 | tee -ai ../other/build.log | grep -i error
+        echo -e "$((nproc+1)) 线程编译 2>&1 | tee -ai ../other/build.log | grep -i error"
+        make -j3 || make -j1 V=s
 
     - name: 检查磁盘空间
       if: (!cancelled())
@@ -183,9 +183,9 @@ jobs:
           cd openwrt
           #echo "打包差异文件及目录树"
           #./scripts/diffconfig.sh > ../Firmware/差异文件.txt
-          echo "备份目录树"
-          tree -a staging_dir/target-mipsel_24kc_musl > ../Firmware/openwrt_a.txt
-          tree -a -i -f staging_dir/target-mipsel_24kc_musl > ../Firmware/openwrt_aif.txt
+          #echo "备份目录树"
+          #tree -a staging_dir/target-mipsel_24kc_musl > ../Firmware/openwrt_a.txt
+          #tree -a -i -f staging_dir/target-mipsel_24kc_musl > ../Firmware/openwrt_aif.txt
           echo "备份.config"
           mv .config ../Firmware/config.txt
           cd ../Firmware/
@@ -201,15 +201,11 @@ jobs:
           echo "分别安置factory\sysupgrade\log"
           mkdir -p ../other/
           find . -maxdepth 1 -type f -not -name "*.bin" -exec mv -f {} ../other/ \;
-          echo 复制uci-defaults ../other/
-          cp -rfp ../openwrt/staging_dir/target-mipsel_24kc_musl/root-ramips/etc/uci-defaults ../other/ >/dev/null || echo "出错了"
+          echo "打包 ../other/"
+          #cp -rfp ../openwrt/staging_dir/target-mipsel_24kc_musl/root-ramips/etc/uci-defaults ../other/ >/dev/null || echo "出错了"
           tar -cvf  other.tar ../other/ >/dev/null
-          gzip other.tar
-          echo "ls -l ../other/"
+          gzip other.tar >/dev/null
           ls -l ../other/
-          echo "ls -l"
-          pwd
-          ls -l
           
           mkdir -p ../factory/
           cp -f *factory.bin ../factory/ || echo "没有*factory.bin"
