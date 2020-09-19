@@ -82,7 +82,7 @@ sed -i "/^CONFIG.*_INCLUDE_.*=.*/s/\(.*\)=.*/# \1 is not set/g" .config
 #sed -i "/^CONFIG.*_INCLUDE_.*=.*/{s/^/# &/g;s/=.*/ is not set/g;q}" .config 
 #COMMENT
 #echo "查看成果……cat .config"
-cat .config
+#cat .config
 cat .config > ../other/diy的config.txt
 env | tee ../other/env环境变量.txt >/dev/null
 
