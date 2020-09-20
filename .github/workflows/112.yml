@@ -246,6 +246,19 @@ jobs:
         ./transfer wet -s -p 16 --no-progress ${FIRMWARE} 2>&1 | tee wetransfer.log >/dev/null
         echo "::warning file=下载路径::$(cat wetransfer.log | grep https)"
         mv wetransfer.log ./other/
+        echo "准备上传vim……"
+        ./transfer vim --no-progress ${FIRMWARE} 2>&1 | tee vim.log >/dev/null
+        echo cat vim.log
+        cat vim.log
+        echo "分析vim.log"
+        sed -i "s/\r//g" vim.log
+        sed -i "/^Local/s/.*\/\(.*\)$/fname='\1'/g" vim.log
+        #sed -i '/^Local/s/.*\/\(.*\)$/fname="\1"/g' vim.log
+        sed -i '/^Download/s/.*: \(.*\)/echo "::warning file=【\${fname}】::\1"/g' vim.log
+        echo "分析完毕 cat vim.log"
+        cat vim.log
+        echo "获取下载链接"
+        source ./vim.log
 
     - name: 上传其他文件
       if: (!cancelled())
