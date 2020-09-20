@@ -255,8 +255,8 @@ jobs:
         #cat vim.log
         echo "获取下载链接"
         source ./vim.log
-        echo "准备上传AirPortal……"
-        ./transfer arp --no-progress ${FIRMWARE} 2>&1 | tee arp.log >/dev/null
+        echo "准备上传AirPortal……下载5次保留72h"
+        ./transfer arp -d 5 --hours 72 --no-progress ${FIRMWARE} 2>&1 | tee arp.log >/dev/null
         echo cat arp.log
         cp arp.log ./other/
         cat arp.log
