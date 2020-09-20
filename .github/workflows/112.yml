@@ -168,7 +168,7 @@ jobs:
       run: |
           mkdir -p ./Firmware/
           echo "设置成功标志"
-          ls openwrt/bin/targets/ && echo "::set-output name=status::success" || echo "ls targets目录失败"
+          ls openwrt/bin/targets/ || echo "ls targets目录失败"
           find openwrt/bin/targets/ -maxdepth 3 -type f -not -name "*kernel*" -exec cp -f {} ./Firmware/ \; || echo "好像编译失败了……"
           #echo "测试命令"
           #find openwrt/bin/targets/ -type f -not -name "*kernel*" | grep -v "/package"
@@ -176,10 +176,6 @@ jobs:
           #find openwrt/bin/targets/ -maxdepth 3 -type f -not -name "*kernel*"
           echo "准备……"
           #find openwrt/bin/targets/ -name "*squashfs*bin*" | xargs -i cp {} ./Firmware/
-          #find openwrt/bin/targets/ -name "*config.buildinfo*" | xargs -i cp {} ./Firmware/
-          #find openwrt/bin/targets/ -name "*feeds.buildinfo*" | xargs -i cp -f {} ./Firmware/
-          #find openwrt/bin/targets/ -name "*sha256sums*" | xargs -i cp -f {} ./Firmware/
-          #find openwrt/bin/targets/ -name "*version.buildinfo*" | xargs -i cp -f {} ./Firmware/
           cd openwrt
           #echo "打包差异文件及目录树"
           #./scripts/diffconfig.sh > ../Firmware/差异文件.txt
@@ -197,7 +193,7 @@ jobs:
           grep \^CONFIG_DEFAULT_ config.txt > ./默认安装.txt
           echo "::set-env name=FIRMWARE::$PWD" && echo "设置上传目录"
           pwd
-          ls -al
+          #ls -al
           echo "分别安置factory\sysupgrade\log"
           mkdir -p ../other/
           find . -maxdepth 1 -type f -not -name "*.bin" -exec mv -f {} ../other/ \;
@@ -205,7 +201,7 @@ jobs:
           #cp -rfp ../openwrt/staging_dir/target-mipsel_24kc_musl/root-ramips/etc/uci-defaults ../other/ >/dev/null || echo "出错了"
           tar -cvf  other.tar ../other/ >/dev/null
           gzip other.tar >/dev/null
-          ls -l ../other/
+          #ls -l ../other/
           
           mkdir -p ../factory/
           cp -f *factory.bin ../factory/ || echo "没有*factory.bin"
@@ -239,9 +235,9 @@ jobs:
         ls -l ${FIRMWARE}
         echo "准备上传cow……"
         curl -fsSL git.io/file-transfer | sh
-        ./transfer cow --block 2621440 -s -p 64 --no-progress ${FIRMWARE} 2>&1 | tee cowtransfer.log >/dev/null
-        echo "::warning file=下载路径::$(cat cowtransfer.log | grep https)"
-        mv cowtransfer.log ./other/
+        #./transfer cow --block 2621440 -s -p 64 --no-progress ${FIRMWARE} 2>&1 | tee cowtransfer.log >/dev/null
+        #echo "::warning file=下载路径::$(cat cowtransfer.log | grep https)"
+        #mv cowtransfer.log ./other/
         echo "准备上传wet……"
         ./transfer wet -s -p 16 --no-progress ${FIRMWARE} 2>&1 | tee wetransfer.log >/dev/null
         echo "::warning file=下载路径::$(cat wetransfer.log | grep https)"
@@ -249,16 +245,30 @@ jobs:
         echo "准备上传vim……"
         ./transfer vim --no-progress ${FIRMWARE} 2>&1 | tee vim.log >/dev/null
         echo cat vim.log
-        cat vim.log
+        cp vim.log ./other/
         echo "分析vim.log"
         sed -i "s/\r//g" vim.log
         sed -i "/^Local/s/.*\/\(.*\)$/fname='\1'/g" vim.log
         #sed -i '/^Local/s/.*\/\(.*\)$/fname="\1"/g' vim.log
         sed -i '/^Download/s/.*: \(.*\)/echo "::warning file=【\${fname}】::\1"/g' vim.log
         echo "分析完毕 cat vim.log"
-        cat vim.log
+        #cat vim.log
         echo "获取下载链接"
         source ./vim.log
+        echo "准备上传AirPortal……"
+        ./transfer arp --no-progress ${FIRMWARE} 2>&1 | tee arp.log >/dev/null
+        echo cat arp.log
+        cp arp.log ./other/
+        cat arp.log
+        echo "分析arp.log"
+        sed -i "s/\r//g" arp.log
+        #sed -i "/^Local/s/.*\/\(.*\)$/fname='\1'/g" arp.log
+        sed -i '/^Local/s/.*\/\(.*\)$/fname="\1"/g' arp.log
+        sed -i '/^Download/s/.*: \(.*\)/echo "::warning file=【\${fname}】::\1"/g' arp.log
+        echo "分析完毕 cat arp.log"
+        cat arp.log
+        echo "获取下载链接"
+        source ./arp.log
 
     - name: 上传其他文件
       if: (!cancelled())
