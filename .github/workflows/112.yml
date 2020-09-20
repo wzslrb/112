@@ -76,6 +76,7 @@ jobs:
     - name: 应用补丁
       run: | 
         echo "应用补丁……"
+        find . -type f -name "99-default-settings"
         if [ -n "$(ls -A "user/common/patches" 2>/dev/null)" ]; then
         (
           find "user/common/patches" -type f -name '*.patch' -print0 | sort -z | xargs -I % -t -0 -n 1 sh -c "cat '%'  | patch -d 'openwrt' -p0 --forward"
@@ -100,7 +101,11 @@ jobs:
 
     - name: 自定义设置
       run: |
-         cd openwrt && mv ../user/${{matrix.target}}/config.diff .config && cd .. 
+         cd openwrt
+         echo "::warning file=测试通知::<a href=\"control.html\">ttttttt</a><br>正在搜索"
+         find . -type f -name "99-default-settings"
+         exit 2
+         mv ../user/${{matrix.target}}/config.diff .config && cd .. 
          echo "Apply files..."
          if [ -n "$(ls -A "user/common/files" 2>/dev/null)" ]; then
          cp -r -f user/common/files/* openwrt/package/base-files/files/
@@ -255,8 +260,8 @@ jobs:
         #cat vim.log
         echo "获取下载链接"
         source ./vim.log
-        echo "准备上传AirPortal……下载5次保留72h"
-        ./transfer arp -d 5 --hours 72 --no-progress ${FIRMWARE} 2>&1 | tee arp.log >/dev/null
+        echo "准备上传AirPortal……下载2次保留72h"
+        ./transfer arp --hours 72 --no-progress ${FIRMWARE} 2>&1 | tee arp.log >/dev/null
         echo cat arp.log
         cp arp.log ./other/
         cat arp.log
