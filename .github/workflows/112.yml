@@ -254,7 +254,7 @@ jobs:
         #cat vim.log
         echo "获取下载链接"
         source ./vim.log
-        echo "准备上传AirPortal……下载2次保留72h"
+        echo "准备上传AirPortal……"
         ./transfer arp --no-progress ${FIRMWARE} 2>&1 | tee arp.log >/dev/null
         echo cat arp.log
         cp arp.log ./other/
@@ -268,6 +268,20 @@ jobs:
         cat arp.log
         echo "获取下载链接"
         source ./arp.log
+        echo "准备上传文叔叔……"
+        ./transfer wss -s --no-progress ${FIRMWARE} 2>&1 | tee wss.log >/dev/null
+        echo cat wss.log
+        cp wss.log ./other/
+        cat wss.log
+        echo "分析wss.log"
+        sed -i "s/\r//g" wss.log
+        #sed -i "/^Local/s/.*\/\(.*\)$/fname='\1'/g" wss.log
+        sed -i '/^Local/s/.*\/\(.*\)$/fname="\1"/g' wss.log
+        sed -i '/^Download/s/.*: \(.*\)/echo "::warning file=【文叔叔】\${fname}::\1"/g' wss.log
+        echo "分析完毕 cat wss.log"
+        cat wss.log
+        echo "获取下载链接"
+        source ./wss.log
 
     - name: 上传其他文件
       if: (!cancelled())
