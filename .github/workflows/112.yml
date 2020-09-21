@@ -43,6 +43,11 @@ jobs:
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
+        echo "::warning file=app.js,line=1,col=5::1Missi\nng semi\\ncolon5"
+        echo "::warning file=app.js,line=5,col=1::5Missi\nng semi\\ncolon1"
+        echo "::error file=app.js,line=10,col=15::Some10thing went wrong15"
+        echo "::error file=app.js,line=10,col=1::10Something\nwent\\nwrong1"
+        exit 2
         sudo rm -rf /swapfile /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
         sudo -E apt-get -qq update
         sudo -E apt-get -qq install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch python3 unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs git-core gcc-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler g++-multilib antlr3 gperf tree rename
@@ -56,14 +61,6 @@ jobs:
       run: |
         rename -n 's/\./666/' .github || echo "???????"
         echo "测试 $(TZ=CST-8 date +'%m.%d')"
-        echo -e "::warning file=下\n载路\\n径::22\n222222222\\n22222222"
-        curl -fsSL git.io/file-transfer | sh
-        ./transfer 2>&1 >/dev/null
-        echo "测试"
-        ./transfer arp --no-progress ./diy.sh 2>&1
-        echo "测试--hours 72"
-        ./transfer arp --hours 72 --no-progress ./init.sh 2>&1
-        exit 2
         /bin/bash ./init.sh
         echo "读取 Settings.ini"
         source "${GITHUB_WORKSPACE}/user/${{matrix.target}}/settings.ini"
