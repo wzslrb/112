@@ -3,7 +3,8 @@
 #/home/runner/work/112/112/openwrt
 pwd
 sed -i '/^exit 0/i /bin/bash /root/zzz-default-settings.sh' package/lean/default-settings/files/zzz-default-settings
-grep "zzz-default-settings.sh" package/lean/default-settings/files/zzz-default-settings
+
+grep -q "zzz-default-settings.sh" package/lean/default-settings/files/zzz-default-settings && echo "插入初始化脚本" || && echo "错误：未插入初始化脚本"
 
 echo "修改固件大小 TRX_MAX_LEN"
 ls -l tools/firmware-utils/src/trx.c
