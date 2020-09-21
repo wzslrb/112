@@ -43,10 +43,7 @@ jobs:
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
-        echo "::warning file=app.js,line=1,col=5::1Missi\nng semi\\ncolon5"
-        echo "::warning file=app.js,line=5,col=1::5Missi\nng semi\\ncolon1"
-        echo "::error file=app.js,line=10,col=15::Some10thing went wrong15"
-        echo "::error file=app.js,line=10,col=1::10Something\nwent\\nwrong1"
+        echo "::warning file=app.js,line="测\\n试"::1Missi\nng semi\\ncolon5"
         exit 2
         sudo rm -rf /swapfile /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
         sudo -E apt-get -qq update
