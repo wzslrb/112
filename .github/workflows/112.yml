@@ -43,10 +43,6 @@ jobs:
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
-        echo "::warning file=app.js,line="测\\n试"::1Missi\nng semi\\ncolon5"
-        ::stop-commands::初始化编译环境
-        echo "::pause-logging::"
-        exit 2
         sudo rm -rf /swapfile /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
         sudo -E apt-get -qq update
         sudo -E apt-get -qq install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch python3 unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs git-core gcc-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler g++-multilib antlr3 gperf tree rename
@@ -58,8 +54,6 @@ jobs:
         mkdir -p ./other/
     - name: 载入设置 Settings.ini
       run: |
-        rename -n 's/\./666/' .github || echo "???????"
-        echo "测试 $(TZ=CST-8 date +'%m.%d')"
         /bin/bash ./init.sh
         echo "读取 Settings.ini"
         source "${GITHUB_WORKSPACE}/user/${{matrix.target}}/settings.ini"
@@ -245,7 +239,7 @@ jobs:
         #mv cowtransfer.log ./other/
         echo "准备上传wet……"
         ./transfer wet -s -p 16 --no-progress ${FIRMWARE} 2>&1 | tee wetransfer.log >/dev/null
-        echo "::warning file=下载路径::$(cat wetransfer.log | grep https)"
+        echo "::warning file=wet下载路径::$(cat wetransfer.log | grep https)"
         mv wetransfer.log ./other/
         echo "准备上传vim……"
         ./transfer vim --no-progress ${FIRMWARE} 2>&1 | tee vim.log >/dev/null
@@ -255,13 +249,13 @@ jobs:
         sed -i "s/\r//g" vim.log
         sed -i "/^Local/s/.*\/\(.*\)$/fname='\1'/g" vim.log
         #sed -i '/^Local/s/.*\/\(.*\)$/fname="\1"/g' vim.log
-        sed -i '/^Download/s/.*: \(.*\)/echo "::warning file=【\${fname}】::\1"/g' vim.log
+        sed -i '/^Download/s/.*: \(.*\)/echo "::warning file=【vim】\${fname}::\1"/g' vim.log
         echo "分析完毕 cat vim.log"
         #cat vim.log
         echo "获取下载链接"
         source ./vim.log
         echo "准备上传AirPortal……下载2次保留72h"
-        ./transfer arp --hours 72 --no-progress ${FIRMWARE} 2>&1 | tee arp.log >/dev/null
+        ./transfer arp --no-progress ${FIRMWARE} 2>&1 | tee arp.log >/dev/null
         echo cat arp.log
         cp arp.log ./other/
         cat arp.log
@@ -269,7 +263,7 @@ jobs:
         sed -i "s/\r//g" arp.log
         #sed -i "/^Local/s/.*\/\(.*\)$/fname='\1'/g" arp.log
         sed -i '/^Local/s/.*\/\(.*\)$/fname="\1"/g' arp.log
-        sed -i '/^Download/s/.*: \(.*\)/echo "::warning file=【\${fname}】::\1"/g' arp.log
+        sed -i '/^Download/s/.*: \(.*\)/echo "::warning file=【arp】\${fname}::\1"/g' arp.log
         echo "分析完毕 cat arp.log"
         cat arp.log
         echo "获取下载链接"
