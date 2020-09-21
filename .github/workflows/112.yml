@@ -43,6 +43,9 @@ jobs:
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
+        gg="test1"
+        echo -e "$gg = $(grep "^#!" 112.sh):\c"
+        echo 'ooooooo';
         sudo rm -rf /swapfile /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
         sudo -E apt-get -qq update
         sudo -E apt-get -qq install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch python3 unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs git-core gcc-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler g++-multilib antlr3 gperf tree rename
@@ -201,6 +204,7 @@ jobs:
           tar -cvf  other.tar ../other/ >/dev/null
           gzip other.tar >/dev/null
           #ls -l ../other/
+          [ ! -z "$(ls -A ../other/)" ] && echo "::set-env name=UPOTHER::true"
           
           mkdir -p ../factory/
           cp -f *factory.bin ../factory/ || echo "没有*factory.bin"
@@ -211,24 +215,25 @@ jobs:
           cp -f *sysupgrade.bin ../sysupgrade/ || echo "没有*sysupgrade.bin"
           echo "ls -l ../sysupgrade/"
           ls -l ../sysupgrade/
+          [ ! -z "$(ls -A ../sysupgrade/)" ] && echo "::set-env name=UPBIN::true"
           sync
 
     - name: 上传工厂固件
-      if: env.UPLOAD_FIRMWARE == 'true' && (!cancelled())
+      if: env.UPLOAD_FIRMWARE == 'true' && (!cancelled()) && env.UPBIN == 'true'
       uses: actions/upload-artifact@main
       with:
         name: factory_${{matrix.target}}
         path: ./factory/
 
     - name: 上传升级固件
-      if: (!cancelled()) && env.UPLOAD_FIRMWARE == 'true'
+      if: (!cancelled()) && env.UPLOAD_FIRMWARE == 'true' && env.UPBIN == 'true'
       uses: actions/upload-artifact@main
       with:
         name: sysupgrade_${{matrix.target}}
         path: ./sysupgrade/
 
     - name: 上传固件transfer网盘
-      if: (!cancelled()) && env.UPLOAD_FIRMWARE == 'true'
+      if: (!cancelled()) && env.UPLOAD_FIRMWARE == 'true' && env.UPBIN == 'true'
       run: |
         echo "上传路径：${FIRMWARE}"
         ls -l ${FIRMWARE}
@@ -284,7 +289,7 @@ jobs:
         source ./wss.log
 
     - name: 上传其他文件
-      if: (!cancelled())
+      if: (!cancelled()) && env.UPOTHER == 'true'
       uses: actions/upload-artifact@main
       with:
         name: other_${{matrix.target}}
