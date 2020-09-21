@@ -44,6 +44,8 @@ jobs:
         DEBIAN_FRONTEND: noninteractive
       run: |
         echo "::warning file=app.js,line="测\\n试"::1Missi\nng semi\\ncolon5"
+        ::stop-commands::初始化编译环境
+        echo "::pause-logging::"
         exit 2
         sudo rm -rf /swapfile /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
         sudo -E apt-get -qq update
