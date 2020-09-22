@@ -1,7 +1,13 @@
 #!/bin/bash
 
 #/home/runner/work/112/112/openwrt
+ls -l ..
 pwd
+echo "准备好的文件frp-0.34.0.tar.gz"
+mv -f ../dl/* ./dl/
+ls ./dl/
+rm -rf ../dl
+
 sed -i '/^exit 0/i /bin/bash /root/zzz-default-settings.sh' package/lean/default-settings/files/zzz-default-settings
 echo -e "插入初始化脚本:\c"
 grep "zzz-default-settings.sh" package/lean/default-settings/files/zzz-default-settings
