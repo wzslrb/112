@@ -159,7 +159,7 @@ jobs:
         #echo "先编译这个……"
         #make package/feeds/luci/luci-base/compile V=99
         echo -e "$((nproc+1)) 线程编译 2>&1 | tee -ai ../other/build.log | grep -i error"
-        make -j3 | tee ../other/build.log | grep -i error" >/dev/null || make -j1 V=s | tee -ai ../other/build.log | grep -i error" >/dev/null
+        make -j3 | tee ../other/build.log | grep -i "error" >/dev/null || make -j1 V=s | tee -ai ../other/build.log | grep -i "error" >/dev/null
 
     - name: 压缩编译日志
       if: (!cancelled())
