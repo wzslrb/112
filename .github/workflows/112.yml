@@ -210,30 +210,31 @@ jobs:
           cp -f *factory.bin ../factory/ >/dev/null 2>&1
           echo "ls -l ../factory/"
           ls -l ../factory/
-          [ ! -z "$(ls -A ../sysupgrade/)" ] && echo "::set-env name=UPBIN::true"
+          [ ! -z "$(ls -A ../sysupgrade/)" ] && echo "::set-env name=UPBIN_factory::true"
           
           mkdir -p ../sysupgrade/
           cp -f *sysupgrade.bin ../sysupgrade/ >/dev/null 2>&1
           echo "ls -l ../sysupgrade/"
           ls -l ../sysupgrade/
+          [ ! -z "$(ls -A ../sysupgrade/)" ] && echo "::set-env name=UPBIN_sysupgrade::true"
           sync
 
     - name: 上传工厂固件
-      if: env.UPLOAD_FIRMWARE == 'true' && (!cancelled()) && env.UPBIN == 'true'
+      if: env.UPLOAD_FIRMWARE == 'true' && (!cancelled()) && env.UPBIN_factory == 'true'
       uses: actions/upload-artifact@main
       with:
         name: factory_${{matrix.target}}
         path: ./factory/
 
     - name: 上传升级固件
-      if: (!cancelled()) && env.UPLOAD_FIRMWARE == 'true' && env.UPBIN == 'true'
+      if: (!cancelled()) && env.UPLOAD_FIRMWARE == 'true' && env.UPBIN_sysupgrade == 'true'
       uses: actions/upload-artifact@main
       with:
         name: sysupgrade_${{matrix.target}}
         path: ./sysupgrade/
 
     - name: 上传固件transfer网盘
-      if: (!cancelled()) && env.UPLOAD_FIRMWARE == 'true' && env.UPBIN == 'true'
+      if: (!cancelled()) && env.UPLOAD_FIRMWARE == 'true' && env.UPOTHER == 'true'
       run: |
         echo "上传路径：${FIRMWARE}"
         ls -l ${FIRMWARE}
