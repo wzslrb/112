@@ -169,6 +169,7 @@ jobs:
         tar -cvf  build.tar build.log >/dev/null 2>&1
         gzip build.tar >/dev/null 2>&1
         ls -l
+        rm -f build.log && echo "删除build.log"
         df -hT
 
     - name: 封装固件
@@ -203,14 +204,6 @@ jobs:
           pwd
           #ls -al
           echo "分别安置factory\sysupgrade\log"
-          mkdir -p ../other/
-          find . -maxdepth 1 -type f -not -name "*.bin" -exec mv -f {} ../other/ \;
-          echo "打包 ../other/"
-          #cp -rfp ../openwrt/staging_dir/target-mipsel_24kc_musl/root-ramips/etc/uci-defaults ../other/ >/dev/null || echo "出错了"
-          tar -cvf  other.tar ../other/ >/dev/null 2>&1
-          gzip other.tar >/dev/null 2>&1
-          #ls -l ../other/
-          [ ! -z "$(ls -A ../other/)" ] && echo "::set-env name=UPOTHER::true"
           
           mkdir -p ../factory/
           cp -f *factory.bin ../factory/ >/dev/null 2>&1
@@ -223,6 +216,14 @@ jobs:
           echo "ls -l ../sysupgrade/"
           ls -l ../sysupgrade/
           [ ! -z "$(ls -A ../sysupgrade/)" ] && echo "::set-env name=UPBIN_sysupgrade::true"
+          mkdir -p ../other/
+          find . -maxdepth 1 -type f -not -name "*.bin" -exec mv -f {} ../other/ \;
+          echo "打包 ../other/"
+          #cp -rfp ../openwrt/staging_dir/target-mipsel_24kc_musl/root-ramips/etc/uci-defaults ../other/ >/dev/null || echo "出错了"
+          tar -cvf  other.tar ../other/ || echo "tar???????????"
+          gzip other.tar || echo "gzip???????????"
+          #ls -l ../other/
+          [ ! -z "$(ls -A ../other/)" ] && echo "::set-env name=UPOTHER::true"
           sync
 
     - name: 上传工厂固件
