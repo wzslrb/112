@@ -209,13 +209,14 @@ jobs:
           cp -f *factory.bin ../factory/ >/dev/null 2>&1
           echo "ls -l ../factory/"
           ls -l ../factory/
-          [ ! -z "$(ls -A ../sysupgrade/)" ] && echo "::set-env name=UPBIN_factory::true"
+          [ ! -z "$(ls -A ../factory/)" ] && echo "::set-env name=UPBIN_factory::true"
           
           mkdir -p ../sysupgrade/
           cp -f *sysupgrade.bin ../sysupgrade/ >/dev/null 2>&1
           echo "ls -l ../sysupgrade/"
           ls -l ../sysupgrade/
           [ ! -z "$(ls -A ../sysupgrade/)" ] && echo "::set-env name=UPBIN_sysupgrade::true"
+
           mkdir -p ../other/
           find . -maxdepth 1 -type f -not -name "*.bin" -exec mv -f {} ../other/ \;
           echo "打包 ../other/"
@@ -246,7 +247,7 @@ jobs:
         echo "上传路径：${FIRMWARE}"
         ls -l ${FIRMWARE}
         echo "准备上传cow……"
-        curl -fsSL git.io/file-transfer | sh
+        curl -fsSL git.io/file-transfer | sh >/dev/null 2>&1
         #./transfer cow --block 2621440 -s -p 64 --no-progress ${FIRMWARE} 2>&1 | tee cowtransfer.log >/dev/null 2>&1
         #echo "::warning file=下载路径::$(cat cowtransfer.log | grep https)"
         #mv cowtransfer.log ./other/
