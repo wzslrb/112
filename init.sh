@@ -77,7 +77,7 @@ cd ${GITHUB_WORKSPACE}/user/common
 sed -i 's/.*serverchan.*/# &/g' custom.sh
 sed -i 's/.*OpenClash.*/# &/g' custom.sh
 sed -i '/feed-netkeeper/s/ -b openwrt-18.06//' custom.sh #去除出错分支
-sed -i '/^git clone/s/.*/& >\/dev\/null/' custom.sh   #禁止输出
+sed -i '/^git clone/s/.*/& >\/dev\/null 2>\&1/g' custom.sh   #禁止输出
 #强迫症 删除无用文件
 rm -f ${GITHUB_WORKSPACE}/user/common/files/common
 rm -f ${GITHUB_WORKSPACE}/user/lean-mt7621/files/ipq40xx
