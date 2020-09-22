@@ -161,9 +161,15 @@ jobs:
         echo -e "$((nproc+1)) 线程编译 2>&1 | tee -ai ../other/build.log | grep -i error"
         make -j3 | tee ../other/build.log | grep -i error" >/dev/null || make -j1 V=s | tee -ai ../other/build.log | grep -i error" >/dev/null
 
-    - name: 检查磁盘空间
+    - name: 压缩编译日志
       if: (!cancelled())
-      run: df -hT
+      run: |
+        cd other
+        [ ! -s build.log ] && echo "没有日志，跳过." && exit 0
+        tar -cvf  build.tar build.log >/dev/null 2>&1
+        gzip build.tar >/dev/null 2>&1
+        ls -l
+        df -hT
 
     - name: 封装固件
       if: (!cancelled())
