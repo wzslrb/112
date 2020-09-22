@@ -207,12 +207,12 @@ jobs:
 
           mkdir -p ../other/
           find . -maxdepth 1 -type f -not -name "*.bin" -exec mv -f {} ../other/ \;
+          [ ! -z "$(ls -A ../other/)" ] && echo "::set-env name=UPOTHER::true"
           echo "打包 ../other/"
           #cp -rfp ../openwrt/staging_dir/target-mipsel_24kc_musl/root-ramips/etc/uci-defaults ../other/ >/dev/null || echo "出错了"
           tar -cvf  other.tar ../other/ || echo "tar???????????"
           gzip other.tar || echo "gzip???????????"
           #ls -l ../other/
-          [ ! -z "$(ls -A ../other/)" ] && echo "::set-env name=UPOTHER::true"
 
           mkdir -p ../factory/
           cp -f *factory.bin ../factory/ >/dev/null 2>&1
@@ -248,56 +248,54 @@ jobs:
         ls -l ${FIRMWARE}
         echo "准备上传cow……"
         curl -fsSL git.io/file-transfer | sh >/dev/null 2>&1
-        #./transfer cow --block 2621440 -s -p 64 --no-progress ${FIRMWARE} 2>&1 | tee cowtransfer.log >/dev/null 2>&1
+        #./transfer cow --block 2621440 -s -p 64 --no-progress ${FIRMWARE} > cowtransfer.log
         #echo "::warning file=下载路径::$(cat cowtransfer.log | grep https)"
         #mv cowtransfer.log ./other/
         echo "准备上传wet……"
-        ./transfer wet -s -p 16 --no-progress ${FIRMWARE} 2>&1 | tee wetransfer.log >/dev/null
+        ./transfer wet -s -p 16 --no-progress ${FIRMWARE} > wetransfer.log
         echo "::warning file=wet下载路径::$(cat wetransfer.log | grep https)"
         mv wetransfer.log ./other/
+        
         echo "准备上传vim……"
-        ./transfer vim --no-progress ${FIRMWARE} 2>&1 | tee vim.log >/dev/null 2>&1
-        echo cat vim.log
+        ./transfer vim --no-progress ${FIRMWARE} > vim.log
         cp vim.log ./other/
-        echo "分析vim.log"
-        sed -i "s/\r//g" vim.log
-        sed -i "/^Local/s/.*\/\(.*\)$/fname='\1'/g" vim.log
-        #sed -i '/^Local/s/.*\/\(.*\)$/fname="\1"/g' vim.log
-        sed -i '/^Download/s/.*: \(.*\)/echo "::warning file=【vim】\${fname}::\1"/g' vim.log
-        echo "分析完毕 cat vim.log"
-        #cat vim.log
+        echo "分析log"
+        sed -r -n '/^Down|^Local/p' vim.log > 2.log
+        sed -i "s/\r//g" 2.log
+        sed -i "/^Local/s/.*\/\(.*\)$/fname='\1'/g" 2.log
+        #sed -i '/^Local/s/.*\/\(.*\)$/fname="\1"/g' 2.log
+        sed -i '/^Download/s/.*: \(.*\)/echo "::warning file=【vim】\${fname}::\1"/g' 2.log
+        echo "分析完毕 cat"
+        #cat 2.log
         echo "获取下载链接"
-        source ./vim.log
+        source ./2.log
+        
         echo "准备上传AirPortal……"
-        ./transfer arp --no-progress ${FIRMWARE} 2>&1 | tee arp.log >/dev/null 2>&1
-        echo cat arp.log
+        ./transfer arp --no-progress ${FIRMWARE} > arp.log
         cp arp.log ./other/
-        cat arp.log
         echo "分析arp.log"
-        sed -i "s/\r//g" arp.log
-        sed -i "/^fetching/d" arp.log   #删除fetching upload tickets...ok
-        #sed -i "/^Local/s/.*\/\(.*\)$/fname='\1'/g" arp.log
-        sed -i '/^Local/s/.*\/\(.*\)$/fname="\1"/g' arp.log
-        sed -i '/^Download/s/.*: \(.*\)/echo "::warning file=【arp】\${fname}::\1"/g' arp.log
-        echo "分析完毕 cat arp.log"
-        cat arp.log
+        sed -r -n '/^Down|^Local/p' arp.log > 2.log
+        sed -i "s/\r//g" 2.log
+        #sed -i "/^Local/s/.*\/\(.*\)$/fname='\1'/g" 2.log
+        sed -i '/^Local/s/.*\/\(.*\)$/fname="\1"/g' 2.log
+        sed -i '/^Download/s/.*: \(.*\)/echo "::warning file=【arp】\${fname}::\1"/g' 2.log
+        echo "分析完毕 cat"
         echo "获取下载链接"
-        source ./arp.log
+        source ./2.log
+
         echo "准备上传文叔叔……"
-        ./transfer wss -s --no-progress ${FIRMWARE} 2>&1 | tee wss.log >/dev/null 2>&1
-        echo cat wss.log
+        ./transfer wss -s --no-progress ${FIRMWARE} > wss.log
         cp wss.log ./other/
-        cat wss.log
         echo "分析wss.log"
-        sed -i "s/\r//g" wss.log
-        sed -i "/^fetching/d" arp.log   #删除fetching upload tickets...ok
-        #sed -i "/^Local/s/.*\/\(.*\)$/fname='\1'/g" wss.log
-        sed -i '/^Local/s/.*\/\(.*\)$/fname="\1"/g' wss.log
-        sed -i '/^Download/s/.*: \(.*\)/echo "::warning file=【文叔叔】\${fname}::\1"/g' wss.log
-        echo "分析完毕 cat wss.log"
-        cat wss.log
+        sed -r -n '/^Down|^Local/p' wss.log > 2.log
+        sed -i "s/\r//g" 2.log
+        #sed -i "/^Local/s/.*\/\(.*\)$/fname='\1'/g" 2.log
+        sed -i '/^Local/s/.*\/\(.*\)$/fname="\1"/g' 2.log
+        sed -i '/^Download/s/.*: \(.*\)/echo "::warning file=【文叔叔】\${fname}::\1"/g' 2.log
+        echo "分析完毕 cat"
+        cat 2.log
         echo "获取下载链接"
-        source ./wss.log
+        source ./2.log
 
     - name: 上传其他文件
       if: (!cancelled()) && env.UPOTHER == 'true'
