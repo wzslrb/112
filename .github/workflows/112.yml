@@ -213,8 +213,7 @@ jobs:
           [ ! -z "$(ls -A ../other/)" ] && echo "::set-env name=UPOTHER::true"
           echo "打包 ../other/"
           #cp -rfp ../openwrt/staging_dir/target-mipsel_24kc_musl/root-ramips/etc/uci-defaults ../other/ >/dev/null || echo "出错了"
-          tar -cvf  other.tar ../other/ || echo "tar???????????"
-          gzip other.tar || echo "gzip???????????"
+          7z a -t7z -r other.7z ../other/*
           #ls -l ../other/
 
           mkdir -p ../factory/
