@@ -35,7 +35,7 @@ sed -i "/.*fileassistant.*=m/s/=m/=y/g" .config
 
 ## SQM
 sed -i "/.*sqm.*=m/s/=m/=y/g" .config
-sed -i "/.*frpc.*=m/s/=m/=y/g" .config
+#sed -i "/.*frpc.*=m/s/=m/=y/g" .config
 sed -i "/.*aria2.*=m/s/=m/=y/g" .config
 sed -i "/.*ariang.*=m/s/=m/=y/g" .config
 sed -i "/.*webui-aria2.*=m/s/=m/=y/g" .config
