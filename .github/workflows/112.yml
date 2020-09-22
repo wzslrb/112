@@ -38,14 +38,14 @@ jobs:
       run: |
          date=$(date +%Y-%m-%d)
          echo "::set-env name=DATE::$date"
+         echo -e "测试命令grep= $(grep "^#!" ./diy.sh):\c"
+         pwd
+         ls -l
                  
     - name: 初始化编译环境
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
-        gg="test1"
-        echo -e "$gg = $(grep "^#!" 112.sh):\c"
-        echo 'ooooooo';
         sudo rm -rf /swapfile /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
         sudo -E apt-get -qq update
         sudo -E apt-get -qq install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch python3 unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs git-core gcc-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler g++-multilib antlr3 gperf tree rename
@@ -187,11 +187,11 @@ jobs:
           echo "备份.config"
           mv .config ../Firmware/config.txt
           cd ../Firmware/
-          rename -v  's/config/差异文件/' *.buildinfo || echo "好像config失败了……"
-          rename -v 's/\.buildinfo/\.txt/' *.buildinfo || echo "rename失败了……"
-          rename -v 's/.*manifest$/已安装ipk.txt/' openwrt*manifest || echo "rename manifest失败了……"
-          rename -v "s/.*/$(TZ=CST-8 date +'%m.%d')_sysupgrade.bin/" *sysupgrade.bin || echo "rename sysupgrade失败了……"
-          rename -v "s/.*/$(TZ=CST-8 date +'%m.%d')_factory.bin/" *factory.bin || echo "rename factory失败了……"
+          rename -v  's/config/差异文件/' *.buildinfo
+          rename -v 's/\.buildinfo/\.txt/' *.buildinfo
+          rename -v 's/.*manifest$/已安装ipk.txt/' openwrt*manifest
+          rename -v "s/.*/$(TZ=CST-8 date +'%m.%d')_sysupgrade.bin/" *sysupgrade.bin
+          rename -v "s/.*/$(TZ=CST-8 date +'%m.%d')_factory.bin/" *factory.bin
           grep \^CONFIG_DEFAULT_ config.txt > ./默认安装.txt
           echo "::set-env name=FIRMWARE::$PWD" && echo "设置上传目录"
           pwd
@@ -207,13 +207,13 @@ jobs:
           [ ! -z "$(ls -A ../other/)" ] && echo "::set-env name=UPOTHER::true"
           
           mkdir -p ../factory/
-          cp -f *factory.bin ../factory/ || echo "没有*factory.bin"
+          cp -f *factory.bin ../factory/ >/dev/null 2>&1
           echo "ls -l ../factory/"
           ls -l ../factory/
           [ ! -z "$(ls -A ../sysupgrade/)" ] && echo "::set-env name=UPBIN::true"
           
           mkdir -p ../sysupgrade/
-          cp -f *sysupgrade.bin ../sysupgrade/ || echo "没有*sysupgrade.bin"
+          cp -f *sysupgrade.bin ../sysupgrade/ >/dev/null 2>&1
           echo "ls -l ../sysupgrade/"
           ls -l ../sysupgrade/
           sync
