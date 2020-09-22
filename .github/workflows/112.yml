@@ -31,7 +31,7 @@ jobs:
         target: [lean-mt7621] #lean-x64,lean-ipq40xx,lean-mt7621,lean-rockchip,lienol-x64
     
     steps:
-    - name: 结帐
+    - name: wzslrb222
       uses: actions/checkout@v2
 
     - name: 设置日期
@@ -39,7 +39,7 @@ jobs:
          date=$(date +%Y-%m-%d)
          echo "::set-env name=DATE::$date"
          echo -e "测试命令grep= $(grep "^#!" ./diy.sh):\c"
-         pwd
+         echo -e "\n当前目录:$(pwd)"
          ls -l
                  
     - name: 初始化编译环境
