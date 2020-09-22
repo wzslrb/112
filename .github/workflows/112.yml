@@ -274,6 +274,7 @@ jobs:
         cat arp.log
         echo "分析arp.log"
         sed -i "s/\r//g" arp.log
+        sed -i "/^fetching/d" arp.log   #删除fetching upload tickets...ok
         #sed -i "/^Local/s/.*\/\(.*\)$/fname='\1'/g" arp.log
         sed -i '/^Local/s/.*\/\(.*\)$/fname="\1"/g' arp.log
         sed -i '/^Download/s/.*: \(.*\)/echo "::warning file=【arp】\${fname}::\1"/g' arp.log
@@ -288,6 +289,7 @@ jobs:
         cat wss.log
         echo "分析wss.log"
         sed -i "s/\r//g" wss.log
+        sed -i "/^fetching/d" arp.log   #删除fetching upload tickets...ok
         #sed -i "/^Local/s/.*\/\(.*\)$/fname='\1'/g" wss.log
         sed -i '/^Local/s/.*\/\(.*\)$/fname="\1"/g' wss.log
         sed -i '/^Download/s/.*: \(.*\)/echo "::warning file=【文叔叔】\${fname}::\1"/g' wss.log
