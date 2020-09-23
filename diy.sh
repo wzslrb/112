@@ -10,6 +10,9 @@ rm -rf ../dl
 sed -i '/^exit 0/i /bin/bash /root/zzz-default-settings.sh' package/lean/default-settings/files/zzz-default-settings
 echo -e "插入初始化脚本:\c"
 grep "zzz-default-settings.sh" package/lean/default-settings/files/zzz-default-settings
+#备份原distfeeds
+sed -i '/downloads.openwrt.org/i cp /etc/opkg/distfeeds.conf /etc/opkg/bak.conf' package/lean/default-settings/files/zzz-default-settings
+
 
 echo "修改固件大小 TRX_MAX_LEN"
 ls -l tools/firmware-utils/src/trx.c
