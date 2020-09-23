@@ -40,8 +40,6 @@ jobs:
          echo "::set-env name=DATE::$date"
          echo -e "测试命令grep= $(grep "^#!" ./diy.sh):\c"
          echo -e "\n当前目录:$(pwd)"
-         echo find 有无选项-quit
-         find --help
 
     - name: 初始化编译环境
       env:
