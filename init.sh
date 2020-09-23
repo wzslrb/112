@@ -21,10 +21,8 @@ mv user ..
 mv version ..
 echo "拷贝自定义文件"
 cd ../xf_b70/
-ls -l
 cp -rfp files ../user/lean-mt7621/
 mv dl ..
-ls -l ..
 echo "删除临时文件"
 cd ..
 rm -rf Action-Openwrt xf_b70
