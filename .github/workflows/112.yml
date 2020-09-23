@@ -41,9 +41,7 @@ jobs:
          echo -e "测试命令grep= $(grep "^#!" ./diy.sh):\c"
          echo -e "\n当前目录:$(pwd)"
          echo find 有无选项-quit
-         find
-         echo find 有无选项-quit
-         find . -maxdepth 1 -name '*.sh' -print -quit
+         find --help
 
     - name: 初始化编译环境
       env:
@@ -169,7 +167,7 @@ jobs:
       if: (!cancelled())
       run: |
         cd other
-        if test -n "$(find . -maxdepth 1 -name '*.log' -print)"
+        if test -n "$(find . -maxdepth 1 -name '*.log' -print -quit)"
         then {
         tar -cvf  编译日志.tar *.log >/dev/null 2>&1
         gzip 编译日志.tar >/dev/null 2>&1
