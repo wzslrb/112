@@ -1,12 +1,7 @@
 #!/bin/bash
 
 #/home/runner/work/112/112/openwrt
-pwd
-echo ls -l ..
-ls -l ..
-echo "准备好dl文件夹"
-mkdir -p dl
-ls
+pwd && mkdir -p dl
 echo "准备好的文件frp-0.34.0.tar.gz"
 mv -f ../dl/* ./dl/
 ls ./dl/
