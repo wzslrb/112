@@ -158,21 +158,19 @@ jobs:
         sync
         #echo "先编译这个……"
         #make package/feeds/luci/luci-base/compile V=99
-        echo -e "$((nproc+1)) 线程编译 2>&1 | tee -ai ../other/build.log | grep -i error"
-        make -j3 > ../other/makej3.log || {
-        echo -e "\n\n\n出错重新开始:make -j1 V=s\n\n"
-        make -j1 V=s > ../other/makej1vs.log
-        }
+        echo -e "$((nproc+1)) 线程编译 2>&1"
+        make -j3 > ../other/首次编译.log || make -j1 V=s > ../other/再次编译.log
+
 
     - name: 压缩编译日志
       if: (!cancelled())
       run: |
         cd other
-        [ ! -s build.log ] && echo "没有日志，跳过." && exit 0
-        tar -cvf  编译日志.tar make*.log >/dev/null 2>&1
+        [ ! -s 首次编译.log ] && echo "没有日志，跳过." && exit 0
+        tar -cvf  编译日志.tar *.log >/dev/null 2>&1
         gzip 编译日志.tar >/dev/null 2>&1
         ls -l
-        rm -f make*.log && echo "删除make*.log"
+        rm -f *.log && echo "删除*.log"
         df -hT
 
     - name: 封装固件
@@ -284,6 +282,8 @@ jobs:
         echo "分析完毕 cat"
         echo "获取下载链接"
         source ./2.log
+        
+        exit 0
 
         echo "准备上传文叔叔……"
         ./transfer wss -s --no-progress ${FIRMWARE} > wss.log
