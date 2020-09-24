@@ -83,6 +83,23 @@ sed -i "/CONFIG_MINIUPNPD_IGDv2/s/\(.*\)=.*/# \1 is not set/g" .config && echo "
 echo "其他的全部不打包"
 sed -i "/^CONFIG.*=m/s/\(.*\)=.*/# \1 is not set/g" .config
 sed -i "/^CONFIG.*_INCLUDE_.*=.*/s/\(.*\)=.*/# \1 is not set/g" .config
+
+#Error closing /dev/crypto: Bad file descriptor
+sed -i '$a\# CONFIG_OPENSSL_ENGINE_BUILTIN_DEVCRYPTO is not set' .config
+dump222(){			#定义函数多行注释
+CONFIG_PACKAGE_kmod-crypto-aead=y
+CONFIG_PACKAGE_kmod-crypto-arc4=y
+CONFIG_PACKAGE_kmod-crypto-authenc=y
+CONFIG_PACKAGE_kmod-crypto-crc32c=y
+CONFIG_PACKAGE_kmod-crypto-ecb=y
+CONFIG_PACKAGE_kmod-crypto-hash=y
+CONFIG_PACKAGE_kmod-crypto-manager=y
+CONFIG_PACKAGE_kmod-crypto-null=y
+CONFIG_PACKAGE_kmod-crypto-pcompress=y
+CONFIG_PACKAGE_kmod-crypto-sha1=y
+CONFIG_PACKAGE_kmod-crypto-user=y
+CONFIG_PACKAGE_kmod-cryptodev=y
+}
 #方法二
 #sed -i "/^CONFIG.*=m/{s/^/# &/g;s/=.*/ is not set/g;}" .config
 #sed -i "/^CONFIG.*_INCLUDE_.*=.*/{s/^/# &/g;s/=.*/ is not set/g;q}" .config 
