@@ -70,6 +70,8 @@ grep -q "^[^#].*_rename=" .config || sed -i '$a CONFIG_PACKAGE_rename=y' .config
 sed -i '$a CONFIG_PACKAGE_diffutils=y' .config
 sed -i '$a CONFIG_PACKAGE_patch=y' .config
 sed -i '$a\CONFIG_PACKAGE_sshpass=y' .config
+#互动的进程查看器
+sed -i '$a\CONFIG_PACKAGE_htop=y' .config
 
 # 主题
 sed -i "/.*luci-theme-freifunk-generic.*=m/s/=m/=y/g" .config
