@@ -251,15 +251,17 @@ jobs:
       run: |
         echo "上传路径：${FIRMWARE}"
         ls -l ${FIRMWARE}
-        echo "准备上传cow……"
         curl -fsSL git.io/file-transfer | sh >/dev/null 2>&1
+        
+        #echo "准备上传cow……"
         #./transfer cow --block 2621440 -s -p 64 --no-progress ${FIRMWARE} > cowtransfer.log
         #echo "::warning file=下载路径::$(cat cowtransfer.log | grep https)"
         #mv cowtransfer.log ./other/
-        echo "准备上传wet……"
-        ./transfer wet -s -p 16 --no-progress ${FIRMWARE} > wetransfer.log
-        echo "::warning file=wet下载路径::$(cat wetransfer.log | grep https)"
-        mv wetransfer.log ./other/
+        
+        #echo "准备上传wet……"
+        #./transfer wet -s -p 16 --no-progress ${FIRMWARE} > wetransfer.log
+        #echo "::warning file=wet下载路径::$(cat wetransfer.log | grep https)"
+        #mv wetransfer.log ./other/
         
         echo "准备上传vim……"
         ./transfer vim --no-progress ${FIRMWARE} > vim.log
