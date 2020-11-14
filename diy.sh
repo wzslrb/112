@@ -42,9 +42,9 @@ sed -i "/.*fileassistant.*=m/s/=m/=y/g" .config
 sed -i "/.*sqm.*=m/s/=m/=y/g" .config
 sed -i "/.*frpc.*=m/s/=m/=y/g" .config
 sed -i "/.*aria2.*=m/s/=m/=y/g" .config
-sed -i "/.*ariang.*=m/s/=m/=y/g" .config
-sed -i "/.*webui-aria2.*=m/s/=m/=y/g" .config
-grep -q "^[^#].*webui-aria2.*=" .config || sed -i '$a CONFIG_PACKAGE_webui-aria2=y' .config
+#sed -i "/.*ariang.*=m/s/=m/=y/g" .config
+#sed -i "/.*webui-aria2.*=m/s/=m/=y/g" .config
+#grep -q "^[^#].*webui-aria2.*=" .config || sed -i '$a CONFIG_PACKAGE_webui-aria2=y' .config
 sed -i "/.*vsftpd.*=m/s/=m/=y/g" .config
 
 #实时流量监测
