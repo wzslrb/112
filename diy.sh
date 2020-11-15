@@ -49,7 +49,7 @@ sed -i "/.*vsftpd.*=m/s/=m/=y/g" .config
 
 #实时流量监测
 sed -i "/.*nlbwmon.*=m/s/=m/=y/g" .config
-sed -i "/.*wrtbwmon.*=m/s/=m/=y/g" .config
+#sed -i "/.*wrtbwmon.*=m/s/=m/=y/g" .config
 
 sed -i "/.*-sfe.*=m/s/=m/=y/g" .config
 #ADG广告过滤
