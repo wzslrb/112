@@ -205,7 +205,7 @@ jobs:
           rename -v "s/.*/$(TZ=CST-8 date +'%m.%d')_sysupgrade.bin/" *sysupgrade.bin
           rename -v "s/.*/$(TZ=CST-8 date +'%m.%d')_factory.bin/" *factory.bin
           grep \^CONFIG_DEFAULT_ config.txt > ./默认安装.txt
-	  echo "FIRMWARE=$PWD" >> $GITHUB_ENV
+	  echo "FIRMWARE="$PWD >> $GITHUB_ENV
           pwd
           #ls -al
           echo "分别安置factory\sysupgrade\log"
