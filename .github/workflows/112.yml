@@ -37,8 +37,7 @@ jobs:
     - name: 设置日期
       run: |
          date=$(date +%Y-%m-%d)
-         echo "::set-env name=DATE::$date"
-         echo -e "测试命令grep= $(grep "^#!" ./diy.sh):\c"
+         echo "DATE=$date" >> $GITHUB_ENV
          echo -e "\n当前目录:$(pwd)"
 
     - name: 初始化编译环境
@@ -59,15 +58,15 @@ jobs:
         /bin/bash ./init.sh
         echo "读取 Settings.ini"
         source "${GITHUB_WORKSPACE}/user/${{matrix.target}}/settings.ini"
-        echo "::set-env name=REPO_URL::${REPO_URL}"
-        echo "::set-env name=REPO_BRANCH::${REPO_BRANCH}"
-        echo "::set-env name=UPLOAD_PACKAGES_DIR::${UPLOAD_PACKAGES_DIR}"
-        echo "::set-env name=UPLOAD_TARGETS_DIR::${UPLOAD_TARGETS_DIR}"        
-        echo "::set-env name=UPLOAD_FIRMWARE::${UPLOAD_FIRMWARE}"        
-        echo "::set-env name=UPLOAD_TO_ARTIFACTS::${UPLOAD_TO_ARTIFACTS}"
-        echo "::set-env name=UPLOAD_TO_REALEASE::${UPLOAD_TO_REALEASE}"
-        echo "::set-env name=UPLOAD_TO_COWTRANSFER::${UPLOAD_TO_COWTRANSFER}"       
-        echo "::set-env name=WECHAT_NOTIFICATION::${WECHAT_NOTIFICATION}"
+        echo "REPO_URL=${REPO_URL}" >> $GITHUB_ENV
+        echo "REPO_BRANCH=${REPO_BRANCH}" >> $GITHUB_ENV
+        echo "UPLOAD_PACKAGES_DIR=${UPLOAD_PACKAGES_DIR}" >> $GITHUB_ENV
+        echo "UPLOAD_TARGETS_DIR=${UPLOAD_TARGETS_DIR}" >> $GITHUB_ENV
+        echo "UPLOAD_FIRMWARE=${UPLOAD_FIRMWARE}" >> $GITHUB_ENV
+        echo "UPLOAD_TO_ARTIFACTS=${UPLOAD_TO_ARTIFACTS}" >> $GITHUB_ENV
+        echo "UPLOAD_TO_REALEASE=${UPLOAD_TO_REALEASE}" >> $GITHUB_ENV
+        echo "UPLOAD_TO_COWTRANSFER=${UPLOAD_TO_COWTRANSFER}" >> $GITHUB_ENV
+        echo "WECHAT_NOTIFICATION=${WECHAT_NOTIFICATION}" >> $GITHUB_ENV
         
     - name: 拷贝lede源代码
       run: |
@@ -206,14 +205,14 @@ jobs:
           rename -v "s/.*/$(TZ=CST-8 date +'%m.%d')_sysupgrade.bin/" *sysupgrade.bin
           rename -v "s/.*/$(TZ=CST-8 date +'%m.%d')_factory.bin/" *factory.bin
           grep \^CONFIG_DEFAULT_ config.txt > ./默认安装.txt
-          echo "::set-env name=FIRMWARE::$PWD" && echo "设置上传目录"
+	  echo "FIRMWARE=${PWD}" >> $GITHUB_ENV
           pwd
           #ls -al
           echo "分别安置factory\sysupgrade\log"
 
           mkdir -p ../other/
           find . -maxdepth 1 -type f -not -name "*.bin" -exec mv -f {} ../other/ \;
-          [ ! -z "$(ls -A ../other/)" ] && echo "::set-env name=UPOTHER::true"
+          [ ! -z "$(ls -A ../other/)" ] && echo "UPOTHER=true" >> $GITHUB_ENV
           echo "打包 ../other/"
           #cp -rfp ../openwrt/staging_dir/target-mipsel_24kc_musl/root-ramips/etc/uci-defaults ../other/ >/dev/null || echo "出错了"
           7z a -t7z -r other.7z ../other/* >/dev/null 2>&1
@@ -223,13 +222,13 @@ jobs:
           cp -f *factory.bin ../factory/ >/dev/null 2>&1
           echo "ls -l ../factory/"
           ls -l ../factory/
-          [ ! -z "$(ls -A ../factory/)" ] && echo "::set-env name=UPBIN_factory::true"
+          [ ! -z "$(ls -A ../factory/)" ] && echo "UPBIN_factory=true" >> $GITHUB_ENV
           
           mkdir -p ../sysupgrade/
           cp -f *sysupgrade.bin ../sysupgrade/ >/dev/null 2>&1
           echo "ls -l ../sysupgrade/"
           ls -l ../sysupgrade/
-          [ ! -z "$(ls -A ../sysupgrade/)" ] && echo "::set-env name=UPBIN_sysupgrade::true"
+          [ ! -z "$(ls -A ../sysupgrade/)" ] && echo "UPBIN_sysupgrade=true" >> $GITHUB_ENV
           sync
 
     - name: 上传工厂固件

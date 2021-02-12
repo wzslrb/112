@@ -38,9 +38,15 @@ sed -i "/.*autosamba.*=m/s/=m/=y/g" .config
 sed -i "/.*filetransfer.*=m/s/=m/=y/g" .config
 sed -i "/.*fileassistant.*=m/s/=m/=y/g" .config
 
+# 防火墙
+sed -i "/.*iptables-mod-filter=m/s/=m/=y/g" .config
+sed -i "/.*iptables-mod-trace=m/s/=m/=y/g" .config
+sed -i "/.*iptables-mod-tarpit=m/s/=m/=y/g" .config
+sed -i "/.*iptables-mod-iprange=m/s/=m/=y/g" .config
+
 ## SQM
 sed -i "/.*sqm.*=m/s/=m/=y/g" .config
-sed -i "/.*frpc.*=m/s/=m/=y/g" .config
+#sed -i "/.*frpc.*=m/s/=m/=y/g" .config
 sed -i "/.*aria2.*=m/s/=m/=y/g" .config
 #sed -i "/.*ariang.*=m/s/=m/=y/g" .config
 #sed -i "/.*webui-aria2.*=m/s/=m/=y/g" .config
@@ -49,7 +55,7 @@ sed -i "/.*vsftpd.*=m/s/=m/=y/g" .config
 
 #实时流量监测
 sed -i "/.*nlbwmon.*=m/s/=m/=y/g" .config
-#sed -i "/.*wrtbwmon.*=m/s/=m/=y/g" .config
+sed -i "/.*wrtbwmon.*=m/s/=m/=y/g" .config
 
 sed -i "/.*-sfe.*=m/s/=m/=y/g" .config
 #ADG广告过滤
@@ -72,7 +78,9 @@ sed -i '$a CONFIG_PACKAGE_patch=y' .config
 sed -i '$a\CONFIG_PACKAGE_sshpass=y' .config
 #互动的进程查看器
 sed -i '$a\CONFIG_PACKAGE_htop=y' .config
-
+#iw
+sed -i '$a\CONFIG_PACKAGE_iw=y' .config
+sed -i '$a\CONFIG_PACKAGE_iwinfo=y' .config
 # 主题
 sed -i "/.*luci-theme-freifunk-generic.*=m/s/=m/=y/g" .config
 sed -i "/.*luci-theme-material.*=m/s/=m/=y/g" .config
