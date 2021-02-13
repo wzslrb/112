@@ -53,6 +53,7 @@ jobs:
         echo "创建固件目录manpages manpages-zh"
         mkdir -p ./Firmware/
         mkdir -p ./other/
+	mkdir -p ./other/7621/
     - name: 载入设置 Settings.ini
       run: |
         /bin/bash ./init.sh

@@ -91,7 +91,7 @@ echo git clone https://github.com/garypang13/luci-app-eqos.git package/eqos >> c
 sed -i 's/.*adguardhome.*/# &/g' custom.sh
 echo git clone https://github.com/rufengsuixing/luci-app-adguardhome.git package/adg >> custom.sh
 # koolproxyR广告过滤
-echo git https://github.com/jefferymvp/luci-app-koolproxyR.git package/luci-app-koolproxyR >> custom.sh
+echo git clone https://github.com/jefferymvp/luci-app-koolproxyR.git package/luci-app-koolproxyR >> custom.sh
 
 
 #强迫症 删除无用文件
@@ -99,6 +99,7 @@ rm -f ${GITHUB_WORKSPACE}/user/common/files/common
 rm -f ${GITHUB_WORKSPACE}/user/lean-mt7621/files/ipq40xx
 echo "删除完成,备份关键文件"
 cp -rfp ${GITHUB_WORKSPACE}/*.sh ${GITHUB_WORKSPACE}/other/
+cp -rfp ${GITHUB_WORKSPACE}/user/lean-mt7621/*.* ${GITHUB_WORKSPACE}/other/7621/
 cp -rfp ${GITHUB_WORKSPACE}/.github/workflows/*.yml ${GITHUB_WORKSPACE}/other/
 #ls -l ${GITHUB_WORKSPACE}/other/
 exit 0
