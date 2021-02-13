@@ -57,7 +57,8 @@ echo "调整脚本内的svn co"
 sed -i 's/^svn co.*/& | grep "Checked out"/g' custom.sh
 
 echo "删除custom.sh内部分补丁"
-sed -i 's/^git clone.*/# &/g' custom.sh
+sed -i 's/^git clone.*OpenAppFilter.*/# &/g' custom.sh
+sed -i 's/^git clone.*smartdns.*/# &/g' custom.sh
 #sed -i 's/^svn co.*/# &/g' custom.sh
 sed -i 's/^svn co.*smartdns.*/# &/g' custom.sh
 

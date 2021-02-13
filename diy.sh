@@ -59,6 +59,8 @@ sed -i "/.*vsftpd.*=m/s/=m/=y/g" .config
 #实时流量监测
 sed -i "/.*nlbwmon.*=m/s/=m/=y/g" .config
 #sed -i "/.*wrtbwmon.*=m/s/=m/=y/g" .config
+#穿透
+sed -i "/.*zerotier=m/s/=m/=y/g" .config
 
 sed -i "/.*-sfe.*=m/s/=m/=y/g" .config
 #ADG广告过滤
@@ -79,7 +81,10 @@ grep -q "^[^#].*_rename=" .config || sed -i '$a CONFIG_PACKAGE_rename=y' .config
 sed -i '$a CONFIG_PACKAGE_diffutils=y' .config
 sed -i '$a CONFIG_PACKAGE_patch=y' .config
 sed -i '$a\CONFIG_PACKAGE_sshpass=y' .config
-sed -i '$a\coreutils-nohup=y' .config
+# nohup 二选一？
+#sed -i '$a\CONFIG_PACKAGE_coreutils-nohup=y' .config
+sed -i '$a\CONFIG_BUSYBOX_DEFAULT_NOHUP=y' .config
+
 #互动的进程查看器
 sed -i '$a\CONFIG_PACKAGE_htop=y' .config
 #iw
