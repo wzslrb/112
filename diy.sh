@@ -26,7 +26,7 @@ sed -i -e '/CONFIG_TARGET_DEVICE/ { /5962/b' -e 'N; d; }' .config
 
 #<<'COMMENT'
 grep -q "^[^#].*apfree-wifidog.*=" .config || sed -i '$a CONFIG_PACKAGE_apfree-wifidog=y' .config && echo "add apfree-wifidog"
-grep -q "^[^#].*luci-app-frpc.*=" .config || sed -i '$a CONFIG_PACKAGE_luci-app-frpc=y' .config
+#grep -q "^[^#].*luci-app-frpc.*=" .config || sed -i '$a CONFIG_PACKAGE_luci-app-frpc=y' .config
 grep -q "^[^#].*_tree.*=" .config || sed -i '$a CONFIG_PACKAGE_tree=y' .config
 grep -q "^[^#].*_git-http.*=" .config || sed -i '$a CONFIG_PACKAGE_git-http=y' .config
 grep -q "^[^#].*_curl.*=" .config || sed -i '$a CONFIG_PACKAGE_curl=y' .config
@@ -43,6 +43,9 @@ sed -i "/.*iptables-mod-filter=m/s/=m/=y/g" .config
 sed -i "/.*iptables-mod-trace=m/s/=m/=y/g" .config
 sed -i "/.*iptables-mod-tarpit=m/s/=m/=y/g" .config
 sed -i "/.*iptables-mod-iprange=m/s/=m/=y/g" .config
+sed -i "/.*iptables-mod-extra=m/s/=m/=y/g" .config
+sed -i "/.*iptables-mod-nat-extra=m/s/=m/=y/g" .config
+sed -i "/.*iptables-mod-length2=m/s/=m/=y/g" .config
 
 ## SQM
 sed -i "/.*sqm.*=m/s/=m/=y/g" .config
@@ -55,7 +58,7 @@ sed -i "/.*vsftpd.*=m/s/=m/=y/g" .config
 
 #实时流量监测
 sed -i "/.*nlbwmon.*=m/s/=m/=y/g" .config
-sed -i "/.*wrtbwmon.*=m/s/=m/=y/g" .config
+#sed -i "/.*wrtbwmon.*=m/s/=m/=y/g" .config
 
 sed -i "/.*-sfe.*=m/s/=m/=y/g" .config
 #ADG广告过滤
@@ -76,6 +79,7 @@ grep -q "^[^#].*_rename=" .config || sed -i '$a CONFIG_PACKAGE_rename=y' .config
 sed -i '$a CONFIG_PACKAGE_diffutils=y' .config
 sed -i '$a CONFIG_PACKAGE_patch=y' .config
 sed -i '$a\CONFIG_PACKAGE_sshpass=y' .config
+sed -i '$a\coreutils-nohup=y' .config
 #互动的进程查看器
 sed -i '$a\CONFIG_PACKAGE_htop=y' .config
 #iw
