@@ -53,9 +53,9 @@ jobs:
         echo "创建固件目录manpages manpages-zh"
         mkdir -p ./Firmware/
         mkdir -p ./other/
-	mkdir -p ./other/7621/
     - name: 载入设置 Settings.ini
       run: |
+	mkdir -p ./other/7621/
         /bin/bash ./init.sh
         echo "读取 Settings.ini"
         source "${GITHUB_WORKSPACE}/user/${{matrix.target}}/settings.ini"
