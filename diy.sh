@@ -58,13 +58,19 @@ sed -i "/.*vsftpd.*=m/s/=m/=y/g" .config
 
 #实时流量监测
 sed -i "/.*nlbwmon.*=m/s/=m/=y/g" .config
-#sed -i "/.*wrtbwmon.*=m/s/=m/=y/g" .config
+sed -i "/.*wrtbwmon.*=m/s/=m/=y/g" .config
 #穿透
 sed -i "/.*zerotier=m/s/=m/=y/g" .config
 
 sed -i "/.*-sfe.*=m/s/=m/=y/g" .config
 #ADG广告过滤
 sed -i "/.*luci-app-adguardhome.*=m/s/=m/=y/g" .config
+# koolproxyR广告过滤
+sed -i '$a\CONFIG_PACKAGE_luci-app-koolproxyR=y' .config
+# 网址过滤
+sed -i "/.*control-weburl.*=m/s/=m/=y/g" .config
+#访问限制
+sed -i "/.*webrestriction.*=m/s/=m/=y/g" .config
 #luci-app-ssr-plus
 #sed -i "/.*luci-app-ssr-plus.*=m/s/=m/=y/g" .config
 #sed -i "/luci-app-ssr-plus=y/a CONFIG_PACKAGE_luci-i18n-ssr-plus-zh-cn=y" .config

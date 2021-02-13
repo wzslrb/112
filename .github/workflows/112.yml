@@ -157,7 +157,7 @@ jobs:
         #echo "先编译这个……"
         #make package/feeds/luci/luci-base/compile V=99
         echo -e "$((nproc+1)) 线程编译 2>&1"
-        make -j3 > ../other/首次编译.log 2>../other/首次错误.log || make -j1 V=s > ../other/再次编译.log 2>../other/再次错误.log
+        make -j3 > ../other/make0.log 2>../other/make0err.log || make -j1 V=s > ../other/make2.log 2>../other/make2err.log
 
 
     - name: 打包编译日志

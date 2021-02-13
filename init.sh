@@ -53,6 +53,10 @@ sed -i  's/UPLOAD_TO_COWTRANSFER.*/UPLOAD_TO_COWTRANSFER="true"/g' settings.ini
 sed -i  's/WECHAT_NOTIFICATION.*/WECHAT_NOTIFICATION="false"/g' settings.ini
 [ -f "settings.ini" ] && echo "重设settings.ini文件完毕"
 
+
+# 清理 原wrtbwmon release-1.6.3.tar.gz 修改版luci-app-wrtbwmon-zhcn
+sed -i '/release-1.6.3.tar.gz/d' custom.sh
+svn co https://github.com/firker/diy-ziyong/trunk/luci-app-wrtbwmon-zhcn package/luci-app-wrtbwmon-zhcn >> custom.sh
 echo "调整脚本内的svn co"
 sed -i 's/^svn co.*/& | grep "Checked out"/g' custom.sh
 
@@ -80,8 +84,16 @@ sed -i 's/.*serverchan.*/# &/g' custom.sh
 sed -i 's/.*OpenClash.*/# &/g' custom.sh
 sed -i '/feed-netkeeper/s/ -b openwrt-18.06//' custom.sh #去除出错分支
 sed -i '/^git clone/s/.*/& >\/dev\/null 2>\&1/g' custom.sh   #禁止输出
+
 #eqos
 echo git clone https://github.com/garypang13/luci-app-eqos.git package/eqos >> custom.sh
+# adguardhome编译出错
+sed -i 's/.*adguardhome.*/# &/g' custom.sh
+echo git clone https://github.com/rufengsuixing/luci-app-adguardhome.git package/adg >> custom.sh
+# koolproxyR广告过滤
+echo git https://github.com/jefferymvp/luci-app-koolproxyR.git package/luci-app-koolproxyR >> custom.sh
+
+
 #强迫症 删除无用文件
 rm -f ${GITHUB_WORKSPACE}/user/common/files/common
 rm -f ${GITHUB_WORKSPACE}/user/lean-mt7621/files/ipq40xx
@@ -90,3 +102,15 @@ cp -rfp ${GITHUB_WORKSPACE}/*.sh ${GITHUB_WORKSPACE}/other/
 cp -rfp ${GITHUB_WORKSPACE}/.github/workflows/*.yml ${GITHUB_WORKSPACE}/other/
 #ls -l ${GITHUB_WORKSPACE}/other/
 exit 0
+
+#svn 下载 github 上的单个目录或文件
+#https://github.com/Lienol/openwrt/tree/main/package/diy/luci-app-adguardhome 
+#tree/main  tree/分支  换成 /trunk/，使用 svn 命令即检出:
+# https://github.com/Lienol/openwrt/trunk/package/diy/luci-app-adguardhome  package/adg
+# 主仓库就这样拉取，如果要拉取分支的呢？也简单的，把tree改成branches就行，比如
+# https://github.com/281677160/openwrt-package/tree/19.07/luci-app-eqos   <--- 在浏览器上复制出来的真正链接
+
+# https://github.com/281677160/openwrt-package/branches/19.07/luci-app-eqos   <--- 用的时候修改过的链接
+
+# svn co https://github.com/281677160/openwrt-package/branches/19.07/luci-app-eqos package/luci-app-eqos  <--- 完整拉取链接
+
