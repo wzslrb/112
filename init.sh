@@ -56,6 +56,7 @@ sed -i  's/WECHAT_NOTIFICATION.*/WECHAT_NOTIFICATION="false"/g' settings.ini
 
 # 清理 原wrtbwmon release-1.6.3.tar.gz 修改版luci-app-wrtbwmon-zhcn
 sed -i '/release-1.6.3.tar.gz/d' custom.sh
+sed -i '/wrtbwmon.git/d' custom.sh
 svn co https://github.com/firker/diy-ziyong/trunk/luci-app-wrtbwmon-zhcn package/luci-app-wrtbwmon-zhcn >> custom.sh
 echo "调整脚本内的svn co"
 sed -i 's/^svn co.*/& | grep "Checked out"/g' custom.sh
@@ -93,7 +94,11 @@ echo git clone https://github.com/rufengsuixing/luci-app-adguardhome.git package
 # koolproxyR广告过滤
 echo git clone https://github.com/jefferymvp/luci-app-koolproxyR.git package/luci-app-koolproxyR >> custom.sh
 
-
+# 调试
+echo 查看修改结果
+cat custom.sh
+echo 查看修改结果sed
+sed '1,$=' custom.sh
 #强迫症 删除无用文件
 rm -f ${GITHUB_WORKSPACE}/user/common/files/common
 rm -f ${GITHUB_WORKSPACE}/user/lean-mt7621/files/ipq40xx
