@@ -67,6 +67,14 @@ sed -i 's/^git clone.*smartdns.*/# &/g' custom.sh
 #sed -i 's/^svn co.*/# &/g' custom.sh
 sed -i 's/^svn co.*smartdns.*/# &/g' custom.sh
 
+#eqos
+echo git clone https://github.com/garypang13/luci-app-eqos.git package/eqos >> custom.sh
+# adguardhome编译出错
+sed -i 's/.*adguardhome.*/# &/g' custom.sh
+echo git clone https://github.com/rufengsuixing/luci-app-adguardhome.git package/adg >> custom.sh
+# koolproxyR广告过滤
+echo git clone https://github.com/jefferymvp/luci-app-koolproxyR.git package/luci-app-koolproxyR >> custom.sh
+
 #echo "调整custom.sh内opkg"
 #sed -i 's/^sed.*http.*zzz-default.*/# &/g' custom.sh
 #sed -i 's/^sed.*\/R20.*zzz-default.*/# &/g' custom.sh
@@ -78,27 +86,22 @@ echo "删除patches部分补丁"
 rm -f 000*
 echo "删除完成"
 ls -l
-#user\common\
+# 调试
+echo 查看修改结果
+cat custom.sh
+echo 查看修改结果sed
+sed '1,$=' custom.sh
+
+# user\common\
 echo "删除common/custom.sh不相关app"
 cd ${GITHUB_WORKSPACE}/user/common
 sed -i 's/.*serverchan.*/# &/g' custom.sh
 sed -i 's/.*OpenClash.*/# &/g' custom.sh
 sed -i '/feed-netkeeper/s/ -b openwrt-18.06//' custom.sh #去除出错分支
 sed -i '/^git clone/s/.*/& >\/dev\/null 2>\&1/g' custom.sh   #禁止输出
-
-#eqos
-echo git clone https://github.com/garypang13/luci-app-eqos.git package/eqos >> custom.sh
-# adguardhome编译出错
 sed -i 's/.*adguardhome.*/# &/g' custom.sh
-echo git clone https://github.com/rufengsuixing/luci-app-adguardhome.git package/adg >> custom.sh
-# koolproxyR广告过滤
-echo git clone https://github.com/jefferymvp/luci-app-koolproxyR.git package/luci-app-koolproxyR >> custom.sh
 
-# 调试
-echo 查看修改结果
-cat custom.sh
-echo 查看修改结果sed
-sed '1,$=' custom.sh
+
 #强迫症 删除无用文件
 rm -f ${GITHUB_WORKSPACE}/user/common/files/common
 rm -f ${GITHUB_WORKSPACE}/user/lean-mt7621/files/ipq40xx
