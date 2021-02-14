@@ -53,11 +53,6 @@ sed -i  's/UPLOAD_TO_COWTRANSFER.*/UPLOAD_TO_COWTRANSFER="true"/g' settings.ini
 sed -i  's/WECHAT_NOTIFICATION.*/WECHAT_NOTIFICATION="false"/g' settings.ini
 [ -f "settings.ini" ] && echo "重设settings.ini文件完毕"
 
-
-# 清理 原wrtbwmon release-1.6.3.tar.gz 修改版luci-app-wrtbwmon-zhcn
-sed -i '/release-1.6.3.tar.gz/d' custom.sh
-sed -i '/wrtbwmon.git/d' custom.sh
-svn co https://github.com/firker/diy-ziyong/trunk/luci-app-wrtbwmon-zhcn package/luci-app-wrtbwmon-zhcn >> custom.sh
 echo "调整脚本内的svn co"
 sed -i 's/^svn co.*/& | grep "Checked out"/g' custom.sh
 

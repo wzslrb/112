@@ -67,6 +67,8 @@ sed -i "/.*-sfe.*=m/s/=m/=y/g" .config
 sed -i "/.*luci-app-adguardhome.*=m/s/=m/=y/g" .config
 # koolproxyR广告过滤
 sed -i '$a\CONFIG_PACKAGE_luci-app-koolproxyR=y' .config
+# EQOS
+sed -i '$a\CONFIG_PACKAGE_luci-app-eqos=y' .config
 # 网址过滤
 sed -i "/.*control-weburl.*=m/s/=m/=y/g" .config
 #访问限制
@@ -87,8 +89,7 @@ grep -q "^[^#].*_rename=" .config || sed -i '$a CONFIG_PACKAGE_rename=y' .config
 sed -i '$a CONFIG_PACKAGE_diffutils=y' .config
 sed -i '$a CONFIG_PACKAGE_patch=y' .config
 sed -i '$a\CONFIG_PACKAGE_sshpass=y' .config
-# nohup 二选一？
-#sed -i '$a\CONFIG_PACKAGE_coreutils-nohup=y' .config
+# nohup
 sed -i '$a\CONFIG_BUSYBOX_DEFAULT_NOHUP=y' .config
 
 #互动的进程查看器
