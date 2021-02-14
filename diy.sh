@@ -1,14 +1,9 @@
 #!/bin/bash
 
 #/home/runner/work/112/112/openwrt
-pwd && mkdir -p dl
-echo "准备好的文件frp-0.34.0.tar.gz"
-mv -f ../dl/* ./dl/
-ls ./dl/
-rm -rf ../dl
-
+pwd
 sed -i '/^exit 0/i /bin/bash /root/zzz-default-settings.sh' package/lean/default-settings/files/zzz-default-settings
-echo -e "插入初始化脚本:\c"
+echo -e "插入初始化脚本99-default-settings:\c"
 grep "zzz-default-settings.sh" package/lean/default-settings/files/zzz-default-settings
 
 echo "修改固件大小 TRX_MAX_LEN"
