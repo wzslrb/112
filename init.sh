@@ -32,8 +32,6 @@ rm -rf Action-Openwrt xf_b70
 #ls ./user/lean-mt7621/files/
 
 cd ./user/lean-mt7621/
-#临时下载脚本
-wget -O speedtest-cli https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py --no-check-certificate
 
 # 在这里指定你的OpenWrt的Repo URL
 #REPO_URL="https://github.com/coolsnowwolf/lede"
@@ -72,7 +70,7 @@ echo git clone https://github.com/rufengsuixing/luci-app-adguardhome.git package
 # koolproxyR广告过滤
 echo git clone https://github.com/jefferymvp/luci-app-koolproxyR.git package/luci-app-koolproxyR >> custom.sh
 # C语言测速
-echo git clone https://github.com/feiying1460/speedtest-cli.git package/speedtest-cli >> custom.sh
+# echo git clone https://github.com/feiying1460/speedtest-cli.git package/speedtest-cli >> custom.sh
 #echo "调整custom.sh内opkg"
 #sed -i 's/^sed.*http.*zzz-default.*/# &/g' custom.sh
 #sed -i 's/^sed.*\/R20.*zzz-default.*/# &/g' custom.sh
@@ -85,10 +83,10 @@ rm -f 000*
 echo "删除完成"
 ls -l
 # 调试
-echo 查看修改结果
-cat custom.sh
-echo 查看修改结果sed
-sed '1,$=' custom.sh
+# echo 查看修改结果
+# cat custom.sh
+# echo 查看修改结果sed
+# sed '1,$=' custom.sh
 
 # user\common\
 echo "删除common/custom.sh不相关app"
@@ -99,7 +97,7 @@ sed -i '/feed-netkeeper/s/ -b openwrt-18.06//' custom.sh #去除出错分支
 sed -i '/^git clone/s/.*/& >\/dev\/null 2>\&1/g' custom.sh   #禁止输出
 sed -i 's/.*adguardhome.*/# &/g' custom.sh
 
-
+cp custom.sh ${GITHUB_WORKSPACE}/other/7621/common_custom.sh
 #强迫症 删除无用文件
 rm -f ${GITHUB_WORKSPACE}/user/common/files/common
 rm -f ${GITHUB_WORKSPACE}/user/lean-mt7621/files/ipq40xx
@@ -107,6 +105,11 @@ echo "删除完成,备份关键文件"
 cp -rfp ${GITHUB_WORKSPACE}/*.sh ${GITHUB_WORKSPACE}/other/
 cp -rfp ${GITHUB_WORKSPACE}/user/lean-mt7621/*.* ${GITHUB_WORKSPACE}/other/7621/
 cp -rfp ${GITHUB_WORKSPACE}/.github/workflows/*.yml ${GITHUB_WORKSPACE}/other/
+
+#临时下载脚本
+cd ${GITHUB_WORKSPACE}/other/7621/
+wget -O speedtest-cli https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py --no-check-certificate
+
 #ls -l ${GITHUB_WORKSPACE}/other/
 exit 0
 

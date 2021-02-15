@@ -53,7 +53,7 @@ sed -i "/.*vsftpd.*=m/s/=m/=y/g" .config
 
 #带宽、流量监测
 sed -i "/.*nlbwmon.*=m/s/=m/=y/g" .config
-sed -i "/.*wrtbwmon.*=m/s/=m/=y/g" .config
+#sed -i "/.*wrtbwmon.*=m/s/=m/=y/g" .config
 #穿透
 sed -i "/.*zerotier=m/s/=m/=y/g" .config
 
@@ -64,6 +64,7 @@ sed -i "/.*luci-app-adguardhome.*=m/s/=m/=y/g" .config
 sed -i '$a\CONFIG_PACKAGE_luci-app-koolproxyR=y' .config
 # EQOS
 sed -i '$a\CONFIG_PACKAGE_luci-app-eqos=y' .config
+sed -i '$a\CONFIG_PACKAGE_luci-i18n-eqos-zh_Hans=y' .config
 # 网址过滤
 sed -i "/.*control-weburl.*=m/s/=m/=y/g" .config
 #访问限制
@@ -87,6 +88,7 @@ sed -i '$a\CONFIG_PACKAGE_sshpass=y' .config	#SSH免密码
 sed -i '$a\CONFIG_PACKAGE_netperf=y' .config	#网络测速
 sed -i '$a\CONFIG_PACKAGE_speedtest-netperf=y' .config	#网络测速脚本
 sed -i '$a\CONFIG_PACKAGE_speedtest-cli=y' .config	#C语言测速
+sed -i '$a\CONFIG_PACKAGE_coreutils=y'
 sed -i '$a\CONFIG_PACKAGE_coreutils-nohup=y' .config	#nohup后台允许
 
 #互动的进程查看器
@@ -95,9 +97,10 @@ sed -i '$a\CONFIG_PACKAGE_htop=y' .config
 sed -i '$a\CONFIG_PACKAGE_iw=y' .config
 sed -i '$a\CONFIG_PACKAGE_iwinfo=y' .config
 # 主题
-sed -i "/.*luci-theme-freifunk-generic.*=m/s/=m/=y/g" .config
-sed -i "/.*luci-theme-material.*=m/s/=m/=y/g" .config
-sed -i "/.*luci-theme-netgear.*=m/s/=m/=y/g" .config
+# sed -i "/.*luci-theme-freifunk-generic.*=m/s/=m/=y/g" .config
+# sed -i "/.*luci-theme-material.*=m/s/=m/=y/g" .config
+# sed -i "/.*luci-theme-netgear.*=m/s/=m/=y/g" .config
+sed -i "/.*luci-theme-.*=m/s/=m/=y/g" .config
 #新近更新=y 去除https-dns-proxy默认安装
 sed -i "/^CONFIG.*dns-proxy.*/{s/^/# &/g; s/=.*/ is not set/g}" .config && echo "去除https-dns-proxy默认安装"
 #防火墙upnpd
