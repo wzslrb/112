@@ -51,7 +51,7 @@ sed -i "/.*aria2.*=m/s/=m/=y/g" .config
 #grep -q "^[^#].*webui-aria2.*=" .config || sed -i '$a CONFIG_PACKAGE_webui-aria2=y' .config
 sed -i "/.*vsftpd.*=m/s/=m/=y/g" .config
 
-#实时流量监测
+#带宽、流量监测
 sed -i "/.*nlbwmon.*=m/s/=m/=y/g" .config
 sed -i "/.*wrtbwmon.*=m/s/=m/=y/g" .config
 #穿透
@@ -83,9 +83,11 @@ sed -i "/.*bash.*=m/s/=m/=y/g" .config
 grep -q "^[^#].*_rename=" .config || sed -i '$a CONFIG_PACKAGE_rename=y' .config
 sed -i '$a CONFIG_PACKAGE_diffutils=y' .config
 sed -i '$a CONFIG_PACKAGE_patch=y' .config
-sed -i '$a\CONFIG_PACKAGE_sshpass=y' .config
-# nohup
-sed -i '$a\CONFIG_BUSYBOX_DEFAULT_NOHUP=y' .config
+sed -i '$a\CONFIG_PACKAGE_sshpass=y' .config	#SSH免密码
+sed -i '$a\CONFIG_PACKAGE_netperf=y' .config	#网络测速
+sed -i '$a\CONFIG_PACKAGE_speedtest-netperf=y' .config	#网络测速脚本
+sed -i '$a\CONFIG_PACKAGE_speedtest-cli=y' .config	#C语言测速
+sed -i '$a\CONFIG_PACKAGE_coreutils-nohup=y' .config	#nohup后台允许
 
 #互动的进程查看器
 sed -i '$a\CONFIG_PACKAGE_htop=y' .config

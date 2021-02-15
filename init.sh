@@ -32,7 +32,9 @@ rm -rf Action-Openwrt xf_b70
 #ls ./user/lean-mt7621/files/
 
 cd ./user/lean-mt7621/
-cp -rfp config.diff ${OLDPWD}/other/h大的config.txt || echo .
+#临时下载脚本
+wget -O speedtest-cli https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py --no-check-certificate
+
 # 在这里指定你的OpenWrt的Repo URL
 #REPO_URL="https://github.com/coolsnowwolf/lede"
 # 在这里指定你的OpenWrt的Branch
@@ -69,7 +71,8 @@ sed -i 's/.*adguardhome.*/# &/g' custom.sh
 echo git clone https://github.com/rufengsuixing/luci-app-adguardhome.git package/adg >> custom.sh
 # koolproxyR广告过滤
 echo git clone https://github.com/jefferymvp/luci-app-koolproxyR.git package/luci-app-koolproxyR >> custom.sh
-
+# C语言测速
+echo git clone https://github.com/feiying1460/speedtest-cli.git package/speedtest-cli >> custom.sh
 #echo "调整custom.sh内opkg"
 #sed -i 's/^sed.*http.*zzz-default.*/# &/g' custom.sh
 #sed -i 's/^sed.*\/R20.*zzz-default.*/# &/g' custom.sh
