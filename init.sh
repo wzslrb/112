@@ -68,7 +68,7 @@ echo git clone https://github.com/garypang13/luci-app-eqos.git package/eqos >> c
 sed -i 's/.*adguardhome.*/# &/g' custom.sh
 echo git clone https://github.com/rufengsuixing/luci-app-adguardhome.git package/adg >> custom.sh
 # koolproxyR广告过滤
-echo git clone https://github.com/jefferymvp/luci-app-koolproxyR.git package/luci-app-koolproxyR >> custom.sh
+# echo git clone https://github.com/jefferymvp/luci-app-koolproxyR.git package/luci-app-koolproxyR >> custom.sh
 # C语言测速
 # echo git clone https://github.com/feiying1460/speedtest-cli.git package/speedtest-cli >> custom.sh
 #echo "调整custom.sh内opkg"
@@ -92,7 +92,7 @@ ls -l
 echo "删除common/custom.sh不相关app"
 cd ${GITHUB_WORKSPACE}/user/common
 sed -i 's/.*serverchan.*/# &/g' custom.sh
-sed -i 's/.*OpenClash.*/# &/g' custom.sh
+#sed -i 's/.*OpenClash.*/# &/g' custom.sh
 sed -i '/feed-netkeeper/s/ -b openwrt-18.06//' custom.sh #去除出错分支
 sed -i '/^git clone/s/.*/& >\/dev\/null 2>\&1/g' custom.sh   #禁止输出
 sed -i 's/.*adguardhome.*/# &/g' custom.sh

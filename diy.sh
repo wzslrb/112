@@ -60,8 +60,8 @@ sed -i "/.*zerotier=m/s/=m/=y/g" .config
 sed -i "/.*-sfe.*=m/s/=m/=y/g" .config
 #ADG广告过滤
 sed -i "/.*luci-app-adguardhome.*=m/s/=m/=y/g" .config
-# koolproxyR广告过滤
-sed -i '$a\CONFIG_PACKAGE_luci-app-koolproxyR=y' .config
+# 广告过滤
+sed -i "/.*adbyby.*=m/s/=m/=y/g" .config
 # EQOS
 sed -i '$a\CONFIG_PACKAGE_luci-app-eqos=y' .config
 sed -i '$a\CONFIG_PACKAGE_luci-i18n-eqos-zh_Hans=y' .config
@@ -69,6 +69,11 @@ sed -i '$a\CONFIG_PACKAGE_luci-i18n-eqos-zh_Hans=y' .config
 sed -i "/.*control-weburl.*=m/s/=m/=y/g" .config
 #访问限制
 sed -i "/.*webrestriction.*=m/s/=m/=y/g" .config
+# DDNS
+sed -i "/.*ddns.*=m/s/=m/=y/g" .config
+# 科学上网
+sed -i "/.*openclash.*=m/s/=m/=y/g" .config
+sed -i "/.*ssr-plus.*=m/s/=m/=y/g" .config
 #luci-app-ssr-plus
 #sed -i "/.*luci-app-ssr-plus.*=m/s/=m/=y/g" .config
 #sed -i "/luci-app-ssr-plus=y/a CONFIG_PACKAGE_luci-i18n-ssr-plus-zh-cn=y" .config
@@ -97,10 +102,10 @@ sed -i '$a\CONFIG_PACKAGE_htop=y' .config
 sed -i '$a\CONFIG_PACKAGE_iw=y' .config
 sed -i '$a\CONFIG_PACKAGE_iwinfo=y' .config
 # 主题
-# sed -i "/.*luci-theme-freifunk-generic.*=m/s/=m/=y/g" .config
-# sed -i "/.*luci-theme-material.*=m/s/=m/=y/g" .config
-# sed -i "/.*luci-theme-netgear.*=m/s/=m/=y/g" .config
-sed -i "/.*luci-theme-.*=m/s/=m/=y/g" .config
+sed -i "/.*luci-theme-opentomato.*=m/s/=m/=y/g" .config
+sed -i "/.*luci-theme-atmaterial.*=m/s/=m/=y/g" .config
+sed -i "/.*luci-theme-netgear.*=m/s/=m/=y/g" .config
+
 #新近更新=y 去除https-dns-proxy默认安装
 sed -i "/^CONFIG.*dns-proxy.*/{s/^/# &/g; s/=.*/ is not set/g}" .config && echo "去除https-dns-proxy默认安装"
 #防火墙upnpd
