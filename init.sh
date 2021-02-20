@@ -107,8 +107,8 @@ cp -rfp ${GITHUB_WORKSPACE}/user/lean-mt7621/*.* ${GITHUB_WORKSPACE}/other/7621/
 cp -rfp ${GITHUB_WORKSPACE}/.github/workflows/*.yml ${GITHUB_WORKSPACE}/other/
 
 #临时下载脚本
-cd ${GITHUB_WORKSPACE}/other/7621/
-wget -O speedtest-cli https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py --no-check-certificate
+#cd ${GITHUB_WORKSPACE}/other/7621/
+#wget -O speedtest-cli https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py --no-check-certificate
 
 #ls -l ${GITHUB_WORKSPACE}/other/
 exit 0

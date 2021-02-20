@@ -62,6 +62,10 @@ sed -i "/.*-sfe.*=m/s/=m/=y/g" .config
 sed -i "/.*luci-app-adguardhome.*=m/s/=m/=y/g" .config
 # 广告过滤
 sed -i "/.*adbyby.*=m/s/=m/=y/g" .config
+# 代理 luci-app-privoxy
+sed -i "/.*privoxy.*=m/s/=m/=y/g" .config
+sed -i "/.*tinyproxy.*=m/s/=m/=y/g" .config
+
 # EQOS
 sed -i '$a\CONFIG_PACKAGE_luci-app-eqos=y' .config
 sed -i '$a\CONFIG_PACKAGE_luci-i18n-eqos-zh_Hans=y' .config
@@ -93,8 +97,9 @@ sed -i '$a\CONFIG_PACKAGE_sshpass=y' .config	#SSH免密码
 sed -i '$a\CONFIG_PACKAGE_netperf=y' .config	#网络测速
 sed -i '$a\CONFIG_PACKAGE_speedtest-netperf=y' .config	#网络测速脚本
 sed -i '$a\CONFIG_PACKAGE_speedtest-cli=y' .config	#C语言测速
-sed -i '$a\CONFIG_PACKAGE_coreutils=y'
+sed -i '$a\CONFIG_PACKAGE_coreutils=y' .config
 sed -i '$a\CONFIG_PACKAGE_coreutils-nohup=y' .config	#nohup后台允许
+sed -i '$a\CONFIG_PACKAGE_screen=y' .config
 
 #互动的进程查看器
 sed -i '$a\CONFIG_PACKAGE_htop=y' .config
