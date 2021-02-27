@@ -84,6 +84,7 @@ sed -i "/.*app-vssr=m/s/=m/=y/g" .config
 #sed -i "/.*luci-app-ssr-plus.*=m/s/=m/=y/g" .config
 #sed -i "/luci-app-ssr-plus=y/a CONFIG_PACKAGE_luci-i18n-ssr-plus-zh-cn=y" .config
 # 命令行工具
+sed -i "/nano=y/d" .config	#删除nano
 sed -i "/.*curl.*=m/s/=m/=y/g" .config
 sed -i "/.*wget.*=m/s/=m/=y/g" .config
 sed -i "/.*wget-nossl.*=m/s/=m/=y/g" .config
@@ -109,12 +110,14 @@ sed -i '$a\CONFIG_PACKAGE_sshpass=y' .config	#SSH免密码
 sed -i '$a\CONFIG_PACKAGE_iw=y' .config
 sed -i '$a\CONFIG_PACKAGE_iwinfo=y' .config
 sed -i '$a\CONFIG_KERNEL_KEXEC=y' .config
+sed -i '$a\CONFIG_PACKAGE_kexec=y' .config
+sed -i '$a\CONFIG_PACKAGE_kexec-tools=y' .config
 
 # 主题
 sed -i "/.*luci-theme-opentomato.*=m/s/=m/=y/g" .config
 sed -i "/.*luci-theme-atmaterial.*=m/s/=m/=y/g" .config
 sed -i "/.*luci-theme-netgear.*=m/s/=m/=y/g" .config
-sed -i "/.*luci-theme-argon=m/s/=m/=y/g" .config
+sed -i "/.*argon.*=m/s/=m/=y/g" .config
 
 #新近更新=y 去除https-dns-proxy默认安装
 sed -i "/^CONFIG.*dns-proxy.*/{s/^/# &/g; s/=.*/ is not set/g}" .config && echo "去除https-dns-proxy默认安装"
