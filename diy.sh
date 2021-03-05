@@ -41,6 +41,7 @@ sed -i "/.*iptables-mod-iprange=m/s/=m/=y/g" .config
 sed -i "/.*iptables-mod-extra=m/s/=m/=y/g" .config
 sed -i "/.*iptables-mod-nat-extra=m/s/=m/=y/g" .config
 sed -i "/.*iptables-mod-length2=m/s/=m/=y/g" .config
+sed -i "/.*ip6tables-.*=m/s/=m/=y/g" .config
 
 ## SQM
 sed -i "/.*sqm.*=m/s/=m/=y/g" .config
@@ -63,8 +64,8 @@ sed -i "/.*luci-app-adguardhome.*=m/s/=m/=y/g" .config
 # 广告过滤
 sed -i "/.*adbyby.*=m/s/=m/=y/g" .config
 # 代理 luci-app-privoxy
-sed -i "/.*privoxy.*=m/s/=m/=y/g" .config
-sed -i "/.*tinyproxy.*=m/s/=m/=y/g" .config
+# sed -i "/.*privoxy.*=m/s/=m/=y/g" .config
+# sed -i "/.*tinyproxy.*=m/s/=m/=y/g" .config
 
 # EQOS
 sed -i '$a\CONFIG_PACKAGE_luci-app-eqos=y' .config

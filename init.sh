@@ -65,8 +65,8 @@ sed -i 's/^svn co.*smartdns.*/# &/g' custom.sh
 #eqos
 echo git clone https://github.com/garypang13/luci-app-eqos.git package/eqos >> custom.sh
 # adguardhome编译出错
-sed -i 's/.*adguardhome.*/# &/g' custom.sh
-echo git clone https://github.com/rufengsuixing/luci-app-adguardhome.git package/adg >> custom.sh
+# sed -i 's/.*adguardhome.*/# &/g' custom.sh
+# echo git clone https://github.com/rufengsuixing/luci-app-adguardhome.git package/adg >> custom.sh
 # koolproxyR广告过滤
 # echo git clone https://github.com/jefferymvp/luci-app-koolproxyR.git package/luci-app-koolproxyR >> custom.sh
 # C语言测速
