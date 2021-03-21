@@ -50,8 +50,10 @@ sed -i "/.*sqm.*=m/s/=m/=y/g" .config
 #sed -i "/.*ariang.*=m/s/=m/=y/g" .config
 #sed -i "/.*webui-aria2.*=m/s/=m/=y/g" .config
 #grep -q "^[^#].*webui-aria2.*=" .config || sed -i '$a CONFIG_PACKAGE_webui-aria2=y' .config
-sed -i "/.*vsftpd.*=m/s/=m/=y/g" .config
 
+# 使用加密ssl的vsftpd
+#sed -i "/.*vsftpd.*=m/s/=m/=y/g" .config
+sed -i '$a\CONFIG_PACKAGE_vsftpd-tls=y' .config	#vsftpd 添加tsl  ssl支持
 #带宽、流量监测
 sed -i "/.*nlbwmon.*=m/s/=m/=y/g" .config
 sed -i "/.*wrtbwmon.*=m/s/=m/=y/g" .config
