@@ -83,7 +83,12 @@ jobs:
 
         if [ -n "$(ls -A "user/${{matrix.target}}/patches" 2>/dev/null)" ]; then
         (
-          find "user/${{matrix.target}}/patches" -type f -name '*.patch' -print0 | sort -z | xargs -I % -t -0 -n 1 sh -c "cat '%'  | patch -d 'openwrt' -p0 --forward"
+          echo "跳过${{matrix.target}}补丁"	#find "user/${{matrix.target}}/patches" -type f -name '*.patch' -print0 | sort -z | xargs -I % -t -0 -n 1 sh -c "cat '%'  | patch -d 'openwrt' -p0 --forward"
+          sed -i '/helloworld/s/#//' openwrt/feeds.conf.default
+          sed -i '$a\src-git passwall https://github.com/xiaorouji/openwrt-passwall.git' openwrt/feeds.conf.default
+          sed -i '$a\src-git lienol https://github.com/Lienol/openwrt-package' openwrt/feeds.conf.default
+          sed -i '/^#.*/d' openwrt/feeds.conf.default
+          cat openwrt/feeds.conf.default
         )
         fi
 
